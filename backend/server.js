@@ -19,6 +19,8 @@ const dataRoutes = require('./routes/dataRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const eventRegistrationRoutes = require('./routes/eventRegistrationRoutes');
 const contestRegistrationRoutes = require('./routes/contestRegistrationRoutes');
+const chatRoutes = require('./routes/chatRoutes'); // ✅ NEW
+
 
 // 3. USE ROUTES
 app.use('/api/auth', authRoutes);
@@ -27,6 +29,7 @@ app.use('/api/data', dataRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/event-registration', eventRegistrationRoutes);
 app.use('/api/contest-registration', contestRegistrationRoutes);
+app.use('/api/chat', chatRoutes); // ✅ NEW
 
 // 4. CONNECT TO DATABASE
 mongoose.connect(process.env.MONGO_URI)

@@ -29,7 +29,7 @@ const eventRegistrationSchema = new mongoose.Schema({
     tshirtSize: { 
         type: String, 
         enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-        default: 'M'
+        default: 'XL326666699   '
     },
     specialRequirements: { type: String },
     

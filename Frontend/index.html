@@ -584,6 +584,100 @@
         🌙
     </button>
 
+
+
+    <!-- ==================== AI CHATBOT WIDGET ==================== -->
+<div id="chatbot-toggle" style="position:fixed; bottom:24px; right:24px; width:56px; height:56px; border-radius:50%; background:#6366f1; color:#fff; display:flex; align-items:center; justify-content:center; font-size:24px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.2); z-index:1000;">
+    💬
+</div>
+
+<div id="chatbot-box" style="display:none; position:fixed; bottom:90px; right:24px; width:320px; max-height:440px; background:#fff; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.2); flex-direction:column; overflow:hidden; z-index:1000;">
+    <div style="background:linear-gradient(135deg,#6366f1,#7c3aed); color:#fff; padding:14px; font-weight:bold;">
+        CUET Computer Club Assistant
+    </div>
+    <div id="chatbot-messages" style="flex:1; padding:12px; overflow-y:auto; height:300px; font-size:14px;"></div>
+    <div style="display:flex; border-top:1px solid #eee;">
+        <input id="chatbot-input" type="text" placeholder="Ask about events, contests..." style="flex:1; border:none; padding:10px; outline:none;">
+        <button id="chatbot-send" style="border:none; background:#6366f1; color:#fff; padding:0 16px; cursor:pointer;">Send</button>
+    </div>
+</div>
+
+<script>
+(function () {
+    const toggleBtn = document.getElementById('chatbot-toggle');
+    const box = document.getElementById('chatbot-box');
+    const messagesEl = document.getElementById('chatbot-messages');
+    const input = document.getElementById('chatbot-input');
+    const sendBtn = document.getElementById('chatbot-send');
+
+    let history = []; // { role: 'user' | 'model', text }
+
+    toggleBtn.addEventListener('click', () => {
+        box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+    });
+
+    function addMessage(text, sender) {
+        const div = document.createElement('div');
+        div.style.margin = '6px 0';
+        div.style.padding = '8px 10px';
+        div.style.borderRadius = '8px';
+        div.style.maxWidth = '85%';
+        div.textContent = text;
+
+        if (sender === 'user') {
+            div.style.background = '#6366f1';
+            div.style.color = '#fff';
+            div.style.marginLeft = 'auto';
+        } else {
+            div.style.background = '#f0f0f0';
+            div.style.color = '#333';
+        }
+        messagesEl.appendChild(div);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    async function sendMessage() {
+        const message = input.value.trim();
+        if (!message) return;
+
+        addMessage(message, 'user');
+        history.push({ role: 'user', text: message });
+        input.value = '';
+        sendBtn.disabled = true;
+
+        try {
+            const res = await fetch('http://localhost:5000/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, history })
+            });
+            const data = await res.json();
+
+            if (data.success) {
+                addMessage(data.reply, 'bot');
+                history.push({ role: 'model', text: data.reply });
+            } else {
+                addMessage('Sorry, something went wrong. Please try again.', 'bot');
+            }
+        } catch (err) {
+            addMessage('Server error. Please try again later.', 'bot');
+        } finally {
+            sendBtn.disabled = false;
+        }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    // Greet on first open
+    addMessage('Hi! Ask me about club events, contests, or news 👋', 'bot');
+})();
+</script>
+
+
+
     <!-- ==================== SCRIPT ==================== -->
     <script src="js/script.js"></script>
 
