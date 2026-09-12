@@ -21,7 +21,6 @@ const eventRegistrationRoutes = require('./routes/eventRegistrationRoutes');
 const contestRegistrationRoutes = require('./routes/contestRegistrationRoutes');
 const chatRoutes = require('./routes/chatRoutes'); // ✅ NEW
 
-
 // 3. USE ROUTES
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
@@ -41,8 +40,12 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../Frontend/index.html'));
 });
 
-// 6. START SERVER
+// 6. START SERVER (only for local development — Vercel handles this itself)
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`✅ Server running on http://localhost:${PORT}`);
-});
+if (process.env.VERCEL !== '1') {
+    app.listen(PORT, () => {
+        console.log(`✅ Server running on http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app; // ✅ NEW — required for Vercel serverless
