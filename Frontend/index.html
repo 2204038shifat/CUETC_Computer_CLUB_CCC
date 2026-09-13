@@ -625,7 +625,7 @@ async function loadEvents() {
                     if (event.image.startsWith('http')) {
                         imageUrl = event.image;
                     } else {
-                        imageUrl = `http://localhost:5000${event.image}`;
+                        imageUrl = `${event.image}`;
                     }
                 }
 
@@ -708,7 +708,7 @@ async function loadContests() {
                     if (contest.image.startsWith('http')) {
                         imageUrl = contest.image;
                     } else {
-                        imageUrl = `http://localhost:5000${contest.image}`;
+                        imageUrl = `${contest.image}`;
                     }
                 }
 
@@ -806,7 +806,7 @@ async function loadNews() {
                     if (article.image.startsWith('http')) {
                         imageUrl = article.image;
                     } else {
-                        imageUrl = `http://localhost:5000${article.image}`;
+                        imageUrl = `${article.image}`;
                     }
                 }
 

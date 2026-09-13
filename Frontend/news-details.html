@@ -125,7 +125,7 @@
                     
                     let imageUrl = 'https://via.placeholder.com/900x500?text=News';
                     if (article.image) {
-                        imageUrl = article.image.startsWith('http') ? article.image : `http://localhost:5000${article.image}`;
+                        imageUrl = article.image.startsWith('http') ? article.image : `${article.image}`;
                     }
 
                     const dateString = new Date(article.createdAt).toLocaleDateString('en-US', {

@@ -950,7 +950,7 @@ async function uploadImage(event, type, inputId) {
         tbody.innerHTML = list.map(item => {
             const submittedStr = item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'Unknown';
             const imgHtml = item.image
-                ? `<img src="${item.image.startsWith('/') ? 'http://localhost:5000' + item.image : item.image}" style="width:60px;height:45px;object-fit:cover;border-radius:5px;border:1px solid #1e293b;" onerror="this.style.display='none'">`
+                ? `<img src="${item.image.startsWith('/') ? '' + item.image : item.image}" style="width:60px;height:45px;object-fit:cover;border-radius:5px;border:1px solid #1e293b;" onerror="this.style.display='none'">`
                 : `<span style="color:#94a3b8;font-size:0.72rem;">No image</span>`;
 
             return `
@@ -1060,7 +1060,7 @@ async function uploadImage(event, type, inputId) {
 
                 // Image thumbnail
                 const imgHtml = item.image
-                    ? `<img src="${item.image.startsWith('/') ? 'http://localhost:5000' + item.image : item.image}" style="width:60px;height:45px;object-fit:cover;border-radius:5px;border:1px solid #1e293b;" onerror="this.style.display='none'">`
+                    ? `<img src="${item.image.startsWith('/') ? '' + item.image : item.image}" style="width:60px;height:45px;object-fit:cover;border-radius:5px;border:1px solid #1e293b;" onerror="this.style.display='none'">`
                     : `<span style="color:#94a3b8;font-size:0.72rem;">No image</span>`;
 
                 let actions = `
@@ -1160,7 +1160,7 @@ async function uploadImage(event, type, inputId) {
                 // Image preview
                 const previewContainer = document.getElementById('revImagePreview');
                 if (data.item.image) {
-                    const imgUrl = data.item.image.startsWith('http') ? data.item.image : `http://localhost:5000${data.item.image}`;
+                    const imgUrl = data.item.image.startsWith('http') ? data.item.image : `${data.item.image}`;
                     previewContainer.innerHTML = `<img src="${imgUrl}" style="max-height: 120px; border-radius: 6px; border: 1px solid #1e293b;">`;
                 } else {
                     previewContainer.innerHTML = '';

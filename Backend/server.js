@@ -10,7 +10,19 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const app = express();
 
 // 1. MIDDLEWARE
-app.use(cors());
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        // and allow localhost for local development
+        if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+            callback(null, true);
+        } else {
+            // For Render, same-origin requests don't strictly need CORS, but if they send an origin, we can allow it
+            callback(null, true);
+        }
+    },
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../Frontend')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -36,7 +48,7 @@ app.use('/api/representative', representativeRoutes);
 app.use('/api/chatbot', chatbotRoutes);
 
 // 4. CONNECT TO DATABASE
-mongoose.connect(process.env.MONGO_URI, { dbName: 'CUET_Computer_Club', family: 4 })
+mongoose.connect(process.env.MONGO_URI, { dbName: 'CUET_Computer_Club' })
   .then(() => console.log("✅ DB connected successfully to MongoDB Atlas"))
   .catch(err => console.error("❌ DB Error:", err.message));
 
