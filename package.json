@@ -1,0 +1,27 @@
+{
+  "name": "cuet-computer-club-backend",
+  "version": "1.0.0",
+  "description": "CUET Computer Club Backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node Backend/server.js",
+    "dev": "nodemon Backend/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.0",
+    "multer": "^2.1.1",
+    "node-fetch": "^2.7.0",
+    "puppeteer": "^25.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

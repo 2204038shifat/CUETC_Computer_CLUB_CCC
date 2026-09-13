@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration - CUET Computer Club</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .registration-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .registration-form-container {
+            background: rgba(30, 41, 59, 0.7);
+            border: 2px solid #1e293b;
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .registration-sidebar {
+            background: rgba(30, 41, 59, 0.7);
+            border: 2px solid #1e293b;
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .registration-header h2 {
+            color: #6366f1;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .event-summary {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #6366f1;
+            margin-bottom: 20px;
+        }
+
+        .event-summary h3 {
+            color: #f1f5f9;
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+
+        .event-detail {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(30, 41, 59, 0.7);
+            color: #94a3b8;
+        }
+
+        .event-detail strong {
+            color: #f1f5f9;
+        }
+
+        .price-display {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .price-display .label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .price-display .amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h3 {
+            color: #6366f1;
+            border-bottom: 2px solid #1e293b;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: #f1f5f9;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #f1f5f9;
+            font-size: 1rem;
+            transition: all var(--transition-smooth);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: Arial, sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+            background: rgba(30, 41, 59, 0.7);
+            box-shadow: 0 0 0 3px rgba(46, 49, 146, 0.1);
+        }
+
+        .form-group select option {
+            background-color: var(--dark-bg);
+            color: #f1f5f9;
+        }
+
+        .form-group input::placeholder {
+            color: #94a3b8;
+        }
+
+        .required-field::after {
+            content: ' *';
+            color: #ef4444;
+        }
+
+        .payment-section {
+            background: rgba(30, 41, 59, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border: 2px solid #1e293b;
+        }
+
+        .payment-gateway-select {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .gateway-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #1e293b;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .gateway-option:hover {
+            border-color: #6366f1;
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        .gateway-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .gateway-option label {
+            margin: 0;
+            cursor: pointer;
+            color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .transaction-input {
+            margin-top: 20px;
+        }
+
+        .info-box {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .info-box strong {
+            color: #f1f5f9;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-submit {
+            flex: 1;
+            padding: 14px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-submit:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            padding: 14px;
+            background: transparent;
+            color: #94a3b8;
+            border: 2px solid #1e293b;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-smooth);
+        }
+
+        .btn-cancel:hover {
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+
+        .loading-state {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #94a3b8;
+        }
+
+        .spinner {
+            border: 3px solid rgba(30, 41, 59, 0.7);
+            border-top: 3px solid #6366f1;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .loading-state.show {
+            display: block;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @media (max-width: 968px) {
+            .registration-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .registration-sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-gateway-select {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .registration-form-container,
+            .registration-sidebar {
+                padding: 20px;
+            }
+
+            .registration-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    </head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" class="logo">
+                    <img src="assert/cuet_logo.png" alt="CUET Logo" class="logo-icon">
+                    <span class="logo-text">CUET Computer Club</span>
+                </a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN REGISTRATION SECTION -->
+    <div style="padding: 20px;">
+        <div class="registration-wrapper">
+            <!-- LEFT: FORM -->
+            <div class="registration-form-container">
+                <div class="registration-header">
+                    <h2>📋 Event Registration</h2>
+                </div>
+
+                <!-- ERROR MESSAGE -->
+                <div class="error-message" id="errorMessage"></div>
+
+                <!-- SUCCESS MESSAGE -->
+                <div class="success-message" id="successMessage">
+                    ✅ Registration successful! Redirecting to dashboard...
+                </div>
+
+                <!-- LOADING STATE -->
+                <div class="loading-state" id="loadingState">
+                    <div class="spinner"></div>
+                    <p>Processing your registration...</p>
+                </div>
+
+                <!-- REGISTRATION FORM -->
+                <form id="eventRegistrationForm" style="display: block;">
+                    <!-- PERSONAL INFORMATION -->
+                    <div class="form-section">
+                        <h3>👤 Personal Information</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fullName" class="required-field">Full Name</label>
+                                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="required-field">Email Address</label>
+                                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone" class="required-field">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+88 01XXXXXXXXX" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="studentId">Student ID</label>
+                                <input type="text" id="studentId" name="studentId" placeholder="Your student ID">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="department">Department</label>
+                                <input type="text" id="department" name="department" placeholder="Your department">
+                            </div>
+                            <div class="form-group">
+                                <label for="semester">Semester</label>
+                                <select id="semester" name="semester">
+                                    <option value="">Select Semester</option>
+                                    <option value="1st">1st Semester</option>
+                                    <option value="2nd">2nd Semester</option>
+                                    <option value="3rd">3rd Semester</option>
+                                    <option value="4th">4th Semester</option>
+                                    <option value="5th">5th Semester</option>
+                                    <option value="6th">6th Semester</option>
+                                    <option value="7th">7th Semester</option>
+                                    <option value="8th">8th Semester</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EVENT PREFERENCES -->
+                    <div class="form-section" id="preferenceSection">
+                        <h3>🎨 Event Preferences</h3>
+                        
+                        <div class="form-row" id="tshirtRow" style="display: none;">
+                            <div class="form-group">
+                                <label for="tshirtSize">T-Shirt Size</label>
+                                <select id="tshirtSize" name="tshirtSize">
+                                    <option value="M">Medium (M)</option>
+                                    <option value="XS">Extra Small (XS)</option>
+                                    <option value="S">Small (S)</option>
+                                    <option value="L">Large (L)</option>
+                                    <option value="XL">Extra Large (XL)</option>
+                                    <option value="XXL">2XL (XXL)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row" id="dietaryRow" style="display: none;">
+                            <div class="form-group">
+                                <label for="dietaryPreference">Dietary Preference</label>
+                                <select id="dietaryPreference" name="dietaryPreference">
+                                    <option value="No Preference">No Preference</option>
+                                    <option value="Vegetarian">Vegetarian</option>
+                                    <option value="Non-Vegetarian">Non-Vegetarian</option>
+                                    <option value="Vegan">Vegan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row full">
+                            <div class="form-group">
+                                <label for="specialRequirements">Special Requirements (Optional)</label>
+                                <textarea id="specialRequirements" name="specialRequirements" placeholder="Any dietary restrictions, accessibility needs, etc."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAYMENT SECTION (shown only for PAID events, hidden for FREE) -->
+                    <div class="payment-section" id="paymentSection" style="display: none;">
+                        <h3 style="margin-top: 0;">💳 Payment Details</h3>
+
+                        <!-- Fee Display (read-only) -->
+                        <div style="background: rgba(30, 41, 59, 0.7); border-left: 4px solid #6366f1; padding: 14px 18px; border-radius: 8px; margin-bottom: 20px;">
+                            <span style="color: #94a3b8; font-size: 0.95rem;">Registration Fee:</span>
+                            <strong id="feeDisplayPaid" style="color: #f1f5f9; font-size: 1.2rem; margin-left: 8px;">0 Taka</strong>
+                        </div>
+
+                        <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 10px;">Payment Method <span style="color:#ef4444;">*</span></label>
+                        
+                        <div class="payment-gateway-select">
+                            <div class="gateway-option">
+                                <input type="radio" id="bkash" name="paymentGateway" value="bKash">
+                                <label for="bkash">🏦 bKash</label>
+                            </div>
+                            <div class="gateway-option">
+                                <input type="radio" id="nagad" name="paymentGateway" value="Nagad">
+                                <label for="nagad">📱 Nagad</label>
+                            </div>
+                            <div class="gateway-option">
+                                <input type="radio" id="rocket" name="paymentGateway" value="Rocket">
+                                <label for="rocket">🚀 Rocket</label>
+                            </div>
+                        </div>
+
+                        <div class="info-box" style="margin-top: 16px;">
+                            📞 <strong>Send Money to:</strong> <span id="paymentNumberDisplay" style="font-size: 1.1rem; color: #f1f5f9;">Loading...</span><br>
+                            💰 <strong>Amount:</strong> <span id="paymentAmountDisplay">0 Taka</span><br><br>
+                            ⚠️ Keep your transaction ID safe. You'll need it below.
+                        </div>
+
+                        <div class="transaction-input" style="margin-top: 16px;">
+                            <div class="form-group full">
+                                <label for="transactionId" class="required-field">Transaction ID</label>
+                                <input 
+                                    type="text" 
+                                    id="transactionId" 
+                                    name="transactionId" 
+                                    placeholder="Enter your transaction ID"
+                                >
+                                <small style="color: #94a3b8; margin-top: 5px; display: block;">
+                                    This is the confirmation number you receive from bKash / Nagad / Rocket after sending money.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FREE EVENT NOTICE (shown only for FREE events) -->
+                    <div id="freeNotice" style="display: none; background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10b981; padding: 16px 20px; border-radius: 8px; margin: 20px 0;">
+                        ✅ <strong style="color: #10b981;">This is a FREE event!</strong><br>
+                        <span style="color: #94a3b8;">No payment is required. Your registration will be confirmed immediately.</span>
+                    </div>
+
+                    <!-- BUTTONS -->
+                    <div class="button-group">
+                        <button type="button" class="btn-cancel" onclick="window.history.back()">Cancel</button>
+                        <button type="submit" class="btn-submit" id="submitBtn">Complete Registration</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- RIGHT: SIDEBAR -->
+            <div class="registration-sidebar">
+                <h3 style="color: #6366f1; margin-top: 0;">📅 Event Summary</h3>
+
+                <div class="event-summary">
+                    <h3 id="eventTitle">Loading...</h3>
+                    <div class="event-detail">
+                        <span>📅 Date:</span>
+                        <strong id="eventDate">Loading...</strong>
+                    </div>
+                    <div class="event-detail">
+                        <span>📍 Location:</span>
+                        <strong id="eventLocation">Loading...</strong>
+                    </div>
+                    <div class="event-detail">
+                        <span>👥 Registered:</span>
+                        <strong id="eventRegistered">0</strong>
+                    </div>
+                </div>
+
+                <div class="price-display">
+                    <div class="label">Registration Fee</div>
+                    <div class="amount" id="totalAmount">৳200</div>
+                </div>
+
+                <div style="background: rgba(30, 41, 59, 0.7); padding: 15px; border-radius: 8px; margin: 20px 0;">
+                    <h4 style="color: #f1f5f9; margin-top: 0;">✅ What's Included:</h4>
+                    <ul style="color: #94a3b8; padding-left: 20px; margin: 0;">
+                        <li>Event Entry Pass</li>
+                        <li id="tshirtIncluded" style="display: none;">Premium T-Shirt</li>
+                        <li id="mealsIncluded" style="display: none;">Meals & Refreshments</li>
+                        <li>Certificate of Attendance</li>
+                        <li>Networking Opportunity</li>
+                    </ul>
+                </div>
+
+                <div class="info-box" id="importantNotes">
+                    <strong>📌 Important Notes:</strong><br>
+                    • Complete payment first<br>
+                    • Save your transaction ID<br>
+                    • You'll receive a confirmation email<br>
+                    • Bring ID to the event
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- THEME TOGGLE -->
+    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">🌙</button>
+
+    <!-- SCRIPTS -->
+    <script src="./js/script.js"></script>
+    <script src="./js/event-registration.js"></script>
+
+    
+
+    </body>
+</html>

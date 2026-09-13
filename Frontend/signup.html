@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - CUET Computer Club</title>
+    <link rel="stylesheet" href="css/style.css">
+    </head>
+<body>
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo/Brand -->
+            <div class="navbar-brand">
+                <a href="index.html" class="logo">
+                    <img src="assert/cuet_logo.png" alt="CUET Computer Club Logo" class="logo-icon">
+                    <span class="logo-text">CUET Computer Club</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#events" class="nav-link">Events</a></li>
+                <li><a href="index.html#contests" class="nav-link">Contests</a></li>
+                <li><a href="index.html#news" class="nav-link">News</a></li>
+                <li><a href="index.html#team" class="nav-link">Team</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                <li><a href="login.html" class="nav-link btn-login">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ==================== SIGNUP SECTION ==================== -->
+    <section class="signup-section">
+        <div class="section-container">
+            <div class="signup-wrapper">
+                <div class="signup-form-container">
+                    <h2 class="form-title">Join Our Community</h2>
+                    <p class="form-subtitle">Create your account to get started</p>
+
+                    <form id="signupForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="Enter your full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="studentId" class="form-label">Student ID (Optional)</label>
+                            <input type="text" id="studentId" name="studentId" class="form-input" placeholder="Enter your student ID">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" name="password" class="form-input" placeholder="Create a password" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" placeholder="Confirm your password" required>
+                        </div>
+
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="terms" name="terms" required>
+                                <span class="checkmark"></span>
+                                I agree to the <a href="#" class="terms-link">Terms & Conditions</a>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Create Account</button>
+                    </form>
+
+                    <div class="form-footer">
+                        <p>Already have an account? <a href="login.html" class="login-link">Sign in here</a></p>
+                    </div>
+                </div>
+
+                <div class="signup-visual">
+                    <div class="floating-shape shape-1"></div>
+                    <div class="floating-shape shape-2"></div>
+                    <div class="floating-shape shape-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <p>&copy; 2026 Tech Club - University Computer Club. All rights reserved.</p>
+                <p>Made with ❤️ by our amazing team</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html#home">Back to Top</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== THEME TOGGLE ==================== -->
+    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+        🌙
+    </button>
+
+    <!-- ==================== SCRIPT ==================== -->
+     <script src="./js/script.js"></script>
+    <script src="./js/signup.js"></script>
+    
+
+    
+
+    </body>
+</html>

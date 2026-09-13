@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Control Room - CUET Computer Club</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/protect_admin.js"></script>
+    <style>
+        .admin-grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 20px; }
+        .admin-panel { background: rgba(30, 41, 59, 0.7); padding: 25px; border-radius: 15px; border: 1px solid #1e293b; backdrop-filter: blur(10px); }
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; color: #f1f5f9; }
+        .admin-table th, .admin-table td { padding: 12px; text-align: left; border-bottom: 1px solid #1e293b; }
+        .admin-table th { background: rgba(30, 41, 59, 0.7); color: #6366f1; font-weight: 600; }
+        .admin-table tr:hover { background: rgba(255, 255, 255, 0.02); }
+        .action-btn { padding: 6px 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: white; margin-right: 5px; font-size: 0.85rem; transition: opacity 0.2s; }
+        .action-btn:hover { opacity: 0.85; }
+        .btn-promote { background: #10b981; }
+        .btn-delete { background: #ef4444; }
+        .btn-review { background: #6366f1; }
+        .btn-approve { background: #10b981; }
+        .btn-reject { background: #ef4444; }
+        .btn-pending-action { background: #f59e0b; color: #000; }
+        .btn-publish { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .full-width { grid-column: span 2; }
+        .form-input, .form-textarea { background: rgba(30, 41, 59, 0.7); border: 1px solid #1e293b; color: #f1f5f9; padding: 10px; border-radius: 5px; font-family: inherit; width: 100%; box-sizing: border-box; }
+        .form-input::placeholder, .form-textarea::placeholder { color: #94a3b8; }
+
+        /* Filter bar & pills */
+        .filter-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 20px; background: rgba(30, 41, 59, 0.7); padding: 15px; border-radius: 10px; border: 1px solid #1e293b; }
+        .filter-group { display: flex; align-items: center; gap: 8px; }
+        .filter-select { background: rgba(30, 41, 59, 0.7); color: #f1f5f9; border: 1px solid #1e293b; padding: 8px 12px; border-radius: 6px; font-family: inherit; }
+        .search-box { flex: 1; min-width: 220px; }
+
+        .status-pill { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .status-pill.pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; }
+        .status-pill.approved { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981; }
+        .status-pill.rejected { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
+        .status-pill.staged { background: rgba(59, 130, 246, 0.25); color: #60a5fa; border: 1px solid #6366f1; }
+
+        .creator-info { display: flex; flex-direction: column; }
+        .creator-name { font-weight: 600; color: #f1f5f9; }
+        .creator-email { font-size: 0.8rem; color: #94a3b8; }
+
+        /* Modal */
+        .admin-modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.75); backdrop-filter: blur(6px); }
+        .admin-modal-content { background: rgba(30, 41, 59, 0.7); margin: 4% auto; padding: 30px; border: 1px solid #1e293b; border-radius: 16px; width: 90%; max-width: 750px; color: #f1f5f9; position: relative; }
+        .close-admin-modal { position: absolute; right: 20px; top: 15px; color: #94a3b8; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-admin-modal:hover { color: #f1f5f9; }
+        .notice-banner { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 0.9rem; }
+        .notice-info { background: rgba(59, 130, 246, 0.15); border: 1px solid #6366f1; color: #6366f1; }
+        .notice-warning { background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; color: #f59e0b; }
+        .notice-success { background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; }
+        .notice-danger { background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #ef4444; }
+    </style>
+    </head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" class="logo">
+                    <span class="logo-text">Admin Control Room</span>
+                </a>
+            </div>
+            
+            
+
+            <ul class="nav-links" style="display: flex; align-items: center; gap: 15px;">
+                <li><a href="#pendingApprovalsSection" id="pendingNotificationBadge" style="display: none; background: #f59e0b; color: #000; padding: 6px 14px; border-radius: 20px; font-weight: 700; text-decoration: none; font-size: 0.85rem; margin-right: 10px;">🔔 <span id="navPendingCount">0</span> Pending Review</a></li>
+                <li><a href="#" class="nav-link" style="color: #6366f1;">Dashboard</a></li>
+                <li><a href="#pendingApprovalsSection" class="nav-link">Pending</a></li>
+                <li><a href="#repSubmissionsSection" class="nav-link">All Submissions</a></li>
+                <li><a href="#usersSection" class="nav-link">Users</a></li>
+                <li><a href="#eventsSection" class="nav-link">Events</a></li>
+                <li><a href="#contestsSection" class="nav-link">Contests</a></li>
+                <li><a href="#newsSection" class="nav-link">News</a></li>
+                <li><a href="#eventRegistrationsSection" class="nav-link">Event Regs</a></li>
+                <li><a href="#contestRegistrationsSection" class="nav-link">Contest Regs</a></li>
+                <li><a href="index.html" class="nav-link">Main Website</a></li>
+                <li><a href="#" id="logoutBtn" class="btn btn-primary" style="background: #ef4444; padding: 8px 15px;">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <section class="section-container" style="padding-top: 50px; padding-bottom: 50px;">
+        <h2 class="section-title">Dashboard Overview</h2>
+
+        <!-- 1. CLUB STATISTICS -->
+        <div class="stats-container" style="margin: 0 0 40px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value" id="statMembers">0</div>
+                <div class="stat-label">Total Members</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎟️</div>
+                <div class="stat-value" id="statEvents">0</div>
+                <div class="stat-label">Active Events</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-value" id="statContests">0</div>
+                <div class="stat-label">Upcoming Contests</div>
+            </div>
+            <div class="stat-card" style="cursor: pointer; border-color: rgba(245, 158, 11, 0.4);" onclick="location.href='#repSubmissionsSection'">
+                <div class="stat-icon">🔔</div>
+                <div class="stat-value" style="color: #f59e0b;" id="statPendingCount">0</div>
+                <div class="stat-label">Pending Submissions</div>
+            </div>
+        </div>
+
+        <!-- PENDING APPROVALS SECTION -->
+        <div class="admin-panel" id="pendingApprovalsSection" style="margin-bottom: 35px; border-left: 4px solid #f59e0b;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 18px;">
+                <h3 style="color: #f59e0b; margin: 0; font-size: 1.35rem; display: flex; align-items: center; gap: 12px;">
+                    🔔 Pending Approvals
+                    <span id="pendingApprovalsCount" style="background: #f59e0b; color: #000; font-size: 0.82rem; padding: 3px 11px; border-radius: 12px; font-weight: 800; min-width: 24px; text-align: center;">0</span>
+                </h3>
+                <span style="font-size: 0.85rem; color: #94a3b8;">Open each submission to review before approving or rejecting</span>
+            </div>
+
+            <div id="pendingApprovalsTableWrap" style="overflow-x: auto;">
+                <table class="admin-table" id="pendingApprovalsTable">
+                    <thead>
+                        <tr>
+                            <th style="width:70px;">Image</th>
+                            <th>Type</th>
+                            <th>Title</th>
+                            <th>Creator</th>
+                            <th>Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendingApprovalsBody">
+                        <tr><td colspan="6" style="text-align:center; color:#94a3b8;">Loading pending submissions...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ALL REPRESENTATIVE SUBMISSIONS SECTION -->
+        <div class="admin-panel" id="repSubmissionsSection" style="margin-bottom: 35px; border-left: 4px solid #6366f1;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
+                <h3 style="color: #6366f1; margin: 0; font-size: 1.35rem;">
+                    📋 All Representative Submissions (<span id="totalSubmissionsCount">0</span>)
+                </h3>
+                <span style="font-size: 0.85rem; color: #94a3b8;">All events, contests, and news submitted by club representatives</span>
+            </div>
+
+            <!-- Filter & Search Bar -->
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label style="font-size: 0.9rem; font-weight: 600; color: #94a3b8;">Type:</label>
+                    <select id="filterRepType" class="filter-select" onchange="loadRepresentativeSubmissions()">
+                        <option value="all">All Content</option>
+                        <option value="event">Events</option>
+                        <option value="contest">Contests</option>
+                        <option value="news">News</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label style="font-size: 0.9rem; font-weight: 600; color: #94a3b8;">Status:</label>
+                    <select id="filterRepStatus" class="filter-select" onchange="loadRepresentativeSubmissions()">
+                        <option value="all" selected>All Statuses</option>
+                        <option value="pending">Pending Review</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="filter-group search-box">
+                    <input type="text" id="searchRepTitle" class="form-input" placeholder="🔍 Search submissions by title..." oninput="debounceSubmissionsSearch()">
+                </div>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th style="width:70px;">Image</th>
+                            <th>Type</th>
+                            <th>Title</th>
+                            <th>Creator</th>
+                            <th>Date / Created</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="repSubmissionsTableBody">
+                        <tr><td colspan="7" style="text-align: center; color: #94a3b8;">Loading representative submissions...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin-grid">
+            <!-- 2. MANAGE USERS -->
+            <div class="admin-panel" id="usersSection">
+                <h3 style="color: #6366f1; margin-bottom: 10px;">👥 Manage Users</h3>
+                <div style="overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="usersTableBody"><tr><td colspan="4">Loading users...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. MANAGE EVENTS -->
+            <div class="admin-panel" id="eventsSection">
+                <h3 style="color: #6366f1; margin-bottom: 10px;">📅 Manage Events</h3>
+                <form id="createEventForm" class="form-grid">
+                    <input type="text" id="evTitle" placeholder="Event Title" class="form-input" required>
+                    <input type="date" id="evDate" class="form-input" required>
+                    <input type="text" id="evLocation" placeholder="Location" class="form-input" required>
+                    <input type="number" id="evCapacity" placeholder="Max Capacity" class="form-input" required>
+                    <input type="number" id="evRegistrationFee" placeholder="Registration Fee (৳)" class="form-input" min="0" value="0" required>
+                    
+                    <div style="grid-column: span 2;">
+                        <label style="display: block; margin-bottom: 8px; color: #f1f5f9; font-weight: 600;">Event Image</label>
+                        <input type="file" id="evImageFile" accept="image/*" class="form-input full-width" style="padding: 10px;">
+                        <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 5px;">Max 10MB. Formats: JPG, PNG, GIF, WebP</p>
+                        <input type="hidden" id="evImageUrl">
+                    </div>
+
+                    <textarea id="evDesc" placeholder="Event Description" class="form-textarea full-width" rows="2" required></textarea>
+                    <button type="submit" class="btn btn-primary full-width">Publish Event</button>
+                </form>
+                <div style="margin-top: 20px; overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead><tr><th>Title</th><th>Date</th><th>Location</th><th>Actions</th></tr></thead>
+                        <tbody id="eventsTableBody"><tr><td colspan="4">Loading events...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. MANAGE CONTESTS -->
+            <div class="admin-panel" id="contestsSection">
+                <h3 style="color: #6366f1; margin-bottom: 10px;">🏆 Manage Contests</h3>
+                <form id="createContestForm" class="form-grid">
+                    <input type="text" id="conTitle" placeholder="Contest Name" class="form-input full-width" required>
+                    <input type="date" id="conDate" class="form-input" required>
+                    <input type="text" id="conPrize" placeholder="Prize Pool (e.g. $5,000)" class="form-input" required>
+                    <input type="number" id="conRegistrationFee" placeholder="Registration Fee (৳)" class="form-input full-width" min="0" value="0" required>
+                    
+                    <div style="grid-column: span 2;">
+                        <label style="display: block; margin-bottom: 8px; color: #f1f5f9; font-weight: 600;">Contest Image</label>
+                        <input type="file" id="conImageFile" accept="image/*" class="form-input full-width" style="padding: 10px;">
+                        <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 5px;">Max 10MB. Formats: JPG, PNG, GIF, WebP</p>
+                        <input type="hidden" id="conImageUrl">
+                    </div>
+
+                    <textarea id="conDesc" placeholder="Contest Description" class="form-textarea full-width" rows="2"></textarea>
+                    <input type="text" id="conTeamSize" placeholder="Team Size (e.g. 1-3 members)" class="form-input full-width">
+                    <input type="text" id="conTags" placeholder="Tags (comma separated)" class="form-input full-width">
+                    <button type="submit" class="btn btn-primary full-width">Create Contest</button>
+                </form>
+                <div style="margin-top: 20px; overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead><tr><th>Contest Name</th><th>Date</th><th>Prize</th><th>Actions</th></tr></thead>
+                        <tbody id="contestsTableBody"><tr><td colspan="4">Loading contests...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 5. POST NEWS -->
+            <div class="admin-panel" id="newsSection">
+                <h3 style="color: #6366f1; margin-bottom: 10px;">📰 Post News & Announcements</h3>
+                <form id="createNewsForm" style="display: flex; flex-direction: column; gap: 15px;">
+                    <input type="text" id="newsTitle" placeholder="News Headline" class="form-input" required>
+                    
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; color: #f1f5f9; font-weight: 600;">News Image</label>
+                        <input type="file" id="newsImageFile" accept="image/*" class="form-input" style="padding: 10px;">
+                        <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 5px;">Max 10MB. Formats: JPG, PNG, GIF, WebP</p>
+                        <input type="hidden" id="newsImageUrl">
+                    </div>
+
+                    <textarea id="newsContent" placeholder="Write your announcement here..." class="form-textarea" rows="4" required></textarea>
+                    <button type="submit" class="btn btn-primary">Publish News</button>
+                </form>
+                <div style="margin-top: 20px; overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead><tr><th>Headline</th><th>Date</th><th>Status / Draft</th><th>Actions</th></tr></thead>
+                        <tbody id="newsTableBody"><tr><td colspan="4">Loading news...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 6. EVENT REGISTRATIONS -->
+            <div class="admin-panel" id="eventRegistrationsSection">
+                <h3 style="color: #6366f1; margin-bottom: 10px;">📅 Manage Event Registrations</h3>
+                <div style="margin-top: 20px; overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Event</th>
+                                <th>Fee</th>
+                                <th>Payment</th>
+                                <th>Tx ID</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventRegTableBody"><tr><td colspan="7">Loading registrations...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 7. CONTEST REGISTRATIONS -->
+            <div class="admin-panel" id="contestRegistrationsSection">
+                <h3 style="color: #6366f1; margin-bottom: 10px;">🏆 Manage Contest Registrations</h3>
+                <div style="margin-top: 20px; overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Team</th>
+                                <th>Contest</th>
+                                <th>Fee</th>
+                                <th>Payment</th>
+                                <th>Tx ID</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contestRegTableBody"><tr><td colspan="7">Loading registrations...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 1. REVIEW & DECISION MODAL FOR REPRESENTATIVE SUBMISSIONS -->
+    <div id="reviewModal" class="admin-modal">
+        <div class="admin-modal-content">
+            <span class="close-admin-modal" onclick="closeReviewModal()">&times;</span>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
+                <h3 style="color: #6366f1; margin: 0;" id="revModalTitle">Review Submission</h3>
+                <span id="revStatusBadge" class="status-pill pending">Pending</span>
+            </div>
+            
+            <div id="revReviewNotice" class="notice-banner notice-info" style="display: flex; align-items: center; justify-content: space-between;">
+                <span>✅ Submission opened and reviewed. Approve and Reject actions are now unlocked.</span>
+                <span style="font-size: 0.8rem; opacity: 0.8;">Status: Reviewed</span>
+            </div>
+
+            <div id="revRejectionNotice" class="notice-banner notice-danger" style="display: none;">
+                <strong>Current Rejection Reason:</strong> <span id="revRejectionText"></span>
+            </div>
+
+            <!-- Creator & Metadata Info -->
+            <div style="background: rgba(30, 41, 59, 0.7); padding: 12px 16px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 0.9rem;">
+                <div><strong>Creator:</strong> <span id="revCreatorName">N/A</span></div>
+                <div><strong>Email:</strong> <span id="revCreatorEmail">N/A</span></div>
+                <div><strong>Role:</strong> <span id="revCreatorRole">Representative</span></div>
+                <div><strong>Type:</strong> <span id="revContentType">Event</span></div>
+            </div>
+
+            <!-- Submission Edit Form -->
+            <form id="reviewEditForm" style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="hidden" id="revItemId">
+                <input type="hidden" id="revItemType">
+
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Title</label>
+                    <input type="text" id="revTitle" class="form-input" required>
+                </div>
+
+                <div id="revDateGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Date</label>
+                    <input type="date" id="revDate" class="form-input">
+                </div>
+
+                <div id="revLocationGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Location</label>
+                    <input type="text" id="revLocation" class="form-input">
+                </div>
+
+                <div id="revCapacityGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Capacity</label>
+                    <input type="number" id="revCapacity" class="form-input">
+                </div>
+
+                <div id="revPrizeGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Prize Pool</label>
+                    <input type="text" id="revPrize" class="form-input">
+                </div>
+
+                <div id="revTeamSizeGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Team Size</label>
+                    <input type="text" id="revTeamSize" class="form-input">
+                </div>
+
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Image</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="file" id="revImageFile" accept="image/*" class="form-input" style="flex: 1;">
+                        <input type="hidden" id="revImageUrl">
+                    </div>
+                    <div id="revImagePreview" style="margin-top: 8px;"></div>
+                </div>
+
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Description / Content</label>
+                    <textarea id="revBody" rows="4" class="form-textarea" required></textarea>
+                </div>
+
+                <div style="background: rgba(245, 158, 11, 0.08); border: 1px dashed #f59e0b; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; color: #f59e0b;">
+                    💡 <em>Rule: If you edit content, you must click <strong>Save Edits</strong> first. The submission remains in Pending Review and must be reviewed again before approval or rejection.</em>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button type="submit" class="action-btn" style="background: #6366f1;" id="revSaveEditsBtn">💾 Save Edits</button>
+                        <button type="button" class="action-btn btn-review" id="revReviewAgainBtn" style="display: none;" onclick="markCurrentAsReviewedAgain()">🔍 Review Again</button>
+                        <button type="button" class="action-btn btn-delete" id="revDeleteBtn" onclick="deleteCurrentReviewItem()">🗑️ Delete</button>
+                    </div>
+
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" class="action-btn btn-pending-action" id="revSendPendingBtn" style="display: none;" onclick="sendCurrentToPending()">Send Back to Pending</button>
+                        <button type="button" class="action-btn btn-reject" id="revRejectBtn" onclick="promptRejectCurrent()">✕ Reject</button>
+                        <button type="button" class="action-btn btn-approve" id="revApproveBtn" onclick="approveCurrent()">✓ Approve</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. STAGE EDIT MODAL (FOR APPROVED / PUBLIC CONTENT) -->
+    <div id="stageModal" class="admin-modal">
+        <div class="admin-modal-content">
+            <span class="close-admin-modal" onclick="closeStageModal()">&times;</span>
+            <h3 style="color: #6366f1; margin-top: 0;">Edit Approved Content (Draft Staging)</h3>
+            
+            <div class="notice-banner notice-warning">
+                <strong>Protected Live Content Workflow:</strong>
+                <p style="margin: 5px 0 0 0; font-size: 0.85rem;">
+                    The current version remains publicly visible. Your edits will be saved as a staged draft. You can review and publish changes when ready.
+                </p>
+            </div>
+
+            <form id="stageEditForm" style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="hidden" id="stageItemId">
+                <input type="hidden" id="stageItemType">
+
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Title *</label>
+                    <input type="text" id="stageTitle" class="form-input" required>
+                </div>
+
+                <div id="stageDateGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Date</label>
+                    <input type="date" id="stageDate" class="form-input">
+                </div>
+
+                <div id="stageLocationGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Location</label>
+                    <input type="text" id="stageLocation" class="form-input">
+                </div>
+
+                <div id="stageCapacityGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Capacity</label>
+                    <input type="number" id="stageCapacity" class="form-input">
+                </div>
+
+                <div id="stagePrizeGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Prize Pool</label>
+                    <input type="text" id="stagePrize" class="form-input">
+                </div>
+
+                <div id="stageTeamSizeGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Team Size</label>
+                    <input type="text" id="stageTeamSize" class="form-input">
+                </div>
+
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Banner Image</label>
+                    <input type="file" id="stageImageFile" accept="image/*" class="form-input">
+                    <input type="hidden" id="stageImageUrl">
+                </div>
+
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Description / Content *</label>
+                    <textarea id="stageBody" rows="4" class="form-textarea" required></textarea>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+                    <button type="button" class="action-btn" style="background: #64748b;" onclick="closeStageModal()">Cancel</button>
+                    <button type="submit" class="action-btn" style="background: #6366f1;">Save Changes as Draft</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. REVIEW CHANGES & PUBLISH MODAL -->
+    <div id="publishModal" class="admin-modal">
+        <div class="admin-modal-content">
+            <span class="close-admin-modal" onclick="closePublishModal()">&times;</span>
+            <h3 style="color: #6366f1; margin-top: 0;">Review Staged Changes & Publish</h3>
+            
+            <div class="notice-banner notice-info">
+                <strong>Staged Draft Ready for Review:</strong>
+                <p style="margin: 5px 0 0 0; font-size: 0.85rem;">
+                    Compare the live version with your staged draft. Only after clicking <strong>Publish Changes</strong> will the new version become visible on the public website.
+                </p>
+            </div>
+
+            <div id="publishDiffContainer" style="margin: 20px 0; max-height: 380px; overflow-y: auto; font-size: 0.9rem;">
+                <!-- Filled dynamically -->
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                <button type="button" class="action-btn btn-delete" onclick="discardCurrentDraft()">Discard Draft</button>
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="action-btn" style="background: #64748b;" onclick="closePublishModal()">Close</button>
+                    <button type="button" class="action-btn btn-publish" onclick="publishCurrentDraft()">🚀 Publish Changes Live</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+
+        // ==================== LOGOUT ====================
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        });
+
+        // ==================== IMAGE UPLOAD HANDLERS ====================
+
+        // Event Image Upload
+        document.getElementById('evImageFile').addEventListener('change', async (e) => {
+            await uploadImage(e, 'events', 'evImageUrl');
+        });
+
+        // Contest Image Upload
+        document.getElementById('conImageFile').addEventListener('change', async (e) => {
+            await uploadImage(e, 'contests', 'conImageUrl');
+        });
+
+        // News Image Upload
+        document.getElementById('newsImageFile').addEventListener('change', async (e) => {
+            await uploadImage(e, 'news', 'newsImageUrl');
+        });
+
+        // Generic Image Upload Function
+
+
+        // Generic Image Upload Function
+async function uploadImage(event, type, inputId) {
+    const file = event.target.files[0];
+    
+    if (!file) return;
+
+    console.log(`\n📤 [UPLOAD INITIATED]`);
+    console.log(`   Type: ${type}`);
+    console.log(`   File: ${file.name}`);
+    console.log(`   Size: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+
+    // Validate file size
+    if (file.size > 10 * 1024 * 1024) {
+        alert('❌ File too large! Max 10MB');
+        return;
+    }
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+        alert('❌ Invalid file type! Only JPG, PNG, GIF, WebP allowed');
+        return;
+    }
+
+    // Upload image
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('type', type);
+
+    console.log(`   ✅ FormData prepared`);
+    console.log(`   📡 Sending to: http://localhost:5000/api/upload/upload?type=${type}`);
+
+    try {
+        // ✅ Send type in BOTH query string AND FormData
+        const response = await fetch(`http://localhost:5000/api/upload/upload?type=${type}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+                // ❌ DO NOT set Content-Type - let browser set it
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        console.log(`   📨 Response:`, data);
+
+        if (data.success) {
+            document.getElementById(inputId).value = data.imageUrl;
+            console.log(`   ✅ Stored URL: ${data.imageUrl}`);
+            alert('✅ Image uploaded successfully!');
+            console.log(`📤 [UPLOAD SUCCESS]\n`);
+        } else {
+            alert('❌ Error uploading image: ' + data.message);
+            console.log(`❌ Error: ${data.message}`);
+            console.log(`📤 [UPLOAD FAILED]\n`);
+        }
+    } catch (error) {
+        console.error('❌ Error uploading image:', error);
+        alert('❌ Server error during upload');
+        console.log(`📤 [UPLOAD ERROR]\n`);
+    }
+}
+
+
+        // ==================== CREATE EVENT ====================
+        document.getElementById('createEventForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('evTitle').value;
+            const date = document.getElementById('evDate').value;
+            const location = document.getElementById('evLocation').value;
+            const capacity = document.getElementById('evCapacity').value;
+            const imageUrl = document.getElementById('evImageUrl').value;
+            const description = document.getElementById('evDesc').value;
+            const registrationFee = document.getElementById('evRegistrationFee').value;
+
+            if (!imageUrl) {
+                alert('❌ Please upload an event image first!');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5000/api/admin/events', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        title, 
+                        date, 
+                        location, 
+                        capacity: parseInt(capacity), 
+                        description,
+                        image: imageUrl,
+                        registrationFee: parseInt(registrationFee) || 0
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert('✅ Event created successfully!');
+                    document.getElementById('createEventForm').reset();
+                    document.getElementById('evImageUrl').value = '';
+                    loadAdminData();
+                } else {
+                    alert('❌ Error: ' + (data.message || 'Failed to create event'));
+                }
+            } catch (error) {
+                console.error('Error creating event:', error);
+                alert('❌ Server error!');
+            }
+        });
+
+        // ==================== CREATE CONTEST ====================
+        document.getElementById('createContestForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('conTitle').value;
+            const date = document.getElementById('conDate').value;
+            const prize = document.getElementById('conPrize').value;
+            const imageUrl = document.getElementById('conImageUrl').value;
+            const description = document.getElementById('conDesc').value;
+            const teamSize = document.getElementById('conTeamSize').value;
+            const tagsInput = document.getElementById('conTags').value;
+            const tags = tagsInput ? tagsInput.split(',').map(tag => tag.trim()) : [];
+            const registrationFee = document.getElementById('conRegistrationFee').value;
+
+            if (!imageUrl) {
+                alert('❌ Please upload a contest image first!');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5000/api/admin/contests', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title,
+                        date,
+                        prize,
+                        image: imageUrl,
+                        description,
+                        teamSize,
+                        tags,
+                        registrationFee: parseInt(registrationFee) || 0
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert('✅ Contest created successfully!');
+                    document.getElementById('createContestForm').reset();
+                    document.getElementById('conImageUrl').value = '';
+                    loadAdminData();
+                } else {
+                    alert('❌ Error: ' + (data.message || 'Failed to create contest'));
+                }
+            } catch (error) {
+                console.error('Error creating contest:', error);
+                alert('❌ Server error!');
+            }
+        });
+
+        // ==================== CREATE NEWS ====================
+        document.getElementById('createNewsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('newsTitle').value;
+            const imageUrl = document.getElementById('newsImageUrl').value;
+            const content = document.getElementById('newsContent').value;
+
+            if (!imageUrl) {
+                alert('❌ Please upload a news image first!');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5000/api/admin/news', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title,
+                        image: imageUrl,
+                        content
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert('✅ News published successfully!');
+                    document.getElementById('createNewsForm').reset();
+                    document.getElementById('newsImageUrl').value = '';
+                    loadAdminData();
+                } else {
+                    alert('❌ Error: ' + (data.message || 'Failed to publish news'));
+                }
+            } catch (error) {
+                console.error('Error publishing news:', error);
+                alert('❌ Server error!');
+            }
+        });
+
+        // ==================== DELETE FUNCTIONS ====================
+
+        async function deleteUser(userId) {
+            if (!confirm('Are you sure you want to delete this user?')) return;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert('✅ User deleted successfully!');
+                    loadAdminData();
+                } else {
+                    alert('❌ Error: ' + (data.message || 'Failed to delete user'));
+                }
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                alert('❌ Server error!');
+            }
+        }
+
+        // ==================== ROLE PROMOTION / DEMOTION ====================
+
+        async function promoteUser(userId) {
+            if (!confirm('Promote this user to Admin?')) return;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/admin/promote-user/${userId}`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert('✅ User promoted to admin!');
+                    loadAdminData();
+                } else {
+                    alert('❌ Error: ' + (data.message || 'Failed to promote user'));
+                }
+            } catch (error) {
+                console.error('Error promoting user:', error);
+                alert('❌ Server error!');
+            }
+        }
+
+        async function promoteToRep(userId) {
+            if (!confirm('Promote this user to Club Representative / Secretary?')) return;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/admin/promote-representative/${userId}`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert('✅ User promoted to Representative!');
+                    loadAdminData();
+                } else {
+                    alert('❌ Error: ' + (data.message || 'Failed to promote representative'));
+                }
+            } catch (error) {
+                console.error('Error promoting representative:', error);
+                alert('❌ Server error!');
+            }
+        }
+
+        async function demoteToMember(userId) {
+            if (!confirm('Change this representative back to Member?')) return;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/admin/demote-representative/${userId}`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert('✅ Representative changed to member');
+                    loadAdminData();
+                } else {
+                    alert('❌ Error: ' + (data.message || 'Failed to change representative'));
+                }
+            } catch (error) {
+                console.error('Error demoting representative:', error);
+                alert('❌ Server error!');
+            }
+        }
+
+        async function deleteUser(userId) {
+            if (!confirm('Are you sure you want to delete this user?')) return;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    alert('✅ User deleted successfully!');
+                    loadAdminData();
+                } else {
+                    alert('❌ Error: ' + (data.message || 'Failed to delete user'));
+                }
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                alert('❌ Server error!');
+            }
+        }
+
+        // ==================== PENDING NOTIFICATIONS & SUBMISSIONS ====================
+
+        async function loadPendingCount() {
+            try {
+                const res = await fetch('http://localhost:5000/api/admin/pending-count', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    const count = data.pendingCount || 0;
+                    document.getElementById('statPendingCount').innerText = count;
+                    document.getElementById('navPendingCount').innerText = count;
+                    const badge = document.getElementById('pendingNotificationBadge');
+                    if (count > 0) {
+                        badge.style.display = 'inline-block';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
+            } catch (err) {
+                console.error('Pending count error:', err);
+            }
+        }
+
+        // ==================== PENDING APPROVALS SECTION ====================
+        async function loadPendingApprovals() {
+    const tbody = document.getElementById('pendingApprovalsBody');
+    try {
+        const url = new URL('http://localhost:5000/api/admin/submissions');
+        url.searchParams.append('status', 'pending');
+
+        const res = await fetch(url.toString(), {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color: #ef4444;">Failed to load pending approvals.</td></tr>';
+            return;
+        }
+
+        const list = data.submissions || [];
+        const count = list.length;
+
+        // Update badge
+        document.getElementById('pendingApprovalsCount').textContent = count;
+        document.getElementById('statPendingCount').innerText = count;
+        document.getElementById('navPendingCount').innerText = count;
+        const navBadge = document.getElementById('pendingNotificationBadge');
+        navBadge.style.display = count > 0 ? 'inline-block' : 'none';
+
+        if (count === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align:center; padding:28px 12px;">
+                        <span style="color:#10b981; font-size:1.5rem;">✅</span><br>
+                        <span style="color:#94a3b8; font-size:0.95rem; margin-top:6px; display:block;">All caught up — no pending submissions right now.</span>
+                    </td>
+                </tr>`;
+            return;
+        }
+
+        tbody.innerHTML = list.map(item => {
+            const submittedStr = item.createdAt ? new Date(item.createdAt).toLocaleDateString() : 'Unknown';
+            const imgHtml = item.image
+                ? `<img src="${item.image.startsWith('/') ? 'http://localhost:5000' + item.image : item.image}" style="width:60px;height:45px;object-fit:cover;border-radius:5px;border:1px solid #1e293b;" onerror="this.style.display='none'">`
+                : `<span style="color:#94a3b8;font-size:0.72rem;">No image</span>`;
+
+            return `
+                <tr>
+                    <td>
+                        <strong>${item.title}</strong>
+                        <div style="color:#94a3b8;font-size:0.8rem;margin-top:2px;">${item.type.toUpperCase()}</div>
+                    </td>
+                    <td>${imgHtml}</td>
+                    <td>
+                        <div class="creator-info">
+                            <span class="creator-name">${item.creator.name}</span>
+                            <span class="creator-email">${item.creator.email}</span>
+                        </div>
+                    </td>
+                    <td>${submittedStr}</td>
+                    <td><span class="status-pill pending">PENDING</span></td>
+                    <td>
+                        <button class="action-btn btn-edit" style="background: #6366f1;" onclick="openReviewModal('${item.type}', '${item._id}')">Open & Review</button>
+                    </td>
+                </tr>`;
+        }).join('');
+
+    } catch (err) {
+        console.error('Pending approvals load error:', err);
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color: #ef4444;">Network error loading pending approvals.</td></tr>';
+    }
+}
+
+        // Delete from inside the Review Modal
+        async function deleteCurrentReviewItem() {
+            if (!currentReviewItem) return;
+            if (!confirm('Are you sure you want to permanently delete this submission? This cannot be undone.')) return;
+
+            const routeType = currentReviewItem.itemType === 'news' ? 'news' : `${currentReviewItem.itemType}s`;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/admin/submissions/${routeType}/${currentReviewItem._id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    alert('✅ Submission deleted.');
+                    closeReviewModal();
+                    loadPendingApprovals();
+                    loadRepresentativeSubmissions();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to delete'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error while deleting');
+            }
+        }
+
+        let searchDebounceTimer = null;
+        function debounceSubmissionsSearch() {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => {
+                loadRepresentativeSubmissions();
+            }, 300);
+        }
+
+        let currentSubmissionsList = [];
+
+        async function loadRepresentativeSubmissions() {
+    const type = document.getElementById('filterRepType').value;
+    const status = document.getElementById('filterRepStatus').value;
+    const search = document.getElementById('searchRepTitle').value.trim();
+    const tbody = document.getElementById('repSubmissionsTableBody');
+
+    try {
+        const url = new URL('http://localhost:5000/api/admin/submissions');
+        if (type && type !== 'all') url.searchParams.append('type', type);
+        if (status && status !== 'all') url.searchParams.append('status', status);
+        if (search) url.searchParams.append('search', search);
+
+        const res = await fetch(url.toString(), {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            currentSubmissionsList = data.submissions || [];
+            document.getElementById('totalSubmissionsCount').innerText = currentSubmissionsList.length;
+            renderSubmissionsTable(currentSubmissionsList);
+        } else {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color: #ef4444;">Failed to load representative submissions.</td></tr>';
+        }
+    } catch (err) {
+        console.error('Error loading submissions:', err);
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color: #ef4444;">Network error loading representative submissions.</td></tr>';
+    }
+}
+
+        function renderSubmissionsTable(list) {
+            const tbody = document.getElementById('repSubmissionsTableBody');
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #94a3b8; padding: 30px;">No representative submissions found matching criteria.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = list.map(item => {
+                const dateStr = item.date ? new Date(item.date).toLocaleDateString() : new Date(item.createdAt).toLocaleDateString();
+                const routeType = item.type === 'news' ? 'news' : `${item.type}s`;
+
+                // Image thumbnail
+                const imgHtml = item.image
+                    ? `<img src="${item.image.startsWith('/') ? 'http://localhost:5000' + item.image : item.image}" style="width:60px;height:45px;object-fit:cover;border-radius:5px;border:1px solid #1e293b;" onerror="this.style.display='none'">`
+                    : `<span style="color:#94a3b8;font-size:0.72rem;">No image</span>`;
+
+                let actions = `
+                    <button class="action-btn btn-review" onclick="openReviewModal('${item.type}', '${item._id}')">🔍 Open / Review</button>
+                `;
+
+                if (item.status === 'rejected') {
+                    actions += `
+                        <button class="action-btn btn-pending-action" onclick="sendSubToPending('${routeType}', '${item._id}')">↩ Send to Pending</button>
+                    `;
+                }
+
+                actions += `
+                    <button class="action-btn btn-delete" onclick="deleteSubmissionItem('${routeType}', '${item._id}')">Delete</button>
+                `;
+
+                return `
+                    <tr>
+                        <td>${imgHtml}</td>
+                        <td><span class="status-pill" style="background: rgba(30, 41, 59, 0.7); color: #6366f1;">${item.type.toUpperCase()}</span></td>
+                        <td>
+                            <strong>${item.title}</strong>
+                            ${item.rejectionReason ? `
+                                <div style="color: #ef4444; font-size: 0.8rem; margin-top: 4px; background: rgba(239, 68, 68, 0.1); padding: 4px 8px; border-radius: 4px; border-left: 2px solid #ef4444;">
+                                    <strong>Reason:</strong> ${item.rejectionReason}
+                                </div>
+                            ` : ''}
+                        </td>
+                        <td>
+                            <div class="creator-info">
+                                <span class="creator-name">${item.creator.name}</span>
+                                <span class="creator-email">${item.creator.email}</span>
+                            </div>
+                        </td>
+                        <td>${dateStr}</td>
+                        <td><span class="status-pill ${item.status}">${item.status}</span></td>
+                        <td>${actions}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ==================== REVIEW MODAL WORKFLOW ====================
+        let currentReviewItem = null;
+
+        async function openReviewModal(type, id) {
+            const routeType = type === 'news' ? 'news' : `${type}s`;
+            try {
+                // Fetch full content
+                const res = await fetch(`http://localhost:5000/api/admin/content/${routeType}/${id}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (!data.success || !data.item) {
+                    alert('Failed to load submission details');
+                    return;
+                }
+
+                currentReviewItem = { ...data.item, itemType: type };
+
+                // Enforce requirement: MUST open/review before Approve or Reject is available
+                await fetch(`http://localhost:5000/api/admin/submissions/${routeType}/${id}/mark-reviewed`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                currentReviewItem.reviewedByAdmin = true;
+
+                // Populate Modal
+                document.getElementById('revItemId').value = data.item._id;
+                document.getElementById('revItemType').value = type;
+                document.getElementById('revTitle').value = data.item.title || '';
+                document.getElementById('revImageUrl').value = data.item.image || '';
+                document.getElementById('revBody').value = data.item.content || data.item.description || '';
+
+                document.getElementById('revCreatorName').innerText = data.item.createdBy ? data.item.createdBy.name : 'President / Admin';
+                document.getElementById('revCreatorEmail').innerText = data.item.createdBy ? data.item.createdBy.email : 'admin@cuet.ac.bd';
+                document.getElementById('revCreatorRole').innerText = data.item.createdBy ? (data.item.createdBy.role || 'representative') : 'admin';
+                document.getElementById('revContentType').innerText = type.toUpperCase();
+
+                const statusBadge = document.getElementById('revStatusBadge');
+                statusBadge.className = `status-pill ${data.item.status || 'pending'}`;
+                statusBadge.innerText = (data.item.status || 'pending').toUpperCase();
+
+                // Visibility toggles
+                document.getElementById('revDateGroup').style.display = type === 'news' ? 'none' : 'block';
+                document.getElementById('revLocationGroup').style.display = type === 'event' ? 'block' : 'none';
+                document.getElementById('revCapacityGroup').style.display = type === 'event' ? 'block' : 'none';
+                document.getElementById('revPrizeGroup').style.display = type === 'contest' ? 'block' : 'none';
+                document.getElementById('revTeamSizeGroup').style.display = type === 'contest' ? 'block' : 'none';
+
+                if (data.item.date) document.getElementById('revDate').value = data.item.date;
+                if (data.item.location) document.getElementById('revLocation').value = data.item.location;
+                if (data.item.capacity) document.getElementById('revCapacity').value = data.item.capacity;
+                if (data.item.prize) document.getElementById('revPrize').value = data.item.prize;
+                if (data.item.teamSize) document.getElementById('revTeamSize').value = data.item.teamSize;
+
+                // Image preview
+                const previewContainer = document.getElementById('revImagePreview');
+                if (data.item.image) {
+                    const imgUrl = data.item.image.startsWith('http') ? data.item.image : `http://localhost:5000${data.item.image}`;
+                    previewContainer.innerHTML = `<img src="${imgUrl}" style="max-height: 120px; border-radius: 6px; border: 1px solid #1e293b;">`;
+                } else {
+                    previewContainer.innerHTML = '';
+                }
+
+                // Rejection Reason Notice
+                const rejNotice = document.getElementById('revRejectionNotice');
+                const sendPendingBtn = document.getElementById('revSendPendingBtn');
+                if (data.item.status === 'rejected' && data.item.rejectionReason) {
+                    rejNotice.style.display = 'block';
+                    document.getElementById('revRejectionText').innerText = data.item.rejectionReason;
+                    sendPendingBtn.style.display = 'inline-block';
+                } else {
+                    rejNotice.style.display = 'none';
+                    sendPendingBtn.style.display = 'none';
+                }
+
+                // Review Status Notice & Buttons
+                document.getElementById('revReviewNotice').className = 'notice-banner notice-success';
+                document.getElementById('revReviewNotice').innerHTML = `<span>✅ Submission opened and reviewed. Approve and Reject are available.</span>`;
+                document.getElementById('revApproveBtn').disabled = false;
+                document.getElementById('revRejectBtn').disabled = false;
+                document.getElementById('revReviewAgainBtn').style.display = 'none';
+
+                document.getElementById('reviewModal').style.display = 'block';
+
+            } catch (err) {
+                console.error(err);
+                alert('Error opening review modal');
+            }
+        }
+
+        function closeReviewModal() {
+            document.getElementById('reviewModal').style.display = 'none';
+            currentReviewItem = null;
+        }
+
+        // Image change in review modal
+        document.getElementById('revImageFile').addEventListener('change', async (e) => {
+            if (!currentReviewItem) return;
+            const routeType = currentReviewItem.itemType === 'news' ? 'news' : `${currentReviewItem.itemType}s`;
+            const url = await uploadImage(e, routeType, 'revImageUrl');
+        });
+
+        // Save Edits inside Review Modal
+        // RULE: after editing, must Save first -> submission remains Pending Review -> must review again before approval/rejection
+        document.getElementById('reviewEditForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentReviewItem) return;
+
+            const routeType = currentReviewItem.itemType === 'news' ? 'news' : `${currentReviewItem.itemType}s`;
+            const payload = {
+                title: document.getElementById('revTitle').value,
+                image: document.getElementById('revImageUrl').value,
+                date: document.getElementById('revDate').value,
+                location: document.getElementById('revLocation').value,
+                capacity: parseInt(document.getElementById('revCapacity').value) || 0,
+                prize: document.getElementById('revPrize').value,
+                teamSize: document.getElementById('revTeamSize').value,
+                description: document.getElementById('revBody').value,
+                content: document.getElementById('revBody').value
+            };
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/admin/submissions/${routeType}/${currentReviewItem._id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    alert('✅ Submission changes saved! As required, it remains in Pending Review and must be reviewed again before approval or rejection.');
+
+                    currentReviewItem = { ...currentReviewItem, ...payload, reviewedByAdmin: false, status: 'pending' };
+
+                    // Update UI: Enforce review again
+                    document.getElementById('revReviewNotice').className = 'notice-banner notice-warning';
+                    document.getElementById('revReviewNotice').innerHTML = `<span>⚠️ Edits saved! Content must be reviewed again before Approve or Reject is unlocked.</span>`;
+                    document.getElementById('revApproveBtn').disabled = true;
+                    document.getElementById('revRejectBtn').disabled = true;
+                    document.getElementById('revReviewAgainBtn').style.display = 'inline-block';
+
+                    loadRepresentativeSubmissions();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to save edits'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error while saving edits');
+            }
+        });
+
+        async function markCurrentAsReviewedAgain() {
+            if (!currentReviewItem) return;
+            const routeType = currentReviewItem.itemType === 'news' ? 'news' : `${currentReviewItem.itemType}s`;
+            try {
+                await fetch(`http://localhost:5000/api/admin/submissions/${routeType}/${currentReviewItem._id}/mark-reviewed`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                currentReviewItem.reviewedByAdmin = true;
+
+                document.getElementById('revReviewNotice').className = 'notice-banner notice-success';
+                document.getElementById('revReviewNotice').innerHTML = `<span>✅ Submission re-reviewed! Approve and Reject are now unlocked.</span>`;
+                document.getElementById('revApproveBtn').disabled = false;
+                document.getElementById('revRejectBtn').disabled = false;
+                document.getElementById('revReviewAgainBtn').style.display = 'none';
+            } catch (err) {
+                console.error(err);
+                alert('Error marking as reviewed');
+            }
+        }
+
+        async function approveCurrent() {
+            if (!currentReviewItem) return;
+            if (!currentReviewItem.reviewedByAdmin) {
+                alert('You must review the submission before approving.');
+                return;
+            }
+            if (!confirm(`Approve this ${currentReviewItem.itemType} and publish it to the live website?`)) return;
+
+            const routeType = currentReviewItem.itemType === 'news' ? 'news' : `${currentReviewItem.itemType}s`;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/admin/submissions/${routeType}/${currentReviewItem._id}/approve`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    alert('🎉 Submission approved! It is now live on the public website.');
+                    closeReviewModal();
+                    loadAdminData();
+                    loadRepresentativeSubmissions();
+                    loadPendingApprovals();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to approve'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error while approving');
+            }
+        }
+
+        async function promptRejectCurrent() {
+            if (!currentReviewItem) return;
+            if (!currentReviewItem.reviewedByAdmin) {
+                alert('You must review the submission before rejecting.');
+                return;
+            }
+
+            const reason = prompt('Please enter the reason for rejection (this will be visible to the Representative):');
+            if (reason === null) return;
+            if (!reason.trim()) {
+                alert('A rejection reason is required.');
+                return;
+            }
+
+            const routeType = currentReviewItem.itemType === 'news' ? 'news' : `${currentReviewItem.itemType}s`;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/admin/submissions/${routeType}/${currentReviewItem._id}/reject`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ reason: reason.trim() })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    alert('✅ Submission rejected with reason provided');
+                    closeReviewModal();
+                    loadAdminData();
+                    loadRepresentativeSubmissions();
+                    loadPendingApprovals();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to reject'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error while rejecting');
+            }
+        }
+
+        async function sendCurrentToPending() {
+            if (!currentReviewItem) return;
+            const routeType = currentReviewItem.itemType === 'news' ? 'news' : `${currentReviewItem.itemType}s`;
+            await sendSubToPending(routeType, currentReviewItem._id);
+            closeReviewModal();
+        }
+
+        async function sendSubToPending(type, id) {
+            if (!confirm('Send this rejected submission back to Pending Review? Rejection reason will remain visible.')) return;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/admin/submissions/${type}/${id}/send-to-pending`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    alert('✅ Submission returned to Pending Review');
+                    loadRepresentativeSubmissions();
+                    loadPendingApprovals();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error');
+            }
+        }
+
+        async function deleteSubmissionItem(type, id) {
+            if (!confirm('Are you sure you want to delete this submission?')) return;
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/admin/submissions/${type}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    alert('✅ Submission deleted');
+                    loadAdminData();
+                    loadRepresentativeSubmissions();
+                    loadPendingApprovals();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to delete'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error while deleting');
+            }
+        }
+
+        // ==================== APPROVED CONTENT STAGING & PUBLISHING ====================
+        let currentStagingItem = null;
+
+        async function openStageModal(type, id) {
+            const routeType = type === 'news' ? 'news' : `${type}s`;
+            try {
+                const res = await fetch(`http://localhost:5000/api/admin/content/${routeType}/${id}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (!data.success || !data.item) {
+                    alert('Failed to load item');
+                    return;
+                }
+
+                currentStagingItem = { ...data.item, itemType: type };
+
+                // If draftChanges exists, pre-fill with draft changes, else live values
+                const source = data.item.draftChanges || data.item;
+
+                document.getElementById('stageItemId').value = data.item._id;
+                document.getElementById('stageItemType').value = type;
+                document.getElementById('stageTitle').value = source.title || '';
+                document.getElementById('stageImageUrl').value = source.image || '';
+                document.getElementById('stageBody').value = source.content || source.description || '';
+
+                document.getElementById('stageDateGroup').style.display = type === 'news' ? 'none' : 'block';
+                document.getElementById('stageLocationGroup').style.display = type === 'event' ? 'block' : 'none';
+                document.getElementById('stageCapacityGroup').style.display = type === 'event' ? 'block' : 'none';
+                document.getElementById('stagePrizeGroup').style.display = type === 'contest' ? 'block' : 'none';
+                document.getElementById('stageTeamSizeGroup').style.display = type === 'contest' ? 'block' : 'none';
+
+                if (source.date) document.getElementById('stageDate').value = source.date;
+                if (source.location) document.getElementById('stageLocation').value = source.location;
+                if (source.capacity) document.getElementById('stageCapacity').value = source.capacity;
+                if (source.prize) document.getElementById('stagePrize').value = source.prize;
+                if (source.teamSize) document.getElementById('stageTeamSize').value = source.teamSize;
+
+                document.getElementById('stageModal').style.display = 'block';
+
+            } catch (err) {
+                console.error(err);
+                alert('Error loading content for staging');
+            }
+        }
+
+        function closeStageModal() {
+            document.getElementById('stageModal').style.display = 'none';
+            currentStagingItem = null;
+        }
+
+        // Image upload for stage modal
+        document.getElementById('stageImageFile').addEventListener('change', async (e) => {
+            if (!currentStagingItem) return;
+            const routeType = currentStagingItem.itemType === 'news' ? 'news' : `${currentStagingItem.itemType}s`;
+            await uploadImage(e, routeType, 'stageImageUrl');
+        });
+
+        // Save stage edit as draft
+        document.getElementById('stageEditForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentStagingItem) return;
+
+            const routeType = currentStagingItem.itemType === 'news' ? 'news' : `${currentStagingItem.itemType}s`;
+            const payload = {
+                title: document.getElementById('stageTitle').value,
+                image: document.getElementById('stageImageUrl').value,
+                date: document.getElementById('stageDate').value,
+                location: document.getElementById('stageLocation').value,
+                capacity: parseInt(document.getElementById('stageCapacity').value) || 0,
+                prize: document.getElementById('stagePrize').value,
+                teamSize: document.getElementById('stageTeamSize').value,
+                description: document.getElementById('stageBody').value,
+                content: document.getElementById('stageBody').value
+            };
+
+            try {
+                const res = await fetch(`http://localhost:5000/api/admin/content/${routeType}/${currentStagingItem._id}/stage-edit`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    alert('✅ Changes saved as draft! The public continues to see the old version until you click "Publish Changes".');
+                    closeStageModal();
+                    loadAdminData();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to save draft'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error while staging edits');
+            }
+        });
+
+        // Open Review Changes & Publish Modal
+        let currentPublishItem = null;
+
+        async function openPublishModal(type, id) {
+            const routeType = type === 'news' ? 'news' : `${type}s`;
+            try {
+                const res = await fetch(`http://localhost:5000/api/admin/content/${routeType}/${id}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (!data.success || !data.item || !data.item.draftChanges) {
+                    alert('No staged changes found');
+                    return;
+                }
+
+                currentPublishItem = { ...data.item, itemType: type };
+                const live = data.item;
+                const draft = data.item.draftChanges;
+
+                const container = document.getElementById('publishDiffContainer');
+                container.innerHTML = `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div style="background: rgba(30, 41, 59, 0.7); padding: 15px; border-radius: 8px; border: 1px solid #1e293b;">
+                            <h4 style="color: #94a3b8; margin-top: 0; border-bottom: 1px solid #1e293b; padding-bottom: 6px;">🌐 CURRENT PUBLIC VERSION</h4>
+                            <p><strong>Title:</strong> ${live.title}</p>
+                            ${live.date ? `<p><strong>Date:</strong> ${new Date(live.date).toLocaleDateString()}</p>` : ''}
+                            ${live.location ? `<p><strong>Location:</strong> ${live.location}</p>` : ''}
+                            ${live.prize ? `<p><strong>Prize:</strong> ${live.prize}</p>` : ''}
+                            <p><strong>Overview:</strong> ${(live.description || live.content || '').substring(0, 150)}...</p>
+                        </div>
+
+                        <div style="background: rgba(16, 185, 129, 0.08); padding: 15px; border-radius: 8px; border: 1px solid #10b981;">
+                            <h4 style="color: #10b981; margin-top: 0; border-bottom: 1px solid rgba(16, 185, 129, 0.3); padding-bottom: 6px;">✨ NEW STAGED VERSION (READY TO PUBLISH)</h4>
+                            <p><strong>Title:</strong> ${draft.title || live.title}</p>
+                            ${draft.date ? `<p><strong>Date:</strong> ${new Date(draft.date).toLocaleDateString()}</p>` : ''}
+                            ${draft.location ? `<p><strong>Location:</strong> ${draft.location}</p>` : ''}
+                            ${draft.prize ? `<p><strong>Prize:</strong> ${draft.prize}</p>` : ''}
+                            <p><strong>Overview:</strong> ${(draft.description || draft.content || '').substring(0, 150)}...</p>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('publishModal').style.display = 'block';
+
+            } catch (err) {
+                console.error(err);
+                alert('Error loading diff preview');
+            }
+        }
+
+        function closePublishModal() {
+            document.getElementById('publishModal').style.display = 'none';
+            currentPublishItem = null;
+        }
+
+        async function publishCurrentDraft() {
+            if (!currentPublishItem) return;
+            if (!confirm('Publish these staged changes live to the public website?')) return;
+
+            const routeType = currentPublishItem.itemType === 'news' ? 'news' : `${currentPublishItem.itemType}s`;
+
+            try {
+                const res = await fetch(`http://localhost:5000/api/admin/content/${routeType}/${currentPublishItem._id}/publish-edit`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    alert('🎉 Changes published live successfully!');
+                    closePublishModal();
+                    loadAdminData();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to publish changes'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error while publishing draft');
+            }
+        }
+
+        async function discardCurrentDraft() {
+            if (!currentPublishItem) return;
+            if (!confirm('Discard all staged draft changes? This cannot be undone.')) return;
+
+            const routeType = currentPublishItem.itemType === 'news' ? 'news' : `${currentPublishItem.itemType}s`;
+
+            try {
+                const res = await fetch(`http://localhost:5000/api/admin/content/${routeType}/${currentPublishItem._id}/discard-edit`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    alert('✅ Draft changes discarded');
+                    closePublishModal();
+                    loadAdminData();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to discard draft'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error while discarding draft');
+            }
+        }
+
+        // ==================== LOAD ALL ADMIN DATA ====================
+
+        async function loadAdminData() {
+    // 1. Load Users
+    try {
+        const tbody = document.getElementById('usersTableBody');
+        const userRes = await fetch('http://localhost:5000/api/admin/users', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const userData = await userRes.json();
+
+        if (userData.success) {
+            document.getElementById('statMembers').innerText = userData.users.length || 0;
+            if (userData.users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #94a3b8;">No users found.</td></tr>';
+            } else {
+                tbody.innerHTML = userData.users.map(u => {
+                    let roleButtons = '';
+                    if (u.role === 'member') {
+                        roleButtons = `
+                            <button class="action-btn btn-promote" onclick="promoteToRep('${u._id}')">Make Rep</button>
+                            <button class="action-btn" style="background: #6366f1;" onclick="promoteUser('${u._id}')">Make Admin</button>
+                        `;
+                    } else if (u.role === 'representative') {
+                        roleButtons = `
+                            <button class="action-btn" style="background: #f59e0b;" onclick="demoteToMember('${u._id}')">Make Member</button>
+                            <button class="action-btn" style="background: #6366f1;" onclick="promoteUser('${u._id}')">Make Admin</button>
+                        `;
+                    }
+                    return `
+                        <tr>
+                            <td>${u.name}</td>
+                            <td>${u.email}</td>
+                            <td>
+                                <span class="status-pill" style="${u.role === 'admin' ? 'background: rgba(30, 41, 59, 0.7); color: #6366f1; border: 1px solid #6366f1;' : (u.role === 'representative' ? 'background: rgba(30, 41, 59, 0.7); color: var(--secondary-color); border: 1px solid var(--secondary-color);' : '')}">
+                                    ${u.role}
+                                </span>
+                            </td>
+                            <td>
+                                ${roleButtons}
+                                <button class="action-btn btn-delete" onclick="deleteUser('${u._id}')">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+        } else {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #ef4444;">Failed to load users.</td></tr>';
+        }
+    } catch (err) {
+        console.error('Error loading users:', err);
+        document.getElementById('usersTableBody').innerHTML = '<tr><td colspan="4" style="text-align:center; color: #ef4444;">Network error loading users.</td></tr>';
+    }
+
+    // 2. Load Events (Admin View)
+    try {
+        const tbody = document.getElementById('eventsTableBody');
+        const eventRes = await fetch('http://localhost:5000/api/admin/submissions?type=events&status=all', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const eventData = await eventRes.json();
+
+        if (eventData.success) {
+            const events = eventData.submissions || [];
+            document.getElementById('statEvents').innerText = events.filter(e => e.status === 'approved').length;
+            if (events.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #94a3b8;">No events found.</td></tr>';
+            } else {
+                tbody.innerHTML = events.map(e => `
+                    <tr>
+                        <td>
+                            <strong>${e.title}</strong>
+                            ${e.draftChanges ? `<div style="margin-top: 4px;"><span class="status-pill staged">Draft Staged</span></div>` : ''}
+                        </td>
+                        <td>${e.date ? new Date(e.date).toLocaleDateString() : 'TBA'}</td>
+                        <td>${e.location || 'TBA'}</td>
+                        <td>
+                            <button class="action-btn btn-edit" style="background: #6366f1;" onclick="openStageModal('event', '${e._id}')">Edit</button>
+                            ${e.draftChanges ? `<button class="action-btn btn-publish" onclick="openPublishModal('event', '${e._id}')">Review & Publish</button>` : ''}
+                            <button class="action-btn btn-delete" onclick="deleteSubmissionItem('events', '${e._id}')">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        } else {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #ef4444;">Failed to load events.</td></tr>';
+        }
+    } catch (err) {
+        console.error('Error loading events:', err);
+        document.getElementById('eventsTableBody').innerHTML = '<tr><td colspan="4" style="text-align:center; color: #ef4444;">Network error loading events.</td></tr>';
+    }
+
+    // 3. Load Contests (Admin View)
+    try {
+        const tbody = document.getElementById('contestsTableBody');
+        const contestRes = await fetch('http://localhost:5000/api/admin/submissions?type=contests&status=all', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const contestData = await contestRes.json();
+
+        if (contestData.success) {
+            const contests = contestData.submissions || [];
+            document.getElementById('statContests').innerText = contests.filter(c => c.status === 'approved').length;
+            if (contests.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #94a3b8;">No contests found.</td></tr>';
+            } else {
+                tbody.innerHTML = contests.map(c => `
+                    <tr>
+                        <td>
+                            <strong>${c.title}</strong>
+                            ${c.draftChanges ? `<div style="margin-top: 4px;"><span class="status-pill staged">Draft Staged</span></div>` : ''}
+                        </td>
+                        <td>${c.date ? new Date(c.date).toLocaleDateString() : 'TBA'}</td>
+                        <td>${c.prize || 'TBA'}</td>
+                        <td>
+                            <button class="action-btn btn-edit" style="background: #6366f1;" onclick="openStageModal('contest', '${c._id}')">Edit</button>
+                            ${c.draftChanges ? `<button class="action-btn btn-publish" onclick="openPublishModal('contest', '${c._id}')">Review & Publish</button>` : ''}
+                            <button class="action-btn btn-delete" onclick="deleteSubmissionItem('contests', '${c._id}')">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        } else {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #ef4444;">Failed to load contests.</td></tr>';
+        }
+    } catch (err) {
+        console.error('Error loading contests:', err);
+        document.getElementById('contestsTableBody').innerHTML = '<tr><td colspan="4" style="text-align:center; color: #ef4444;">Network error loading contests.</td></tr>';
+    }
+
+    // 4. Load News (Admin View)
+    try {
+        const tbody = document.getElementById('newsTableBody');
+        const newsRes = await fetch('http://localhost:5000/api/admin/submissions?type=news&status=all', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const newsData = await newsRes.json();
+
+        if (newsData.success) {
+            const newsList = newsData.submissions || [];
+            if (newsList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #94a3b8;">No news found.</td></tr>';
+            } else {
+                tbody.innerHTML = newsList.map(n => `
+                    <tr>
+                        <td>
+                            <strong>${n.title}</strong>
+                            ${n.draftChanges ? `<div style="margin-top: 4px;"><span class="status-pill staged">Draft Staged</span></div>` : ''}
+                        </td>
+                        <td>${n.createdAt ? new Date(n.createdAt).toLocaleDateString() : 'Unknown'}</td>
+                        <td><span class="status-pill ${n.status}">${n.status}</span></td>
+                        <td>
+                            <button class="action-btn btn-edit" style="background: #6366f1;" onclick="openStageModal('news', '${n._id}')">Edit</button>
+                            ${n.draftChanges ? `<button class="action-btn btn-publish" onclick="openPublishModal('news', '${n._id}')">Review & Publish</button>` : ''}
+                            <button class="action-btn btn-delete" onclick="deleteSubmissionItem('news', '${n._id}')">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        } else {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #ef4444;">Failed to load news.</td></tr>';
+        }
+    } catch (err) {
+        console.error('Error loading news:', err);
+        document.getElementById('newsTableBody').innerHTML = '<tr><td colspan="4" style="text-align:center; color: #ef4444;">Network error loading news.</td></tr>';
+    }
+
+    // 5. Load Representative Submissions & Pending Approvals
+    loadRepresentativeSubmissions();
+    loadPendingApprovals();
+    loadAdminEventRegistrations();
+    loadAdminContestRegistrations();
+}
+
+// ==================== LOAD EVENT REGISTRATIONS ====================
+async function loadAdminEventRegistrations() {
+    try {
+        const tbody = document.getElementById('eventRegTableBody');
+        const res = await fetch('http://localhost:5000/api/event-registration/admin/all', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            const regs = data.registrations || [];
+            if (regs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color: #94a3b8;">No event registrations found.</td></tr>';
+            } else {
+                tbody.innerHTML = regs.map(reg => `
+                    <tr>
+                        <td>
+                            <strong>${reg.fullName}</strong><br>
+                            <span style="font-size: 0.85rem; color: #94a3b8;">${reg.email}</span>
+                        </td>
+                        <td>${reg.eventId ? reg.eventId.title : 'Unknown Event'}</td>
+                        <td>৳${reg.registrationFeeSnapshot || 0}</td>
+                        <td>
+                            <span class="status-pill ${reg.paymentStatus}">${reg.paymentStatus.toUpperCase()}</span>
+                        </td>
+                        <td>
+                            ${reg.paymentGateway ? `${reg.paymentGateway}<br>` : ''}
+                            <code style="font-size: 0.85rem;">${reg.transactionId || '-'}</code>
+                        </td>
+                        <td><span class="status-pill ${reg.registrationStatus}">${reg.registrationStatus.toUpperCase()}</span></td>
+                        <td>
+                            ${reg.paymentStatus === 'pending' ? `
+                                <button class="action-btn btn-promote" onclick="verifyEventPayment('${reg._id}')">Verify</button>
+                                <button class="action-btn btn-delete" onclick="rejectEventPayment('${reg._id}')" style="margin-top: 5px;">Reject</button>
+                            ` : ''}
+                            ${reg.paymentStatus === 'confirmed' ? `<span style="color: #10b981;">Confirmed ✅</span>` : ''}
+                            ${reg.paymentStatus === 'not_required' ? `<span style="color: #94a3b8;">Not Required</span>` : ''}
+                            ${reg.paymentStatus === 'rejected' ? `<span style="color: #ef4444;">Rejected ❌</span>` : ''}
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+    } catch (error) {
+        console.error('Error loading event registrations:', error);
+    }
+}
+
+// ==================== LOAD CONTEST REGISTRATIONS ====================
+async function loadAdminContestRegistrations() {
+    try {
+        const tbody = document.getElementById('contestRegTableBody');
+        const res = await fetch('http://localhost:5000/api/contest-registration/admin/all', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            const regs = data.registrations || [];
+            if (regs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color: #94a3b8;">No contest registrations found.</td></tr>';
+            } else {
+                tbody.innerHTML = regs.map(reg => `
+                    <tr>
+                        <td>
+                            <strong>${reg.teamName}</strong><br>
+                            <span style="font-size: 0.85rem; color: #94a3b8;">${reg.leadEmail}</span>
+                        </td>
+                        <td>${reg.contestId ? reg.contestId.title : 'Unknown Contest'}</td>
+                        <td>৳${reg.registrationFeeSnapshot || 0}</td>
+                        <td>
+                            <span class="status-pill ${reg.paymentStatus}">${reg.paymentStatus.toUpperCase()}</span>
+                        </td>
+                        <td>
+                            ${reg.paymentGateway ? `${reg.paymentGateway}<br>` : ''}
+                            <code style="font-size: 0.85rem;">${reg.transactionId || '-'}</code>
+                        </td>
+                        <td><span class="status-pill ${reg.registrationStatus}">${reg.registrationStatus.toUpperCase()}</span></td>
+                        <td>
+                            ${reg.paymentStatus === 'pending' ? `
+                                <button class="action-btn btn-promote" onclick="verifyContestPayment('${reg._id}')">Verify</button>
+                                <button class="action-btn btn-delete" onclick="rejectContestPayment('${reg._id}')" style="margin-top: 5px;">Reject</button>
+                            ` : ''}
+                            ${reg.paymentStatus === 'confirmed' ? `<span style="color: #10b981;">Confirmed ✅</span>` : ''}
+                            ${reg.paymentStatus === 'not_required' ? `<span style="color: #94a3b8;">Not Required</span>` : ''}
+                            ${reg.paymentStatus === 'rejected' ? `<span style="color: #ef4444;">Rejected ❌</span>` : ''}
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+    } catch (error) {
+        console.error('Error loading contest registrations:', error);
+    }
+}
+
+// ==================== ACTIONS: VERIFY / REJECT ====================
+
+async function verifyEventPayment(id) {
+    if (!confirm('Are you sure you want to verify this payment?')) return;
+    try {
+        const res = await fetch(`http://localhost:5000/api/event-registration/admin/verify-payment/${id}`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.success) {
+            alert('✅ Payment verified');
+            loadAdminEventRegistrations();
+        } else {
+            alert('❌ ' + data.message);
+        }
+    } catch (e) {
+        alert('Server error');
+    }
+}
+
+async function rejectEventPayment(id) {
+    const reason = prompt('Please enter the reason for rejection:');
+    if (!reason) return;
+    try {
+        const res = await fetch(`http://localhost:5000/api/event-registration/admin/reject-payment/${id}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ reason })
+        });
+        const data = await res.json();
+        if (data.success) {
+            alert('✅ Payment rejected');
+            loadAdminEventRegistrations();
+        } else {
+            alert('❌ ' + data.message);
+        }
+    } catch (e) {
+        alert('Server error');
+    }
+}
+
+async function verifyContestPayment(id) {
+    if (!confirm('Are you sure you want to verify this payment?')) return;
+    try {
+        const res = await fetch(`http://localhost:5000/api/contest-registration/admin/verify-payment/${id}`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (data.success) {
+            alert('✅ Payment verified');
+            loadAdminContestRegistrations();
+        } else {
+            alert('❌ ' + data.message);
+        }
+    } catch (e) {
+        alert('Server error');
+    }
+}
+
+async function rejectContestPayment(id) {
+    const reason = prompt('Please enter the reason for rejection:');
+    if (!reason) return;
+    try {
+        const res = await fetch(`http://localhost:5000/api/contest-registration/admin/reject-payment/${id}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ reason })
+        });
+        const data = await res.json();
+        if (data.success) {
+            alert('✅ Payment rejected');
+            loadAdminContestRegistrations();
+        } else {
+            alert('❌ ' + data.message);
+        }
+    } catch (e) {
+        alert('Server error');
+    }
+}
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAdminData();
+        });
+    </script>
+
+    
+
+    </body>
+</html>
+

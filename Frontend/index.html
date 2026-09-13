@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CUET Computer Club</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="./js/contests.js"></script>
+    </head>
+<body>
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <!-- Logo/Brand -->
+            <div class="navbar-brand">
+                <a href="#home" class="logo">
+                       <img src="assert/cuet_logo.png" alt="CUET Computer Club Logo" class="logo-icon">
+                    <span class="logo-text">CUET Computer Club</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- Navigation Links -->
+            <!-- <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#events" class="nav-link">Events</a></li>
+                <li><a href="#contests" class="nav-link">Contests</a></li>
+                <li><a href="#news" class="nav-link">News</a></li>
+                <li><a href="#team" class="nav-link">Team</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="login.html" class="nav-link btn-login">Login</a></li>
+            </ul> -->
+
+
+
+   
+                        <!-- Navigation Links -->
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#events" class="nav-link">Events</a></li>
+                <li><a href="#contests" class="nav-link">Contests</a></li>
+                <li><a href="#news" class="nav-link">News</a></li>
+                <li><a href="#team" class="nav-link">Team</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                
+                <!-- NEW: Dynamic Auth Items -->
+                <li id="login-nav-item">
+                    <a href="login.html" class="nav-link btn-login">Login</a>
+                </li>
+                <li id="profile-nav-item" style="display: none;">
+                    <a href="member_dashboard.html" id="profile-link" class="nav-link btn-profile">
+                        <span class="profile-icon">👤</span> 
+                        <span id="nav-user-name">Profile</span>
+                    </a>
+                </li>
+            </ul>
+
+
+
+
+
+
+        </div>
+    </nav>
+
+    <!-- ==================== HOME SECTION ==================== -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <!-- Main Heading -->
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Welcome to <span class="gradient-text">CUET Computer Club</span>
+                </h1>
+                <p class="hero-subtitle">
+        
+                </p>
+                <p class="hero-description">
+                    Join our community of passionate developers, designers, and tech enthusiasts. 
+                    Learn, build, and grow together.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="hero-buttons">
+                    <a href="signup.html" class="btn btn-primary">Join Us Now</a>
+                    <a href="#about" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Animated Background Shape -->
+            <div class="hero-visual">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+            </div>
+        </div>
+
+        <!-- Live Stats Section -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value" data-count="450">0</div>
+                <div class="stat-label">Total Members</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🌐</div>
+                <div class="stat-value" data-count="128">0</div>
+                <div class="stat-label">Connected Users</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-value" data-count="89">0</div>
+                <div class="stat-label">Certified Members</div>
+            </div>
+        </div>
+
+        <!-- Scroll Down Indicator -->
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT SECTION (WHAT WE DO) ==================== -->
+    <section class="about" id="about">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">What We Do</h2>
+                <p class="section-subtitle">Explore our core activities and programs</p>
+            </div>
+
+            <!-- Activity Cards -->
+            <div class="activities-grid">
+                <!-- Card 1: Programming -->
+                <div class="activity-card">
+                    <div class="card-icon">💬</div>
+                    <h3 class="card-title">Programming</h3>
+                    <p class="card-description">
+                        Master multiple programming languages including Python, JavaScript, C++, and Java. 
+                        Learn best practices, algorithms, and data structures.
+                    </p>
+                    <ul class="card-features">
+                        <li>Weekly coding challenges</li>
+                        <li>Hands-on projects</li>
+                        <li>Code review sessions</li>
+                    </ul>
+                </div>
+
+                <!-- Card 2: Workshops -->
+                <div class="activity-card">
+                    <div class="card-icon">🎓</div>
+                    <h3 class="card-title">Workshops</h3>
+                    <p class="card-description">
+                        Attend expert-led workshops on emerging technologies like Web Development, 
+                        AI/ML, Cloud Computing, and Mobile Development.
+                    </p>
+                    <ul class="card-features">
+                        <li>Expert instructors</li>
+                        <li>Live coding sessions</li>
+                        <li>Q&A opportunities</li>
+                    </ul>
+                </div>
+
+                <!-- Card 3: Contests -->
+                <div class="activity-card">
+                    <div class="card-icon">🏅</div>
+                    <h3 class="card-title">Contests</h3>
+                    <p class="card-description">
+                        Participate in exciting coding competitions and hackathons. 
+                        Compete with peers, win prizes, and build your portfolio.
+                    </p>
+                    <ul class="card-features">
+                        <li>Monthly contests</li>
+                        <li>Prize pool</li>
+                        <li>Portfolio building</li>
+                    </ul>
+                </div>
+
+                <!-- Card 4: Networking -->
+                <div class="activity-card">
+                    <div class="card-icon">🤝</div>
+                    <h3 class="card-title">Networking</h3>
+                    <p class="card-description">
+                        Connect with industry professionals, alumni, and fellow tech enthusiasts. 
+                        Build meaningful relationships and explore career opportunities.
+                    </p>
+                    <ul class="card-features">
+                        <li>Industry meetups</li>
+                        <li>Alumni talks</li>
+                        <li>Mentorship program</li>
+                    </ul>
+                </div>
+
+                <!-- Card 5: Projects -->
+                <div class="activity-card">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">Projects</h3>
+                    <p class="card-description">
+                        Collaborate on real-world projects and contribute to open-source. 
+                        Build applications that make an impact.
+                    </p>
+                    <ul class="card-features">
+                        <li>Team collaboration</li>
+                        <li>Open-source contrib</li>
+                        <li>Real-world apps</li>
+                    </ul>
+                </div>
+
+                <!-- Card 6: Community -->
+                <div class="activity-card">
+                    <div class="card-icon">💡</div>
+                    <h3 class="card-title">Community</h3>
+                    <p class="card-description">
+                        Join a vibrant community of tech lovers. Share knowledge, help each other grow, 
+                        and celebrate achievements together.
+                    </p>
+                    <ul class="card-features">
+                        <li>Slack community</li>
+                        <li>Knowledge sharing</li>
+                        <li>Social events</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ==================== EVENTS SECTION ==================== -->
+<section class="events" id="events">
+    <div class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">Past Events</h2>
+            <p class="section-subtitle">Check out what we've accomplished</p>
+        </div>
+
+        <!-- Events Grid - Will be filled dynamically -->
+        <div class="events-grid" id="eventsContainer">
+            <p style="text-align: center; color: #94a3b8; padding: 40px; grid-column: 1/-1;">Loading events...</p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== UPCOMING CONTESTS SECTION ==================== -->
+<section class="contests" id="contests">
+    <div class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">Upcoming Contests</h2>
+            <p class="section-subtitle">Participate and showcase your skills</p>
+        </div>
+
+        <!-- Contests Grid - Will be filled dynamically -->
+        <div class="contests-grid" id="contestsContainer">
+            <p style="text-align: center; color: #94a3b8; padding: 40px; grid-column: 1/-1;">Loading contests...</p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== NEWS & MEDIA SECTION ==================== -->
+<section class="news" id="news">
+    <div class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">News & Media</h2>
+            <p class="section-subtitle">Latest updates from Tech Club</p>
+        </div>
+
+        <!-- News Grid - Will be filled dynamically -->
+        <div class="news-grid" id="newsContainer">
+            <p style="text-align: center; color: #94a3b8; padding: 40px; grid-column: 1/-1;">Loading news...</p>
+        </div>
+    </div>
+</section>
+
+
+    
+
+    <!-- ==================== EXECUTIVE TEAM SECTION ==================== -->
+
+<!-- ==================== EXECUTIVE TEAM SECTION ==================== -->
+<section class="team" id="team">
+    <div class="section-container">
+        <div class="section-header">
+            <h2 class="section-title">Our Executive Team</h2>
+            <p class="section-subtitle">Meet the leaders driving our club</p>
+        </div>
+
+        <!-- Team Grid -->
+        <div class="team-grid">
+            <!-- Team Member 1 - President -->
+            <div class="team-card">
+                <div class="member-image-wrapper">
+                    <img src="assert/president.jpg" alt="Alex Johnson" class="member-image">
+                    <div class="member-overlay">
+                        
+                        <div class="member-socials">
+                            <a href="#" class="social-link" title="LinkedIn" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                            <a href="#" class="social-link" title="GitHub" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                            <a href="#" class="social-link" title="Website/Portfolio" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 16.057v-3.057h2.994c-.059 1.143-.212 2.24-.456 3.279-.823-.12-1.674-.188-2.538-.222zm1.976-5.957h-2.976v-3.057c.864-.034 1.715-.102 2.538-.222.244 1.039.397 2.136.456 3.279zm-4.976-3.057v3.057h-2.994c.059-1.143.212-2.24.456-3.279.823.12 1.674.188 2.538.222zm-2.976 5.957h2.976v3.057c-.864.034-1.715.102-2.538.222-.244-1.039-.397-2.136-.456-3.279zm-4.004-3.957c.138-2.313.805-4.472 1.836-6.33 1.137 1.01 2.457 1.802 3.882 2.308-1.921 1.012-3.327 2.378-3.992 4.022h-1.726zm0 1.914h1.726c.665 1.644 2.071 3.01 3.992 4.022-1.425.506-2.745 1.298-3.882 2.308-1.031-1.858-1.698-4.017-1.836-6.33zm14.168-6.33c1.031 1.858 1.698 4.017 1.836 6.33h-1.726c-.665-1.644-2.071-3.01-3.992-4.022 1.425-.506 2.745-1.298 3.882-2.308zm1.836 8.244c-.138 2.313-.805 4.472-1.836 6.33-1.137-1.01-2.457-1.802-3.882-2.308 1.921-1.012 3.327-2.378 3.992-4.022h1.726z"/></svg></a>
+                            <a href="#" class="social-link" title="Email" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/></svg></a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Adil Raihan</h3>
+                    <p class="member-role">Club President</p>
+                    <p class="member-bio">
+                        Passionate full-stack developer with 3+ years of experience. Leads the club's vision and strategy.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Team Member 2 - Vice President -->
+            <div class="team-card">
+                <div class="member-image-wrapper">
+                    <img src="assert/vice_president.jpg" alt="Sarah Chen" class="member-image">
+                    <div class="member-overlay">
+                        
+                        <div class="member-socials">
+                            <a href="#" class="social-link" title="LinkedIn" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                            <a href="#" class="social-link" title="GitHub" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                            <a href="#" class="social-link" title="Website/Portfolio" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 16.057v-3.057h2.994c-.059 1.143-.212 2.24-.456 3.279-.823-.12-1.674-.188-2.538-.222zm1.976-5.957h-2.976v-3.057c.864-.034 1.715-.102 2.538-.222.244 1.039.397 2.136.456 3.279zm-4.976-3.057v3.057h-2.994c.059-1.143.212-2.24.456-3.279.823.12 1.674.188 2.538.222zm-2.976 5.957h2.976v3.057c-.864.034-1.715.102-2.538.222-.244-1.039-.397-2.136-.456-3.279zm-4.004-3.957c.138-2.313.805-4.472 1.836-6.33 1.137 1.01 2.457 1.802 3.882 2.308-1.921 1.012-3.327 2.378-3.992 4.022h-1.726zm0 1.914h1.726c.665 1.644 2.071 3.01 3.992 4.022-1.425.506-2.745 1.298-3.882 2.308-1.031-1.858-1.698-4.017-1.836-6.33zm14.168-6.33c1.031 1.858 1.698 4.017 1.836 6.33h-1.726c-.665-1.644-2.071-3.01-3.992-4.022 1.425-.506 2.745-1.298 3.882-2.308zm1.836 8.244c-.138 2.313-.805 4.472-1.836 6.33-1.137-1.01-2.457-1.802-3.882-2.308 1.921-1.012 3.327-2.378 3.992-4.022h1.726z"/></svg></a>
+                            <a href="#" class="social-link" title="Email" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/></svg></a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Madiha Ahmed Chowdhury</h3>
+                    <p class="member-role">Vice President</p>
+                    <p class="member-bio">
+                        UI/UX designer and frontend specialist. Organizes workshops and community events.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Team Member 3 - Technical Lead -->
+            <div class="team-card">
+                <div class="member-image-wrapper">
+                    <img src="assert/general sec.jpg" alt="Mike Patel" class="member-image">
+                    <div class="member-overlay">
+                        
+                        <div class="member-socials">
+                            <a href="#" class="social-link" title="LinkedIn" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                            <a href="#" class="social-link" title="GitHub" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                            <a href="#" class="social-link" title="Website/Portfolio" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 16.057v-3.057h2.994c-.059 1.143-.212 2.24-.456 3.279-.823-.12-1.674-.188-2.538-.222zm1.976-5.957h-2.976v-3.057c.864-.034 1.715-.102 2.538-.222.244 1.039.397 2.136.456 3.279zm-4.976-3.057v3.057h-2.994c.059-1.143.212-2.24.456-3.279.823.12 1.674.188 2.538.222zm-2.976 5.957h2.976v3.057c-.864.034-1.715.102-2.538.222-.244-1.039-.397-2.136-.456-3.279zm-4.004-3.957c.138-2.313.805-4.472 1.836-6.33 1.137 1.01 2.457 1.802 3.882 2.308-1.921 1.012-3.327 2.378-3.992 4.022h-1.726zm0 1.914h1.726c.665 1.644 2.071 3.01 3.992 4.022-1.425.506-2.745 1.298-3.882 2.308-1.031-1.858-1.698-4.017-1.836-6.33zm14.168-6.33c1.031 1.858 1.698 4.017 1.836 6.33h-1.726c-.665-1.644-2.071-3.01-3.992-4.022 1.425-.506 2.745-1.298 3.882-2.308zm1.836 8.244c-.138 2.313-.805 4.472-1.836 6.33-1.137-1.01-2.457-1.802-3.882-2.308 1.921-1.012 3.327-2.378 3.992-4.022h1.726z"/></svg></a>
+                            <a href="#" class="social-link" title="Email" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/></svg></a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Fahim Ferdous</h3>
+                    <p class="member-role">Genral Secretary</p>
+                    <p class="member-bio">
+                        Backend expert and ML enthusiast. Guides technical projects and mentors junior members.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Team Member 4 - Events Manager -->
+            <div class="team-card">
+                <div class="member-image-wrapper">
+                    <img src="assert/Vice_president(prog).jpg" alt="Emma Davis" class="member-image">
+                    <div class="member-overlay">
+                        
+                        <div class="member-socials">
+                            <a href="#" class="social-link" title="LinkedIn" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                            <a href="#" class="social-link" title="GitHub" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                            <a href="#" class="social-link" title="Website/Portfolio" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 16.057v-3.057h2.994c-.059 1.143-.212 2.24-.456 3.279-.823-.12-1.674-.188-2.538-.222zm1.976-5.957h-2.976v-3.057c.864-.034 1.715-.102 2.538-.222.244 1.039.397 2.136.456 3.279zm-4.976-3.057v3.057h-2.994c.059-1.143.212-2.24.456-3.279.823.12 1.674.188 2.538.222zm-2.976 5.957h2.976v3.057c-.864.034-1.715.102-2.538.222-.244-1.039-.397-2.136-.456-3.279zm-4.004-3.957c.138-2.313.805-4.472 1.836-6.33 1.137 1.01 2.457 1.802 3.882 2.308-1.921 1.012-3.327 2.378-3.992 4.022h-1.726zm0 1.914h1.726c.665 1.644 2.071 3.01 3.992 4.022-1.425.506-2.745 1.298-3.882 2.308-1.031-1.858-1.698-4.017-1.836-6.33zm14.168-6.33c1.031 1.858 1.698 4.017 1.836 6.33h-1.726c-.665-1.644-2.071-3.01-3.992-4.022 1.425-.506 2.745-1.298 3.882-2.308zm1.836 8.244c-.138 2.313-.805 4.472-1.836 6.33-1.137-1.01-2.457-1.802-3.882-2.308 1.921-1.012 3.327-2.378 3.992-4.022h1.726z"/></svg></a>
+                            <a href="#" class="social-link" title="Email" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/></svg></a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Sakib MD. Safwanur Rahman</h3>
+                    <p class="member-role">Vice President (Programming)</p>
+                    <p class="member-bio">
+                        Organizes amazing events and competitions. Manages sponsorships and partnerships.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Team Member 5 - Marketing Lead -->
+            <div class="team-card">
+                <div class="member-image-wrapper">
+                    <img src="assert/vp(organizing).jpg" alt="David Kumar" class="member-image">
+                    <div class="member-overlay">
+                        
+                        <div class="member-socials">
+                            <a href="#" class="social-link" title="LinkedIn" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                            <a href="#" class="social-link" title="GitHub" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                            <a href="#" class="social-link" title="Website/Portfolio" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 16.057v-3.057h2.994c-.059 1.143-.212 2.24-.456 3.279-.823-.12-1.674-.188-2.538-.222zm1.976-5.957h-2.976v-3.057c.864-.034 1.715-.102 2.538-.222.244 1.039.397 2.136.456 3.279zm-4.976-3.057v3.057h-2.994c.059-1.143.212-2.24.456-3.279.823.12 1.674.188 2.538.222zm-2.976 5.957h2.976v3.057c-.864.034-1.715.102-2.538.222-.244-1.039-.397-2.136-.456-3.279zm-4.004-3.957c.138-2.313.805-4.472 1.836-6.33 1.137 1.01 2.457 1.802 3.882 2.308-1.921 1.012-3.327 2.378-3.992 4.022h-1.726zm0 1.914h1.726c.665 1.644 2.071 3.01 3.992 4.022-1.425.506-2.745 1.298-3.882 2.308-1.031-1.858-1.698-4.017-1.836-6.33zm14.168-6.33c1.031 1.858 1.698 4.017 1.836 6.33h-1.726c-.665-1.644-2.071-3.01-3.992-4.022 1.425-.506 2.745-1.298 3.882-2.308zm1.836 8.244c-.138 2.313-.805 4.472-1.836 6.33-1.137-1.01-2.457-1.802-3.882-2.308 1.921-1.012 3.327-2.378 3.992-4.022h1.726z"/></svg></a>
+                            <a href="#" class="social-link" title="Email" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/></svg></a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Towhid AL Faysal</h3>
+                    <p class="member-role">Vice President(Organizing)</p>
+                    <p class="member-bio">
+                        Manages social media, content creation, and public relations for the club.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Team Member 6 - Finance Manager -->
+            <div class="team-card">
+                <div class="member-image-wrapper">
+                    <img src="assert/ps(dev).jpg" alt="Lisa Wong" class="member-image">
+                    <div class="member-overlay">
+                        
+                        <div class="member-socials">
+                            <a href="#" class="social-link" title="LinkedIn" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                            <a href="#" class="social-link" title="GitHub" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+                            <a href="#" class="social-link" title="Website/Portfolio" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1 16.057v-3.057h2.994c-.059 1.143-.212 2.24-.456 3.279-.823-.12-1.674-.188-2.538-.222zm1.976-5.957h-2.976v-3.057c.864-.034 1.715-.102 2.538-.222.244 1.039.397 2.136.456 3.279zm-4.976-3.057v3.057h-2.994c.059-1.143.212-2.24.456-3.279.823.12 1.674.188 2.538.222zm-2.976 5.957h2.976v3.057c-.864.034-1.715.102-2.538.222-.244-1.039-.397-2.136-.456-3.279zm-4.004-3.957c.138-2.313.805-4.472 1.836-6.33 1.137 1.01 2.457 1.802 3.882 2.308-1.921 1.012-3.327 2.378-3.992 4.022h-1.726zm0 1.914h1.726c.665 1.644 2.071 3.01 3.992 4.022-1.425.506-2.745 1.298-3.882 2.308-1.031-1.858-1.698-4.017-1.836-6.33zm14.168-6.33c1.031 1.858 1.698 4.017 1.836 6.33h-1.726c-.665-1.644-2.071-3.01-3.992-4.022 1.425-.506 2.745-1.298 3.882-2.308zm1.836 8.244c-.138 2.313-.805 4.472-1.836 6.33-1.137-1.01-2.457-1.802-3.882-2.308 1.921-1.012 3.327-2.378 3.992-4.022h1.726z"/></svg></a>
+                            <a href="#" class="social-link" title="Email" style="display: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/></svg></a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="member-info">
+                    <h3 class="member-name">Abdur Rahman</h3>
+                    <p class="member-role">Programming Secretary (Developement)</p>
+                    <p class="member-bio">
+                        Handles club finances, budget planning, and resource allocation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <!-- ==================== CONTACT SECTION ==================== -->
+    <section class="contact" id="contact">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Get in Touch</h2>
+                <p class="section-subtitle">We'd love to hear from you</p>
+            </div>
+
+            <div class="contact-wrapper">
+                <!-- Contact Form -->
+                <div class="contact-form-container">
+                    <h3 class="form-title">Send us a Message</h3>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                class="form-input" 
+                                placeholder="John Doe"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                class="form-input" 
+                                placeholder="john@example.com"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input 
+                                type="text" 
+                                id="subject" 
+                                name="subject" 
+                                class="form-input" 
+                                placeholder="How can we help?"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea 
+                                id="message" 
+                                name="message" 
+                                class="form-textarea" 
+                                placeholder="Your message here..."
+                                rows="5"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="contact-info-container">
+                    <h3 class="info-title">Contact Information</h3>
+
+                    <!-- Email -->
+                    <div class="info-card">
+                        <div class="info-icon">✉️</div>
+                        <div class="info-content">
+                            <h4 class="info-heading">Email</h4>
+                            <p class="info-text">
+                                <a href="mailto:contact@computerclub.com">contact@computerclub.com</a>
+                            </p>
+                            <p class="info-subtext">We'll respond within 24 hours</p>
+                        </div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="info-card">
+                        <div class="info-icon">📞</div>
+                        <div class="info-content">
+                            <h4 class="info-heading">Phone</h4>
+                            <p class="info-text">
+                                <a href="tel:+1234567890">+1 (234) 567-890</a>
+                            </p>
+                            <p class="info-subtext">Monday - Friday, 9 AM - 5 PM</p>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="info-card">
+                        <div class="info-icon">📍</div>
+                        <div class="info-content">
+                            <h4 class="info-heading">Location</h4>
+                            <p class="info-text">
+                                Computer Science Building<br>
+                                University Campus
+                            </p>
+                            <p class="info-subtext">Room 201, Computer Lab</p>
+                        </div>
+                    </div>
+
+                    <!-- Office Hours -->
+                    <div class="info-card">
+                        <div class="info-icon">🕐</div>
+                        <div class="info-content">
+                            <h4 class="info-heading">Office Hours</h4>
+                            <p class="info-text">
+                                Monday - Thursday: 4 PM - 7 PM<br>
+                                Friday: 3 PM - 6 PM
+                            </p>
+                            <p class="info-subtext">Closed on weekends & holidays</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <p>&copy; 2026 Tech Club - University Computer Club. All rights reserved.</p>
+                <p>Made with ❤️ by our amazing team</p>
+            </div>
+            <div class="footer-links">
+                <a href="#home">Back to Top</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== THEME TOGGLE (Optional Dark/Light Mode) ==================== -->
+    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+        🌙
+    </button>
+
+    <!-- ==================== SCRIPT ==================== -->
+    <script src="js/script.js"></script>
+
+
+
+
+    <script>
+
+
+// ==================== LOAD EVENTS ====================
+async function loadEvents() {
+    try {
+        console.log('🔄 Loading events...');
+        const response = await fetch('http://localhost:5000/api/data/events');
+        const data = await response.json();
+
+        console.log('📊 Events response:', data);
+
+        const container = document.getElementById('eventsContainer');
+        if (!container) {
+            console.error('❌ eventsContainer not found');
+            return;
+        }
+
+        if (data.success && data.events && data.events.length > 0) {
+            container.innerHTML = '';
+
+            data.events.forEach((event, index) => {
+                console.log(`Event ${index}:`, event);
+                
+                const card = document.createElement('div');
+                card.className = 'event-card';
+                
+                let imageUrl = 'https://via.placeholder.com/400x300?text=Event';
+                if (event.image) {
+                    if (event.image.startsWith('http')) {
+                        imageUrl = event.image;
+                    } else {
+                        imageUrl = `http://localhost:5000${event.image}`;
+                    }
+                }
+
+                card.innerHTML = `
+                    <div class="event-image">
+                        <img src="${imageUrl}" 
+                             alt="${event.title}"
+                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; display: block;"
+                             onerror="this.src='https://via.placeholder.com/400x300?text=Event';">
+                        <span class="event-badge">Event</span>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">${event.title || 'Event'}</h3>
+                        <div class="event-meta">
+                            <span class="event-date">📅 ${new Date(event.date).toLocaleDateString()}</span>
+                            <span class="event-location">📍 ${event.location || 'TBA'}</span>
+                        </div>
+                        <p class="event-description">
+                            ${event.description || 'Join us for this exciting event!'}
+                        </p>
+                        <div class="event-stats">
+                            <span>👥 ${event.participants ? event.participants.length : 0} Attendees</span>
+                            <span>⭐ 4.8/5 Rating</span>
+                        </div>
+                      
+    <button 
+        onclick="window.location.href='./event-registration.html?eventId=${event._id}'" 
+        class="btn btn-primary" 
+        style="width: 100%; margin-top: 10px; border: none; cursor: pointer;">
+        Register Event
+    </button>
+          
+                      
+                      
+                      
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+            console.log('✅ Events loaded successfully');
+        } else {
+            container.innerHTML = '<p style="text-align: center; color: #94a3b8; grid-column: 1/-1; padding: 40px;">No events yet. Check back soon!</p>';
+        }
+    } catch (error) {
+        console.error('❌ Error loading events:', error);
+        const container = document.getElementById('eventsContainer');
+        if (container) {
+            container.innerHTML = '<p style="text-align: center; color: red; grid-column: 1/-1;">Error loading events</p>';
+        }
+    }
+}
+
+// ==================== LOAD CONTESTS ====================
+async function loadContests() {
+    try {
+        console.log('🔄 Loading contests...');
+        const response = await fetch('http://localhost:5000/api/data/contests');
+        const data = await response.json();
+
+        console.log('📊 Contests response:', data);
+
+        const container = document.getElementById('contestsContainer');
+        if (!container) {
+            console.error('❌ contestsContainer not found');
+            return;
+        }
+
+        if (data.success && data.contests && data.contests.length > 0) {
+            container.innerHTML = '';
+
+            data.contests.forEach((contest, index) => {
+                console.log(`Contest ${index}:`, contest);
+                
+                const card = document.createElement('div');
+                card.className = 'contest-card';
+                
+                let imageUrl = 'https://via.placeholder.com/400x300?text=Contest';
+                if (contest.image) {
+                    if (contest.image.startsWith('http')) {
+                        imageUrl = contest.image;
+                    } else {
+                        imageUrl = `http://localhost:5000${contest.image}`;
+                    }
+                }
+
+                console.log(`Contest ${contest.title} image URL:`, imageUrl);
+
+                card.innerHTML = `
+                    <div class="contest-header">
+                        <h3 class="contest-name">${contest.title || 'Contest'}</h3>
+                        <span class="contest-status active">Active Registration</span>
+                    </div>
+                    
+                    <div style="width: 100%; height: 200px; border-radius: 10px; overflow: hidden; margin-bottom: 15px; background: #1a1a1a;">
+                        <img src="${imageUrl}" 
+                             alt="${contest.title}" 
+                             style="width: 100%; height: 100%; object-fit: cover; display: block;"
+                             onerror="console.log('Image failed:', this.src); this.src='https://via.placeholder.com/400x300?text=Contest';">
+                    </div>
+                    
+                    <div class="contest-details">
+                        <div class="detail-row">
+                            <span class="detail-label">📅 Date:</span>
+                            <span class="detail-value">${new Date(contest.date).toLocaleDateString()}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">🏆 Prize Pool:</span>
+                            <span class="detail-value">${contest.prize || 'N/A'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">👥 Team Size:</span>
+                            <span class="detail-value">${contest.teamSize || '1-3 members'}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">👥 Registered:</span>
+                            <span class="detail-value">${contest.participants ? contest.participants.length : 0}</span>
+                        </div>
+                    </div>
+
+                    <p class="contest-description" style="margin: 15px 0;">
+                        ${contest.description || 'Join this exciting contest and win amazing prizes!'}
+                    </p>
+
+                    <div class="contest-tags">
+                        ${(contest.tags || ['Competition']).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+
+    
+    <button 
+        onclick="window.location.href='./contest-registration.html?contestId=${contest._id}'" 
+        class="btn btn-primary" 
+        style="width: 100%; text-align: center; border: none; cursor: pointer; margin-top: 15px;">
+        Register Now
+    </button>
+
+
+`;
+
+                container.appendChild(card);
+            });
+            console.log('✅ Contests loaded successfully');
+        } else {
+            container.innerHTML = '<p style="text-align: center; color: #94a3b8; grid-column: 1/-1; padding: 40px;">No contests yet. Check back soon!</p>';
+        }
+    } catch (error) {
+        console.error('❌ Error loading contests:', error);
+        const container = document.getElementById('contestsContainer');
+        if (container) {
+            container.innerHTML = '<p style="text-align: center; color: red; grid-column: 1/-1;">Error loading contests</p>';
+        }
+    }
+}
+
+// ==================== LOAD NEWS ====================
+async function loadNews() {
+    try {
+        console.log('🔄 Loading news...');
+        const response = await fetch('http://localhost:5000/api/data/news');
+        const data = await response.json();
+
+        console.log('📊 News response:', data);
+
+        const container = document.getElementById('newsContainer');
+        if (!container) {
+            console.error('❌ newsContainer not found');
+            return;
+        }
+
+        if (data.success && data.news && data.news.length > 0) {
+            container.innerHTML = '';
+
+            data.news.forEach((article, index) => {
+                console.log(`News ${index}:`, article);
+                
+                let imageUrl = 'https://via.placeholder.com/400x300?text=News';
+                if (article.image) {
+                    if (article.image.startsWith('http')) {
+                        imageUrl = article.image;
+                    } else {
+                        imageUrl = `http://localhost:5000${article.image}`;
+                    }
+                }
+
+                const card = document.createElement('article');
+                card.className = 'news-card';
+                card.innerHTML = `
+                    <div class="news-image">
+                        <img src="${imageUrl}" 
+                             alt="${article.title}"
+                             style="width: 100%; height: 200px; object-fit: cover; display: block;"
+                             onerror="this.src='https://via.placeholder.com/400x300?text=News';">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">${new Date(article.createdAt).toLocaleDateString()}</div>
+                        <h3 class="news-title">${article.title}</h3>
+                        <p class="news-excerpt">
+                            ${article.content.substring(0, 150)}...
+                        </p>
+                        <div class="news-footer">
+                            <span class="read-time">5 min read</span>
+                            <a href="news-details.html?id=${article._id}" class="read-more">Read More &rarr;</a>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+            console.log('✅ News loaded successfully');
+        } else {
+            container.innerHTML = '<p style="text-align: center; color: #94a3b8; grid-column: 1/-1; padding: 40px;">No news yet.</p>';
+        }
+    } catch (error) {
+        console.error('❌ Error loading news:', error);
+        const container = document.getElementById('newsContainer');
+        if (container) {
+            container.innerHTML = '<p style="text-align: center; color: red; grid-column: 1/-1;">Error loading news</p>';
+        }
+    }
+}
+
+// ==================== REGISTRATION FUNCTIONS ====================
+
+async function registerContest(contestId) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Please login first!');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:5000/api/data/contests/register/${contestId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            alert('✅ Registered for contest!');
+            loadContests();
+        } else {
+            alert('❌ ' + (data.message || 'Failed to register'));
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Server error!');
+    }
+}
+
+async function registerEvent(eventId) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Please login first!');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:5000/api/data/events/register/${eventId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            alert('✅ Registered for event!');
+            loadEvents();
+        } else {
+            alert('❌ ' + (data.message || 'Failed to register'));
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Server error!');
+    }
+}
+
+// ==================== LOAD ALL ON PAGE LOAD ====================
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('📄 Page loaded - loading all data...');
+    loadEvents();
+    loadContests();
+    loadNews();
+});
+</script>
+
+
+
+    
+
+    </body>
+</html>

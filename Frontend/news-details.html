@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Details - CUET Computer Club</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .details-container {
+            max-width: 900px;
+            margin: 100px auto 50px;
+            padding: 40px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            color: #f1f5f9;
+            border: 1px solid #1e293b;
+        }
+        .details-image img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        .details-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .details-title {
+            font-size: 2.5rem;
+            color: #6366f1;
+            margin-bottom: 15px;
+        }
+        .details-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+        .details-content {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #f1f5f9;
+            white-space: pre-wrap;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+        .loading, .error {
+            text-align: center;
+            font-size: 1.5rem;
+            padding: 50px;
+        }
+        .error { color: #ef4444; }
+    </style>
+    </head>
+<body>
+    <!-- ==================== NAVBAR ==================== -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" class="logo">
+                    <img src="assert/cuet_logo.png" alt="CUET Computer Club Logo" class="logo-icon">
+                    <span class="logo-text">CUET Computer Club</span>
+                </a>
+            </div>
+            
+            
+
+            <ul class="nav-links">
+                <li><a href="index.html#home" class="nav-link">Home</a></li>
+                <li><a href="index.html#news" class="nav-link active">News</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ==================== DETAILS CONTENT ==================== -->
+    <div class="details-container" id="newsDetailsContainer">
+        <div class="loading">Loading news details...</div>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <p>&copy; 2026 Tech Club - University Computer Club. All rights reserved.</p>
+                <p>Made with 💻 & ☕ by our amazing team</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Back to Top</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPT ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const newsId = urlParams.get('id');
+            const container = document.getElementById('newsDetailsContainer');
+
+            if (!newsId) {
+                container.innerHTML = '<a href="index.html#news" class="back-btn">&larr; Back to News</a><div class="error">No news ID provided.</div>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/data/news/${newsId}`);
+                const data = await response.json();
+
+                if (response.ok && data.success && data.news) {
+                    const article = data.news;
+                    
+                    let imageUrl = 'https://via.placeholder.com/900x500?text=News';
+                    if (article.image) {
+                        imageUrl = article.image.startsWith('http') ? article.image : `http://localhost:5000${article.image}`;
+                    }
+
+                    const dateString = new Date(article.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
+
+                    // We will safely format the content and handle newlines
+                    container.innerHTML = `
+                        <a href="index.html#news" class="back-btn">&larr; Back to News</a>
+                        <div class="details-image">
+                            <img src="${imageUrl}" alt="${article.title}" onerror="this.src='https://via.placeholder.com/900x500?text=News';">
+                        </div>
+                        <div class="details-header">
+                            <h1 class="details-title">${article.title}</h1>
+                            <div class="details-meta">
+                                <span>📅 ${dateString}</span>
+                            </div>
+                        </div>
+                        <div class="details-content">${article.content}</div>
+                    `;
+                } else {
+                    container.innerHTML = '<a href="index.html#news" class="back-btn">&larr; Back to News</a><div class="error">News not found.</div>';
+                }
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                container.innerHTML = '<a href="index.html#news" class="back-btn">&larr; Back to News</a><div class="error">Server error while loading news.</div>';
+            }
+        });
+    </script>
+
+    
+
+    </body>
+</html>

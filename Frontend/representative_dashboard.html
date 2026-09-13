@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Representative Dashboard - CUET Computer Club</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/protect_representative.js"></script>
+    <style>
+        .rep-container { max-width: 1200px; margin: 30px auto; padding: 0 20px 60px; }
+        .rep-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+            color: white;
+            padding: 35px 30px;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.25);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .rep-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+            backdrop-filter: blur(5px);
+            margin-top: 8px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+        .stat-box {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 22px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .stat-box:hover { transform: translateY(-3px); border-color: #6366f1; }
+        .stat-num { font-size: 2.4rem; font-weight: 800; color: #f1f5f9; }
+        .stat-label { color: #94a3b8; font-size: 0.95rem; margin-top: 5px; }
+
+        .notification-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-left: 4px solid #6366f1;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 15px;
+            color: #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notification-card.approved { border-left-color: #10b981; }
+        .notification-card.rejected { border-left-color: #ef4444; }
+
+        .panel-card {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            margin-bottom: 35px;
+        }
+        .panel-title {
+            color: #6366f1;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Tabs */
+        .tab-bar {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid #1e293b;
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            color: #6366f1;
+            border-bottom-color: #6366f1;
+        }
+
+        /* Forms */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .full-width { grid-column: 1 / -1; }
+        .form-input, .form-textarea {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid #1e293b;
+            color: #f1f5f9;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .form-input:focus, .form-textarea:focus {
+            border-color: #6366f1;
+            outline: none;
+        }
+
+        /* Tables */
+        .rep-table { width: 100%; border-collapse: collapse; margin-top: 15px; color: #f1f5f9; }
+        .rep-table th, .rep-table td { padding: 14px 12px; text-align: left; border-bottom: 1px solid #1e293b; }
+        .rep-table th { background: rgba(30, 41, 59, 0.7); color: #6366f1; font-weight: 600; }
+        .rep-table tr:hover { background: rgba(255, 255, 255, 0.02); }
+
+        .status-pill {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-pill.pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b; }
+        .status-pill.approved { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981; }
+        .status-pill.rejected { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
+
+        .type-pill {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(99, 102, 241, 0.15);
+            color: #6366f1;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: white;
+            margin-right: 6px;
+            transition: opacity 0.2s;
+        }
+        .action-btn:hover { opacity: 0.85; }
+        .btn-edit { background: #6366f1; }
+        .btn-delete { background: #ef4444; }
+        .btn-resubmit { background: #f59e0b; color: #000; font-weight: 700; }
+
+        .rejection-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid #ef4444;
+            padding: 8px 12px;
+            border-radius: 4px;
+            color: #ef4444;
+            font-size: 0.85rem;
+            margin-top: 6px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+        }
+        .modal-content {
+            background: rgba(30, 41, 59, 0.7);
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 650px;
+            color: #f1f5f9;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            color: #94a3b8;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal:hover { color: #f1f5f9; }
+      
+        .reg-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .reg-card:hover {
+            border-color: #6366f1;
+            transform: translateY(-2px);
+            background: rgba(30, 41, 59, 0.8);
+        }
+        .reg-card h4 { margin: 0 0 10px 0; color: #f1f5f9; font-size: 1.1rem; }
+        .reg-badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; display: inline-block; }
+        .reg-badge.confirmed { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .reg-badge.pending { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .reg-badge.rejected { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .reg-badge.not-required { background: rgba(148, 163, 184, 0.2); color: #94a3b8; }
+        
+        .empty-state { text-align: center; padding: 40px 20px; background: rgba(30, 41, 59, 0.4); border-radius: 12px; border: 1px dashed #475569; grid-column: 1 / -1; }
+        .empty-state h3 { color: #f1f5f9; margin-bottom: 10px; }
+        .empty-state p { color: #94a3b8; margin-bottom: 20px; }
+
+</style>
+    </head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="index.html" class="logo">
+                    <img src="assert/cuet_logo.png" alt="CUET Logo" class="logo-icon">
+                    <span class="logo-text">Representative Portal</span>
+                </a>
+            </div>
+            
+            
+
+            <ul class="nav-links" style="display: flex; align-items: center; gap: 15px;">
+                <li><a href="#" class="nav-link" style="color: #6366f1;" onclick="scrollToTop()">Dashboard</a></li>
+                <li><a href="#mySubmissionsSection" class="nav-link">My Submissions</a></li>
+                <li><a href="#submitSection" class="nav-link">Create Event</a></li>
+                <li><a href="#submitSection" class="nav-link">Create Contest</a></li>
+                <li><a href="#submitSection" class="nav-link">Create News</a></li>
+                <li><a href="#myRegistrationsSection" class="nav-link">My Registrations</a></li>
+                <li><a href="#profileSection" class="nav-link">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- DASHBOARD CONTAINER -->
+    <div class="rep-container">
+        <!-- HEADER -->
+        <div class="rep-header">
+            <div>
+                <h1 style="margin: 0 0 5px 0;">Welcome, <span id="repName">Representative</span>! 👋</h1>
+                <p style="margin: 0; opacity: 0.9;">Manage and submit official Events, Contests, and Announcements.</p>
+                <div class="rep-badge">🛡️ Club Representative / Secretary</div>
+            </div>
+            <div>
+                <a href="#submitSection" class="btn btn-primary" style="background: white; color: #4f46e5; font-weight: 700;">+ New Submission</a>
+            </div>
+        </div>
+
+        <!-- NOTIFICATIONS BANNER -->
+        <div id="notificationsContainer" style="margin-bottom: 25px;"></div>
+
+        <!-- STATS -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-num" id="statTotal">0</div>
+                <div class="stat-label">Total Submissions</div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-num" style="color: #f59e0b;" id="statPending">0</div>
+                <div class="stat-label">Pending Admin Review</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" style="color: #10b981;" id="statApproved">0</div>
+                <div class="stat-label">Approved & Public</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" style="color: #ef4444;" id="statRejected">0</div>
+                <div class="stat-label">Needs Revision / Rejected</div>
+            </div>
+        </div>
+
+        <!-- MY REGISTRATIONS STATS -->
+        <h3 style="color: #f1f5f9; margin-bottom: 15px; margin-top: 10px;">🎟️ Registration Summary</h3>
+        <div class="stats-grid" style="cursor: pointer;" onclick="document.getElementById('myRegistrationsSection').scrollIntoView({behavior: 'smooth'}); switchRegTab('all');">
+            <div class="stat-box">
+                <div class="stat-num" id="regStatTotal" style="color: #6366f1;">0</div>
+                <div class="stat-label">Total Registrations</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" id="regStatPending" style="color: #f59e0b;">0</div>
+                <div class="stat-label">Pending</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" id="regStatConfirmed" style="color: #10b981;">0</div>
+                <div class="stat-label">Confirmed</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" id="regStatRejected" style="color: #ef4444;">0</div>
+                <div class="stat-label">Rejected</div>
+            </div>
+        </div>
+
+
+        <!-- MY SUBMISSIONS -->
+        <div class="panel-card" id="mySubmissionsSection">
+            <div class="panel-title">
+                <span>📋 My Submissions</span>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-top: -10px; margin-bottom: 20px;">
+                You can edit, delete, or resubmit your pending and rejected submissions. Approved content becomes public and can only be modified by the President/Admin.
+            </p>
+
+            <!-- Filter Tabs -->
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="filterSubmissions('all', this)">All</button>
+                <button class="tab-btn" onclick="filterSubmissions('pending', this)">Pending Review</button>
+                <button class="tab-btn" onclick="filterSubmissions('approved', this)">Approved</button>
+                <button class="tab-btn" onclick="filterSubmissions('rejected', this)">Rejected</button>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="rep-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Title</th>
+                            <th>Date / Created</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="submissionsTableBody">
+                        <tr><td colspan="5" style="text-align: center; color: #94a3b8;">Loading your submissions...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- CREATE NEW SUBMISSION SECTION -->
+        <div class="panel-card" id="submitSection">
+            <div class="panel-title">
+                <span>✨ Create New Submission</span>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-top: -10px; margin-bottom: 20px;">
+                Submissions are sent directly to the President/Admin for review. Once approved, they will immediately appear on the public club website.
+            </p>
+
+            <!-- Creation Type Switcher -->
+            <div class="tab-bar">
+                <button class="tab-btn active" id="tabCreateEvent" onclick="switchCreateTab('event')">📅 Event</button>
+                <button class="tab-btn" id="tabCreateContest" onclick="switchCreateTab('contest')">🏆 Contest</button>
+                <button class="tab-btn" id="tabCreateNews" onclick="switchCreateTab('news')">📰 News & Announcement</button>
+            </div>
+
+            <!-- 1. EVENT FORM -->
+            <form id="createEventForm" class="form-grid">
+                <div>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Event Title *</label>
+                    <input type="text" id="evTitle" placeholder="e.g. Competitive Programming Workshop" class="form-input" required>
+                </div>
+                <div>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Event Date *</label>
+                    <input type="date" id="evDate" class="form-input" required>
+                </div>
+                <div>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Location *</label>
+                    <input type="text" id="evLocation" placeholder="e.g. CSE Seminar Room 3" class="form-input" required>
+                </div>
+                <div>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Max Capacity</label>
+                    <input type="number" id="evCapacity" placeholder="e.g. 100" class="form-input" required>
+                </div>
+                <div>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Registration Fee (৳)</label>
+                    <input type="number" id="evRegistrationFee" placeholder="e.g. 0 for Free" class="form-input" min="0" value="0" required>
+                </div>
+                <div class="full-width">
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Event Banner Image *</label>
+                    <input type="file" id="evImageFile" accept="image/*" class="form-input">
+                    <input type="hidden" id="evImageUrl">
+                    <small style="color: #94a3b8;">Supported: JPG, PNG, WebP (Max 10MB)</small>
+                </div>
+                <div class="full-width">
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Description *</label>
+                    <textarea id="evDesc" rows="3" placeholder="Provide full event overview, schedule, and prerequisites..." class="form-textarea" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Submit Event for Review</button>
+            </form>
+
+            <!-- 2. CONTEST FORM -->
+            <form id="createContestForm" class="form-grid" style="display: none;">
+                <div class="full-width">
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Contest Title *</label>
+                    <input type="text" id="conTitle" placeholder="e.g. Inter-University Hackathon 2026" class="form-input" required>
+                </div>
+                <div>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Contest Date *</label>
+                    <input type="date" id="conDate" class="form-input" required>
+                </div>
+                <div>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Prize Pool *</label>
+                    <input type="text" id="conPrize" placeholder="e.g. ৳50,000" class="form-input" required>
+                </div>
+                <div>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Team Size</label>
+                    <input type="text" id="conTeamSize" placeholder="e.g. 1-3 members" class="form-input" value="1-3 members">
+                </div>
+                <div>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Registration Fee (৳)</label>
+                    <input type="number" id="conRegistrationFee" placeholder="e.g. 0 for Free" class="form-input" min="0" value="0" required>
+                </div>
+                <div>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Tags (comma separated)</label>
+                    <input type="text" id="conTags" placeholder="e.g. Algorithms, Hackathon" class="form-input">
+                </div>
+                <div class="full-width">
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Contest Banner Image *</label>
+                    <input type="file" id="conImageFile" accept="image/*" class="form-input">
+                    <input type="hidden" id="conImageUrl">
+                    <small style="color: #94a3b8;">Supported: JPG, PNG, WebP (Max 10MB)</small>
+                </div>
+                <div class="full-width">
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Description</label>
+                    <textarea id="conDesc" rows="3" placeholder="Explain the contest rules, rounds, eligibility, and scoring..." class="form-textarea"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Submit Contest for Review</button>
+            </form>
+
+            <!-- 3. NEWS FORM -->
+            <form id="createNewsForm" class="form-grid" style="display: none;">
+                <div class="full-width">
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">News Headline *</label>
+                    <input type="text" id="newsTitle" placeholder="e.g. CUET CC Secures 1st Place at National ICPC" class="form-input" required>
+                </div>
+                <div class="full-width">
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Cover Image *</label>
+                    <input type="file" id="newsImageFile" accept="image/*" class="form-input">
+                    <input type="hidden" id="newsImageUrl">
+                    <small style="color: #94a3b8;">Supported: JPG, PNG, WebP (Max 10MB)</small>
+                </div>
+                <div class="full-width">
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Announcement Content *</label>
+                    <textarea id="newsContent" rows="5" placeholder="Write full news article or announcement..." class="form-textarea" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary full-width">Submit News for Review</button>
+            </form>
+        </div>
+    
+        <!-- MY REGISTRATIONS PANEL -->
+        <div class="panel-card" id="myRegistrationsSection">
+            <div class="panel-title">
+                <span>🎟️ My Registrations</span>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.95rem; margin-top: -10px; margin-bottom: 20px;">
+                Manage your personal Event and Contest registrations.
+            </p>
+
+            <div class="tab-bar">
+                <button class="tab-btn active" id="tabRegAll" onclick="switchRegTab('all')">All</button>
+                <button class="tab-btn" id="tabRegEvents" onclick="switchRegTab('events')">Events</button>
+                <button class="tab-btn" id="tabRegContests" onclick="switchRegTab('contests')">Contests</button>
+            </div>
+
+            <div id="regListContainer" style="display: grid; gap: 15px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                <div style="color: #94a3b8;">Loading...</div>
+            </div>
+        </div>
+
+        <!-- PROFILE PANEL -->
+        <div class="panel-card" id="profileSection">
+            <div class="panel-title">
+                <span>👤 Profile</span>
+            </div>
+            <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #1e293b; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 15px; max-width: 500px;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+                    <span style="color: #94a3b8;">Name</span>
+                    <strong style="color: #f1f5f9;" id="profileName">Loading...</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+                    <span style="color: #94a3b8;">Email</span>
+                    <strong style="color: #f1f5f9;" id="profileEmail">Loading...</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
+                    <span style="color: #94a3b8;">Role</span>
+                    <strong style="color: #6366f1;">Secretary</strong>
+                </div>
+                <div style="display: flex; gap: 15px; margin-top: 10px;">
+                    <button onclick="window.location.href='index.html'" class="btn btn-primary" style="flex: 1; background: #3b82f6;">Back to Main Website</button>
+                    <button onclick="logoutRep()" class="btn btn-primary" style="flex: 1; background: #ef4444;">Logout</button>
+                </div>
+            </div>
+        </div>
+
+</div>
+
+    <!-- EDIT SUBMISSION MODAL -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeEditModal()">&times;</span>
+            <h3 style="color: #6366f1; margin-top: 0;" id="editModalTitle">Edit Submission</h3>
+            <p style="color: #94a3b8; font-size: 0.9rem;" id="editModalSubtitle">Update your submission details below.</p>
+            
+            <div id="editRejectionNotice" style="display: none; margin-bottom: 15px;"></div>
+
+            <form id="editForm" style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="hidden" id="editItemType">
+                <input type="hidden" id="editItemId">
+                
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Title *</label>
+                    <input type="text" id="editTitle" class="form-input" required>
+                </div>
+
+                <div id="editDateGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Date</label>
+                    <input type="date" id="editDate" class="form-input">
+                </div>
+
+                <div id="editLocationGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Location</label>
+                    <input type="text" id="editLocation" class="form-input">
+                </div>
+
+                <div id="editCapacityGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Capacity</label>
+                    <input type="number" id="editCapacity" class="form-input">
+                </div>
+
+                <div id="editPrizeGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Prize Pool</label>
+                    <input type="text" id="editPrize" class="form-input">
+                </div>
+
+                <div id="editTeamSizeGroup">
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Team Size</label>
+                    <input type="text" id="editTeamSize" class="form-input">
+                </div>
+
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Image</label>
+                    <input type="file" id="editImageFile" accept="image/*" class="form-input">
+                    <input type="hidden" id="editImageUrl">
+                </div>
+
+                <div>
+                    <label style="font-weight: 600; display: block; margin-bottom: 6px;">Description / Content *</label>
+                    <textarea id="editBody" rows="4" class="form-textarea" required></textarea>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+                    <button type="button" class="action-btn" style="background: #64748b;" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveEditBtn">Save Changes</button>
+                    <button type="button" class="btn action-btn btn-resubmit" id="resubmitBtn" style="display: none;" onclick="resubmitCurrentModalItem()">Submit for Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- VIEW DETAILS MODAL -->
+    <div id="viewModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeViewModal()">&times;</span>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;flex-wrap:wrap;">
+                <h3 style="color:#6366f1;margin:0;" id="viewModalTitle">Submission Details</h3>
+                <span id="viewModalTypePill" class="type-pill"></span>
+                <span id="viewModalStatusPill" class="status-pill"></span>
+            </div>
+            <p style="color:#94a3b8;font-size:0.85rem;margin-top:6px;margin-bottom:20px;" id="viewModalMeta"></p>
+
+            <!-- Rejection reason (shown only if rejected) -->
+            <div id="viewRejectionBox" style="display:none;margin-bottom:16px;"></div>
+
+            <!-- Approved notice -->
+            <div id="viewApprovedNotice" style="display:none;background:rgba(16,185,129,0.1);border-left:3px solid #10b981;padding:10px 14px;border-radius:4px;color: #10b981;font-size:0.87rem;margin-bottom:16px;">
+                ✅ This content is <strong>approved and live</strong> on the public website. Only an Admin can edit or remove it.
+            </div>
+
+            <!-- Content fields -->
+            <div id="viewModalBody" style="display:flex;flex-direction:column;gap:14px;"></div>
+
+            <!-- Banner image preview -->
+            <div id="viewImageWrap" style="display:none;margin-top:16px;">
+                <p style="font-weight:600;color:#f1f5f9;margin-bottom:8px;">Banner Image</p>
+                <img id="viewImage" src="" alt="Banner" style="max-width:100%;border-radius:8px;border:1px solid #1e293b;">
+            </div>
+
+            <div style="margin-top:24px;text-align:right;">
+                <button class="action-btn" style="background:#475569;padding:8px 20px;" onclick="closeViewModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        const token = localStorage.getItem('token');
+        const userName = localStorage.getItem('userName') || 'Representative';
+        let mySubmissions = [];
+        let currentFilter = 'all';
+
+        document.getElementById('repName').innerText = userName.split(' ')[0];
+
+        // Logout
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.clear();
+                window.location.href = 'login.html';
+            });
+        }
+
+        // Switch creation tabs
+        function switchCreateTab(type) {
+            document.querySelectorAll('#submitSection .tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('createEventForm').style.display = 'none';
+            document.getElementById('createContestForm').style.display = 'none';
+            document.getElementById('createNewsForm').style.display = 'none';
+
+            if (type === 'event') {
+                document.getElementById('tabCreateEvent').classList.add('active');
+                document.getElementById('createEventForm').style.display = 'grid';
+            } else if (type === 'contest') {
+                document.getElementById('tabCreateContest').classList.add('active');
+                document.getElementById('createContestForm').style.display = 'grid';
+            } else if (type === 'news') {
+                document.getElementById('tabCreateNews').classList.add('active');
+                document.getElementById('createNewsForm').style.display = 'grid';
+            }
+        }
+
+        // Generic Image Upload Handler
+        async function uploadImage(file, type) {
+            if (!file) return null;
+            if (file.size > 10 * 1024 * 1024) {
+                alert('❌ Image file too large! Maximum allowed is 10MB.');
+                return null;
+            }
+
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('type', type);
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/upload/upload?type=${type}`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    return data.imageUrl;
+                } else {
+                    alert('❌ Image upload failed: ' + (data.message || 'Error'));
+                    return null;
+                }
+            } catch (err) {
+                console.error('Image upload error:', err);
+                alert('❌ Server error during image upload');
+                return null;
+            }
+        }
+
+        // Image file listeners
+        document.getElementById('evImageFile').addEventListener('change', async (e) => {
+            const url = await uploadImage(e.target.files[0], 'events');
+            if (url) {
+                document.getElementById('evImageUrl').value = url;
+                alert('✅ Event image uploaded!');
+            }
+        });
+
+        document.getElementById('conImageFile').addEventListener('change', async (e) => {
+            const url = await uploadImage(e.target.files[0], 'contests');
+            if (url) {
+                document.getElementById('conImageUrl').value = url;
+                alert('✅ Contest image uploaded!');
+            }
+        });
+
+        document.getElementById('newsImageFile').addEventListener('change', async (e) => {
+            const url = await uploadImage(e.target.files[0], 'news');
+            if (url) {
+                document.getElementById('newsImageUrl').value = url;
+                alert('✅ News image uploaded!');
+            }
+        });
+
+        document.getElementById('editImageFile').addEventListener('change', async (e) => {
+            const type = document.getElementById('editItemType').value;
+            const url = await uploadImage(e.target.files[0], type === 'news' ? 'news' : `${type}s`);
+            if (url) {
+                document.getElementById('editImageUrl').value = url;
+                alert('✅ New image uploaded!');
+            }
+        });
+
+        // ==================== CREATE SUBMISSIONS ====================
+
+        // 1. Submit Event
+        document.getElementById('createEventForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('evTitle').value;
+            const date = document.getElementById('evDate').value;
+            const location = document.getElementById('evLocation').value;
+            const capacity = document.getElementById('evCapacity').value;
+            const imageUrl = document.getElementById('evImageUrl').value;
+            const description = document.getElementById('evDesc').value;
+            const registrationFee = document.getElementById('evRegistrationFee').value;
+
+            try {
+                const response = await fetch('http://localhost:5000/api/representative/events', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title, date, location,
+                        capacity: parseInt(capacity) || 0,
+                        image: imageUrl,
+                        description,
+                        registrationFee: parseInt(registrationFee) || 0
+                    })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    alert('✅ ' + data.message);
+                    document.getElementById('createEventForm').reset();
+                    document.getElementById('evImageUrl').value = '';
+                    loadDashboardData();
+
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to submit event'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('❌ Server error while submitting event');
+            }
+        });
+
+        // 2. Submit Contest
+        document.getElementById('createContestForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('conTitle').value;
+            const date = document.getElementById('conDate').value;
+            const prize = document.getElementById('conPrize').value;
+            const teamSize = document.getElementById('conTeamSize').value;
+            const tagsInput = document.getElementById('conTags').value;
+            const imageUrl = document.getElementById('conImageUrl').value;
+            const description = document.getElementById('conDesc').value;
+            const registrationFee = document.getElementById('conRegistrationFee').value;
+            const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()) : [];
+
+            try {
+                const response = await fetch('http://localhost:5000/api/representative/contests', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title, date, prize, teamSize, tags,
+                        image: imageUrl,
+                        description,
+                        registrationFee: parseInt(registrationFee) || 0
+                    })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    alert('✅ ' + data.message);
+                    document.getElementById('createContestForm').reset();
+                    document.getElementById('conImageUrl').value = '';
+                    loadDashboardData();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to submit contest'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('❌ Server error while submitting contest');
+            }
+        });
+
+        // 3. Submit News
+        document.getElementById('createNewsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('newsTitle').value;
+            const imageUrl = document.getElementById('newsImageUrl').value;
+            const content = document.getElementById('newsContent').value;
+
+            try {
+                const response = await fetch('http://localhost:5000/api/representative/news', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title,
+                        image: imageUrl,
+                        content
+                    })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    alert('✅ ' + data.message);
+                    document.getElementById('createNewsForm').reset();
+                    document.getElementById('newsImageUrl').value = '';
+                    loadDashboardData();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to submit news'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('❌ Server error while submitting news');
+            }
+        });
+
+        // ==================== LOAD NOTIFICATIONS & SUBMISSIONS ====================
+
+        async function loadNotifications() {
+            try {
+                const res = await fetch('http://localhost:5000/api/representative/notifications', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                const container = document.getElementById('notificationsContainer');
+                if (data.success && data.notifications.length > 0) {
+                    container.innerHTML = data.notifications.slice(0, 3).map(n => `
+                        <div class="notification-card ${n.status}">
+                            <div>
+                                <strong>${n.status === 'approved' ? '🎉 Approved' : '⚠️ Revision Needed'}:</strong> ${n.message}
+                                <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">
+                                    ${new Date(n.updatedAt).toLocaleString()}
+                                </div>
+                            </div>
+                            <span class="status-pill ${n.status}">${n.status}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '';
+                }
+            } catch (err) {
+                console.error('Notifications error:', err);
+            }
+        }
+
+        async function loadDashboardData() {
+            try {
+                const res = await fetch('http://localhost:5000/api/representative/my-submissions', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    mySubmissions = data.submissions || [];
+                    
+                    // Update stats
+                    document.getElementById('statTotal').innerText = data.counts.total;
+                    document.getElementById('statPending').innerText = data.counts.pending;
+                    document.getElementById('statApproved').innerText = data.counts.approved;
+                    document.getElementById('statRejected').innerText = data.counts.rejected;
+
+                    renderSubmissionsTable();
+                }
+                loadNotifications();
+            } catch (err) {
+                console.error('Error loading submissions:', err);
+                document.getElementById('submissionsTableBody').innerHTML = '<tr><td colspan="5" style="text-align: center; color: #ef4444; padding: 30px;">Failed to load submissions. Please try again later.</td></tr>';
+            }
+        }
+
+        function filterSubmissions(status, btnElement) {
+            currentFilter = status;
+            document.querySelectorAll('.panel-card .tab-bar .tab-btn').forEach(b => b.classList.remove('active'));
+            if (btnElement) btnElement.classList.add('active');
+            renderSubmissionsTable();
+        }
+
+        function renderSubmissionsTable() {
+            const tbody = document.getElementById('submissionsTableBody');
+            const filtered = mySubmissions.filter(s => currentFilter === 'all' || s.status === currentFilter);
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #94a3b8; padding: 30px;">No ${currentFilter === 'all' ? '' : currentFilter} submissions found.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(item => {
+                const dateStr = item.date ? new Date(item.date).toLocaleDateString() : new Date(item.createdAt).toLocaleDateString();
+                const routeType = item.type === 'news' ? 'news' : `${item.type}s`;
+
+                let actionsHtml = '';
+                if (item.status === 'pending') {
+                    actionsHtml = `
+                        <button class="action-btn btn-edit" onclick="openEditModal('${item._id}')">✏️ Edit</button>
+                        <button class="action-btn btn-resubmit" onclick="resubmitItem('${routeType}', '${item._id}')">📤 Submit for Review</button>
+                        <button class="action-btn btn-delete" onclick="deleteSubmission('${routeType}', '${item._id}')">🗑️ Delete</button>
+                    `;
+                } else if (item.status === 'rejected') {
+                    actionsHtml = `
+                        <button class="action-btn btn-edit" onclick="openEditModal('${item._id}')">✏️ Edit</button>
+                        <button class="action-btn btn-resubmit" onclick="resubmitItem('${routeType}', '${item._id}')">📤 Submit for Review</button>
+                        <button class="action-btn btn-delete" onclick="deleteSubmission('${routeType}', '${item._id}')">🗑️ Delete</button>
+                    `;
+                } else if (item.status === 'approved') {
+                    actionsHtml = `<button class="action-btn" style="background:#475569;" onclick="openViewModal('${item._id}')">👁️ View Details</button>`;
+                }
+
+                const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : '';
+
+                return `
+                    <tr>
+                        <td style="text-transform: capitalize;">${item.type}</td>
+                        <td style="font-weight: 500; color: #f8fafc;">${item.title || item.name || 'Untitled'}</td>
+                        <td>${dateStr}</td>
+                        <td><span class="status-pill ${item.status}">${cap(item.status)}</span></td>
+                        <td class="action-buttons">${actionsHtml}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function openRegModal(index) {
+            let filtered = allRegistrations;
+            if (currentRegTab === 'events') filtered = allRegistrations.filter(r => r.isEvent);
+            if (currentRegTab === 'contests') filtered = allRegistrations.filter(r => !r.isEvent);
+            
+            const r = filtered[index];
+            currentResubmitReg = r;
+            
+            document.getElementById('regModalTitle').textContent = r.title;
+            document.getElementById('regModalType').textContent = `Type: ${r.typeLabel}`;
+
+            const rStatusClass = r.registrationStatus.toLowerCase();
+            let pStatusClass = r.paymentStatus ? r.paymentStatus.toLowerCase().replace('_', '-') : 'not-required';
+            const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : '';
+            const displayRegStatus = cap(r.registrationStatus);
+            const displayPayStatus = r.paymentStatus === 'not_required' ? 'Not Required' : cap(r.paymentStatus);
+
+            let bodyHtml = `
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Registration Status</span>
+                    <span class="reg-badge ${rStatusClass}">${displayRegStatus}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Payment Status</span>
+                    <span class="reg-badge ${pStatusClass}">${displayPayStatus}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Registration Fee</span>
+                    <strong style="color:#f1f5f9;">${r.fee === 0 ? 'Free' : `৳ ${r.fee}`}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Amount Paid</span>
+                    <strong style="color:#f1f5f9;">৳ ${r.amount || 0}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Date</span>
+                    <strong style="color:#f1f5f9;">${new Date(r.registrationDate).toLocaleString()}</strong>
+                </div>
+            `;
+
+            if (r.paymentGateway && r.paymentGateway !== 'none') {
+                bodyHtml += `
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Payment Method</span>
+                    <strong style="color:#f1f5f9;">${r.paymentGateway}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Transaction ID</span>
+                    <strong style="color:#f1f5f9;">${r.transactionId}</strong>
+                </div>`;
+            }
+
+            if (r.paymentStatus === 'rejected' && r.rejectionReason) {
+                bodyHtml += `
+                <div style="background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; padding: 10px; margin-top: 10px; border-radius: 4px;">
+                    <span style="color:#ef4444; font-weight: 600; display: block; margin-bottom: 4px;">Rejection Reason:</span>
+                    <span style="color:#f87171; font-size: 0.9rem;">${r.rejectionReason}</span>
+                </div>`;
+                document.getElementById('resubmitSection').style.display = 'block';
+                document.getElementById('resubmitTxId').value = '';
+            } else {
+                document.getElementById('resubmitSection').style.display = 'none';
+            }
+
+            document.getElementById('regModalBody').innerHTML = bodyHtml;
+            document.getElementById('regModal').style.display = 'block';
+        }
+
+        function closeRegModal() {
+            document.getElementById('regModal').style.display = 'none';
+        }
+
+
+
+        // Add modal close listener
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('regModal')) closeRegModal();
+        });
+
+        function logoutRep() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        function loadProfileData() {
+            const email = localStorage.getItem('userEmail') || 'N/A';
+            document.getElementById('profileName').textContent = userName;
+            document.getElementById('profileEmail').textContent = email;
+        }
+
+
+        // ==================== MY REGISTRATIONS LOGIC ====================
+        let allRegistrations = [];
+        let currentRegTab = 'all';
+        let currentResubmitReg = null;
+
+        async function loadMyRegistrations() {
+            try {
+                const token = localStorage.getItem('token');
+                
+                // Fetch Events
+                const evRes = await fetch('http://localhost:5000/api/event-registration/my-registrations', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!evRes.ok) throw new Error('Failed to fetch event registrations');
+                const evData = await evRes.json();
+                const evRegs = evData.success && evData.registrations ? evData.registrations : [];
+
+                // Fetch Contests
+                const conRes = await fetch('http://localhost:5000/api/contest-registration/my-registrations', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!conRes.ok) throw new Error('Failed to fetch contest registrations');
+                const conData = await conRes.json();
+                const conRegs = conData.success && conData.registrations ? conData.registrations : [];
+
+                // Normalize and Combine
+                allRegistrations = [
+                    ...evRegs.filter(r => r.eventId).map(r => ({
+                        ...r, 
+                        isEvent: true, 
+                        typeLabel: 'Event',
+                        title: r.eventId.title,
+                        fee: r.eventId.registrationFee || 0
+                    })),
+                    ...conRegs.filter(r => r.contestId).map(r => ({
+                        ...r, 
+                        isEvent: false, 
+                        typeLabel: 'Contest',
+                        title: r.contestId.title,
+                        fee: r.contestId.registrationFee || 0
+                    }))
+                ];
+
+                // Sort newest first
+                allRegistrations.sort((a, b) => new Date(b.registrationDate) - new Date(a.registrationDate));
+
+                updateRegStats();
+                renderRegistrations();
+            } catch (err) {
+                console.error('Error loading registrations:', err);
+                document.getElementById('regListContainer').innerHTML = '<div style="color:#ef4444;">Failed to load registrations.</div>';
+            }
+        }
+
+        function updateRegStats() {
+            document.getElementById('regStatTotal').textContent = allRegistrations.length;
+            document.getElementById('regStatPending').textContent = allRegistrations.filter(r => r.registrationStatus === 'pending').length;
+            document.getElementById('regStatConfirmed').textContent = allRegistrations.filter(r => r.registrationStatus === 'confirmed').length;
+            document.getElementById('regStatRejected').textContent = allRegistrations.filter(r => r.registrationStatus === 'rejected').length;
+        }
+
+        window.switchRegTab = function(tab) {
+            currentRegTab = tab;
+            document.getElementById('tabRegAll').classList.remove('active');
+            document.getElementById('tabRegEvents').classList.remove('active');
+            document.getElementById('tabRegContests').classList.remove('active');
+            
+            if (tab === 'all') document.getElementById('tabRegAll').classList.add('active');
+            if (tab === 'events') document.getElementById('tabRegEvents').classList.add('active');
+            if (tab === 'contests') document.getElementById('tabRegContests').classList.add('active');
+            
+            renderRegistrations();
+        };
+
+        function renderRegistrations() {
+            const container = document.getElementById('regListContainer');
+            let filtered = allRegistrations;
+            
+            if (currentRegTab === 'events') filtered = allRegistrations.filter(r => r.isEvent);
+            if (currentRegTab === 'contests') filtered = allRegistrations.filter(r => !r.isEvent);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No registrations yet</h3>
+                        <p>Register for an event or contest to see your registrations here.</p>
+                        <button class="btn btn-primary" onclick="window.location.href='index.html#events'">Browse Events</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map((r, idx) => {
+                const dateStr = new Date(r.registrationDate).toLocaleDateString();
+                const rStatusClass = r.registrationStatus.toLowerCase();
+                let pStatusClass = r.paymentStatus ? r.paymentStatus.toLowerCase().replace('_', '-') : 'not-required';
+                
+                const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : '';
+                const displayRegStatus = cap(r.registrationStatus);
+                const displayPayStatus = r.paymentStatus === 'not_required' ? 'Not Required' : cap(r.paymentStatus);
+
+                return `
+                    <div class="reg-card" onclick="openRegModal(${idx})">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <h4 style="margin-top: 0; margin-bottom: 5px;">${r.title}</h4>
+                            <span style="font-size: 0.8rem; background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px;">${r.typeLabel}</span>
+                        </div>
+                        <div style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 10px;">${dateStr}</div>
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                            <div><span style="font-size: 0.8rem; color: #cbd5e1;">Reg:</span> <span class="reg-badge ${rStatusClass}">${displayRegStatus}</span></div>
+                            <div><span style="font-size: 0.8rem; color: #cbd5e1;">Pay:</span> <span class="reg-badge ${pStatusClass}">${displayPayStatus}</span></div>
+                        </div>
+                        <div style="font-size: 0.9rem; color: #f1f5f9; border-top: 1px solid #1e293b; padding-top: 8px;">
+                            Fee: ${r.fee === 0 ? 'Free' : `৳ ${r.fee}`}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        window.openRegModal = function(index) {
+            let filtered = allRegistrations;
+            if (currentRegTab === 'events') filtered = allRegistrations.filter(r => r.isEvent);
+            if (currentRegTab === 'contests') filtered = allRegistrations.filter(r => !r.isEvent);
+            
+            const r = filtered[index];
+            currentResubmitReg = r;
+            
+            document.getElementById('regModalTitle').textContent = r.title;
+            document.getElementById('regModalType').textContent = `Type: ${r.typeLabel}`;
+
+            const rStatusClass = r.registrationStatus.toLowerCase();
+            let pStatusClass = r.paymentStatus ? r.paymentStatus.toLowerCase().replace('_', '-') : 'not-required';
+            const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : '';
+            const displayRegStatus = cap(r.registrationStatus);
+            const displayPayStatus = r.paymentStatus === 'not_required' ? 'Not Required' : cap(r.paymentStatus);
+
+            let bodyHtml = `
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Registration Status</span>
+                    <span class="reg-badge ${rStatusClass}">${displayRegStatus}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Payment Status</span>
+                    <span class="reg-badge ${pStatusClass}">${displayPayStatus}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Registration Fee</span>
+                    <strong style="color:#f1f5f9;">${r.fee === 0 ? 'Free' : `৳ ${r.fee}`}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Amount Paid</span>
+                    <strong style="color:#f1f5f9;">৳ ${r.amount || 0}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Date</span>
+                    <strong style="color:#f1f5f9;">${new Date(r.registrationDate).toLocaleString()}</strong>
+                </div>
+            `;
+
+            if (r.paymentGateway && r.paymentGateway !== 'none') {
+                bodyHtml += `
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Payment Method</span>
+                    <strong style="color:#f1f5f9;">${r.paymentGateway}</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
+                    <span style="color:#94a3b8;">Transaction ID</span>
+                    <strong style="color:#f1f5f9;">${r.transactionId}</strong>
+                </div>`;
+            }
+
+            if (r.paymentStatus === 'rejected' && r.rejectionReason) {
+                bodyHtml += `
+                <div style="background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; padding: 10px; margin-top: 10px; border-radius: 4px;">
+                    <span style="color:#ef4444; font-weight: 600; display: block; margin-bottom: 4px;">Rejection Reason:</span>
+                    <span style="color:#f87171; font-size: 0.9rem;">${r.rejectionReason}</span>
+                </div>`;
+                document.getElementById('resubmitSection').style.display = 'block';
+                document.getElementById('resubmitTxId').value = '';
+            } else {
+                document.getElementById('resubmitSection').style.display = 'none';
+            }
+
+            document.getElementById('regModalBody').innerHTML = bodyHtml;
+            document.getElementById('regModal').style.display = 'block';
+        };
+
+        window.closeRegModal = function() {
+            document.getElementById('regModal').style.display = 'none';
+        };
+
+        // ==================== END MY REGISTRATIONS LOGIC ====================
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const resubmitBtn = document.getElementById('regResubmitBtn');
+            if (resubmitBtn) {
+                resubmitBtn.addEventListener('click', async () => {
+                    if (!currentResubmitReg) return;
+                    const txId = document.getElementById('resubmitTxId').value.trim();
+                    if (!txId) {
+                        alert('Please enter a new transaction ID');
+                        return;
+                    }
+
+                    const endpoint = currentResubmitReg.isEvent 
+                        ? 'http://localhost:5000/api/event-registration/resubmit-payment'
+                        : 'http://localhost:5000/api/contest-registration/resubmit-payment';
+                    
+                    const payload = currentResubmitReg.isEvent
+                        ? { registrationId: currentResubmitReg._id, newTransactionId: txId }
+                        : { registrationId: currentResubmitReg._id, newTransactionId: txId };
+
+                    try {
+                        const token = localStorage.getItem('token');
+                        const res = await fetch(endpoint, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        });
+                        const data = await res.json();
+                        if (res.ok && data.success) {
+                            alert('Payment resubmitted successfully! It is now pending review.');
+                            closeRegModal();
+                            loadMyRegistrations();
+                        } else {
+                            alert(data.message || 'Failed to resubmit payment');
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        alert('Server error while resubmitting');
+                    }
+                });
+            }
+
+            loadDashboardData();
+            loadMyRegistrations();
+            loadProfileData();
+        });
+    </script>
+
+    
+    <!-- REGISTRATION DETAILS MODAL -->
+    <div id="regModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="close-modal" onclick="closeRegModal()">&times;</span>
+            <h2 id="regModalTitle" style="color: #6366f1; margin-top: 0; margin-bottom: 5px;">Registration Details</h2>
+            <p id="regModalType" style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px;">Type</p>
+
+            <div id="regModalBody" style="display: flex; flex-direction: column; gap: 12px; background: rgba(15, 23, 42, 0.4); padding: 15px; border-radius: 8px; border: 1px solid #1e293b;">
+                <!-- Content injected via JS -->
+            </div>
+
+            <!-- Resubmit Payment Section -->
+            <div id="resubmitSection" style="display: none; margin-top: 20px; background: rgba(30, 41, 59, 0.8); padding: 15px; border-radius: 8px; border: 1px solid #f59e0b;">
+                <h3 style="color: #f59e0b; margin-top: 0; margin-bottom: 10px;">Resubmit Payment</h3>
+                <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 15px;">Your previous payment was rejected. Please submit a valid transaction ID.</p>
+                <input type="text" id="resubmitTxId" placeholder="New Transaction ID" style="width: 100%; background: var(--dark-bg); color: var(--text-color); border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; margin-bottom: 10px;">
+                <button id="regResubmitBtn" class="btn btn-primary" style="width: 100%; background: #f59e0b;">Submit New Transaction ID</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

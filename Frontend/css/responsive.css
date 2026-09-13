@@ -1,0 +1,224 @@
+
+/* ==================== GLOBAL RESPONSIVENESS ==================== */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Base Responsive Typography & Padding */
+@media (max-width: 1024px) {
+    :root {
+        --spacing-2xl: 2rem;
+        --spacing-xl: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-container { padding: 40px 15px !important; }
+    .hero-buttons { flex-direction: column; width: 100%; }
+    .btn { width: 100%; text-align: center; justify-content: center; margin-bottom: 10px; }
+    
+    /* Ensure forms are 100% width */
+    .form-grid { grid-template-columns: 1fr !important; }
+    .full-width { grid-column: 1 / -1 !important; }
+    
+    /* Modals */
+    .admin-modal-content, .modal-content {
+        width: 95% !important;
+        margin: 10% auto !important;
+        padding: 20px !important;
+    }
+
+    /* Cards */
+    .events-grid, .contests-grid, .news-grid, .team-grid, .admin-grid, .dashboard-grid, .registration-list, .stats-grid, .profile-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title { font-size: 1.75rem !important; }
+    .hero-title { font-size: 2rem !important; }
+}
+
+/* ==================== NAVBAR RESPONSIVENESS ==================== */
+@media (max-width: 1024px) {
+    .navbar-container { padding: 10px 15px; }
+    
+    .hamburger {
+        display: flex !important;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        z-index: 2000;
+    }
+    
+    .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: var(--primary-color);
+        transition: 0.3s;
+    }
+
+    .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    .nav-links {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: var(--dark-bg);
+        flex-direction: column !important;
+        gap: 15px !important;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        z-index: 1000;
+        width: 100%;
+    }
+
+    .nav-links.active {
+        max-height: 1000px; /* Allow expansion */
+        padding: 20px !important;
+        overflow-y: auto;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: left;
+    }
+
+    .nav-links li a {
+        display: block;
+        padding: 10px 0;
+        width: 100%;
+    }
+    
+    /* Make dashboard inline styles overridden for mobile menu */
+    .nav-links[style] {
+        display: flex !important;
+    }
+}
+
+/* ==================== DASHBOARD & TABLES RESPONSIVENESS ==================== */
+@media (max-width: 768px) {
+    /* Responsive stats grid */
+    .stats-container {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Convert tables to cards */
+    .admin-table, .admin-table thead, .admin-table tbody, .admin-table th, .admin-table td, .admin-table tr {
+        display: block;
+        width: 100%;
+    }
+    
+    .admin-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    .admin-table tr {
+        margin-bottom: 1rem;
+        background: var(--panel-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .admin-table td {
+        border: none;
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+        padding: 10px 10px 10px 40% !important;
+        text-align: left !important;
+        min-height: 40px;
+        word-wrap: break-word;
+    }
+    
+    .admin-table td:last-child {
+        border-bottom: 0;
+    }
+    
+    .admin-table td::before {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 35%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+        color: var(--muted-text);
+        content: attr(data-label);
+    }
+
+    /* Adjust Action Buttons in Mobile Tables */
+    .action-btn {
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 5px;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    /* Filters */
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+}
+
+/* Registration Pages Specific Fixes */
+@media (max-width: 768px) {
+    .registration-layout {
+        flex-direction: column !important;
+    }
+    .registration-sidebar {
+        width: 100% !important;
+        order: -1;
+    }
+    .payment-gateway-select {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
+
+/* Footer Fixes */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr !important;
+        gap: 30px;
+    }
+}
+
+/* Global override for horizontal scroll safety */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+@media (max-width: 380px) {
+    /* Handle the 350px minmax issue explicitly */
+    .dashboard-grid { grid-template-columns: 1fr !important; }
+    .registration-list { grid-template-columns: 1fr !important; }
+    .stats-grid { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid, .registration-list, .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
