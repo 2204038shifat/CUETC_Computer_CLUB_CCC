@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 const app = express();
 
@@ -20,6 +20,7 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const eventRegistrationRoutes = require('./routes/eventRegistrationRoutes');
 const contestRegistrationRoutes = require('./routes/contestRegistrationRoutes');
 const representativeRoutes = require('./routes/representativeRoutes');
+const chatbotRoutes = require('./routes/chatbot');
 
 // 3. USE ROUTES
 app.use('/api/auth', authRoutes);
@@ -29,6 +30,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/event-registration', eventRegistrationRoutes);
 app.use('/api/contest-registration', contestRegistrationRoutes);
 app.use('/api/representative', representativeRoutes);
+app.use('/api/chatbot', chatbotRoutes);
 
 // 4. CONNECT TO DATABASE
 mongoose.connect(process.env.MONGO_URI)

@@ -5,7 +5,9 @@ node_modules/
 # Environment variables / Secrets
 .env
 .env.*
+**/.env
 !.env.example
+!**/.env.example
 
 # Build / Production files
 dist/
