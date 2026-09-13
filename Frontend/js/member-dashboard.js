@@ -49,7 +49,7 @@ async function loadProfile() {
     }
 
     try {
-        const res = await fetch('http://localhost:5000/api/auth/profile', {
+        const res = await fetch('/api/auth/profile', {
             method: 'GET',
             headers: { 
                 'Authorization': `Bearer ${token}`,
@@ -90,7 +90,7 @@ async function loadEventRegistrations() {
     const token = localStorage.getItem('token');
 
     try {
-        const response = await fetch('http://localhost:5000/api/event-registration/my-registrations', {
+        const response = await fetch('/api/event-registration/my-registrations', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -182,7 +182,7 @@ async function loadContestRegistrations() {
     const token = localStorage.getItem('token');
 
     try {
-        const response = await fetch('http://localhost:5000/api/contest-registration/my-registrations', {
+        const response = await fetch('/api/contest-registration/my-registrations', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -281,7 +281,7 @@ async function cancelEventRegistration(registrationId) {
     const token = localStorage.getItem('token');
 
     try {
-        const response = await fetch(`http://localhost:5000/api/event-registration/cancel/${registrationId}`, {
+        const response = await fetch(`/api/event-registration/cancel/${registrationId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -313,7 +313,7 @@ async function cancelContestRegistration(registrationId) {
     const token = localStorage.getItem('token');
 
     try {
-        const response = await fetch(`http://localhost:5000/api/contest-registration/cancel/${registrationId}`, {
+        const response = await fetch(`/api/contest-registration/cancel/${registrationId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

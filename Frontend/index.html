@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="js/api.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CUET Computer Club</title>
@@ -599,7 +600,7 @@
 async function loadEvents() {
     try {
         console.log('🔄 Loading events...');
-        const response = await fetch('http://localhost:5000/api/data/events');
+        const response = await fetch('/api/data/events');
         const data = await response.json();
 
         console.log('📊 Events response:', data);
@@ -682,7 +683,7 @@ async function loadEvents() {
 async function loadContests() {
     try {
         console.log('🔄 Loading contests...');
-        const response = await fetch('http://localhost:5000/api/data/contests');
+        const response = await fetch('/api/data/contests');
         const data = await response.json();
 
         console.log('📊 Contests response:', data);
@@ -783,7 +784,7 @@ async function loadContests() {
 async function loadNews() {
     try {
         console.log('🔄 Loading news...');
-        const response = await fetch('http://localhost:5000/api/data/news');
+        const response = await fetch('/api/data/news');
         const data = await response.json();
 
         console.log('📊 News response:', data);
@@ -857,7 +858,7 @@ async function registerContest(contestId) {
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/api/data/contests/register/${contestId}`, {
+        const response = await fetch(`/api/data/contests/register/${contestId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -887,7 +888,7 @@ async function registerEvent(eventId) {
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/api/data/events/register/${eventId}`, {
+        const response = await fetch(`/api/data/events/register/${eventId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

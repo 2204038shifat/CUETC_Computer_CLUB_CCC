@@ -12,7 +12,7 @@ async function registerContest(contestId) {
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/api/data/contests/register/${contestId}`, {
+        const response = await fetch(`/api/data/contests/register/${contestId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -53,7 +53,7 @@ async function unregisterContest(contestId) {
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/api/data/contests/unregister/${contestId}`, {
+        const response = await fetch(`/api/data/contests/unregister/${contestId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -88,7 +88,7 @@ async function registerEvent(eventId) {
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/api/data/events/register/${eventId}`, {
+        const response = await fetch(`/api/data/events/register/${eventId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -126,7 +126,7 @@ async function unregisterEvent(eventId) {
     }
 
     try {
-        const response = await fetch(`http://localhost:5000/api/data/events/unregister/${eventId}`, {
+        const response = await fetch(`/api/data/events/unregister/${eventId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

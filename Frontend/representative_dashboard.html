@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="js/api.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Representative Dashboard - CUET Computer Club</title>
@@ -662,7 +663,7 @@
             formData.append('type', type);
 
             try {
-                const response = await fetch(`http://localhost:5000/api/upload/upload?type=${type}`, {
+                const response = await fetch(`/api/upload/upload?type=${type}`, {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}` },
                     body: formData
@@ -729,7 +730,7 @@
             const registrationFee = document.getElementById('evRegistrationFee').value;
 
             try {
-                const response = await fetch('http://localhost:5000/api/representative/events', {
+                const response = await fetch('/api/representative/events', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -773,7 +774,7 @@
             const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()) : [];
 
             try {
-                const response = await fetch('http://localhost:5000/api/representative/contests', {
+                const response = await fetch('/api/representative/contests', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -809,7 +810,7 @@
             const content = document.getElementById('newsContent').value;
 
             try {
-                const response = await fetch('http://localhost:5000/api/representative/news', {
+                const response = await fetch('/api/representative/news', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -840,7 +841,7 @@
 
         async function loadNotifications() {
             try {
-                const res = await fetch('http://localhost:5000/api/representative/notifications', {
+                const res = await fetch('/api/representative/notifications', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();
@@ -867,7 +868,7 @@
 
         async function loadDashboardData() {
             try {
-                const res = await fetch('http://localhost:5000/api/representative/my-submissions', {
+                const res = await fetch('/api/representative/my-submissions', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await res.json();
@@ -1041,7 +1042,7 @@
                 const token = localStorage.getItem('token');
                 
                 // Fetch Events
-                const evRes = await fetch('http://localhost:5000/api/event-registration/my-registrations', {
+                const evRes = await fetch('/api/event-registration/my-registrations', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (!evRes.ok) throw new Error('Failed to fetch event registrations');
@@ -1049,7 +1050,7 @@
                 const evRegs = evData.success && evData.registrations ? evData.registrations : [];
 
                 // Fetch Contests
-                const conRes = await fetch('http://localhost:5000/api/contest-registration/my-registrations', {
+                const conRes = await fetch('/api/contest-registration/my-registrations', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (!conRes.ok) throw new Error('Failed to fetch contest registrations');
@@ -1238,8 +1239,8 @@
                     }
 
                     const endpoint = currentResubmitReg.isEvent 
-                        ? 'http://localhost:5000/api/event-registration/resubmit-payment'
-                        : 'http://localhost:5000/api/contest-registration/resubmit-payment';
+                        ? '/api/event-registration/resubmit-payment'
+                        : '/api/contest-registration/resubmit-payment';
                     
                     const payload = currentResubmitReg.isEvent
                         ? { registrationId: currentResubmitReg._id, newTransactionId: txId }

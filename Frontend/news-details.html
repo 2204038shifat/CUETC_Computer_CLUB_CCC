@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="js/api.js"></script>
     <link rel="stylesheet" href="css/cuet-chatbot.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -116,7 +117,7 @@
             }
 
             try {
-                const response = await fetch(`http://localhost:5000/api/data/news/${newsId}`);
+                const response = await fetch(`/api/data/news/${newsId}`);
                 const data = await response.json();
 
                 if (response.ok && data.success && data.news) {

@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function loadContestDetails() {
     try {
-        const response = await fetch(`http://localhost:5000/api/contest-registration/contest/${contestId}`);
+        const response = await fetch(`/api/contest-registration/contest/${contestId}`);
         const data = await response.json();
 
         if (!data.success) {
@@ -91,7 +91,7 @@ async function loadContestDetails() {
 async function loadUserData() {
     try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:5000/api/auth/profile', {
+        const response = await fetch('/api/auth/profile', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -262,29 +262,6 @@ async function handleFormSubmit(e) {
             // Step 1: Verify transaction
             paymentGateway = document.querySelector('input[name="paymentGateway"]:checked').value;
             transactionId = document.getElementById('transactionId').value.trim();
-
-            console.log('Verifying transaction:', { paymentGateway, transactionId });
-
-            const verifyResponse = await fetch('http://localhost:5000/api/event-registration/verify-transaction', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    transactionId,
-                    paymentGateway
-                })
-            });
-
-            const verifyData = await verifyResponse.json();
-
-            if (!verifyData.success) {
-                showError('Transaction verification failed: ' + verifyData.message);
-                showLoading(false);
-                return;
-            }
-
-            console.log('Transaction verified');
         }
 
         // Collect team members data
@@ -318,7 +295,7 @@ async function handleFormSubmit(e) {
 
         console.log('🔄 Submitting registration:', registrationData);
 
-        const regResponse = await fetch('http://localhost:5000/api/contest-registration/register', {
+        const regResponse = await fetch('/api/contest-registration/register', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
