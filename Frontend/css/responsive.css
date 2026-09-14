@@ -20,6 +20,7 @@ img {
 }
 
 @media (max-width: 768px) {
+    .hero { min-height: auto !important; padding-top: 120px !important; padding-bottom: 40px !important; justify-content: flex-start !important; }
     .section-container { padding: 40px 15px !important; }
     .hero-buttons { flex-direction: column; width: 100%; }
     .btn { width: 100%; text-align: center; justify-content: center; margin-bottom: 10px; }
