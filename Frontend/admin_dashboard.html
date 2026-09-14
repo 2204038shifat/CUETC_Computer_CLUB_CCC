@@ -1201,10 +1201,20 @@ async function uploadImage(event, type, inputId) {
                 }
 
                 // Review Status Notice & Buttons
-                document.getElementById('revReviewNotice').className = 'notice-banner notice-success';
-                document.getElementById('revReviewNotice').innerHTML = `<span>✅ Submission opened and reviewed. Approve and Reject are available.</span>`;
-                document.getElementById('revApproveBtn').disabled = false;
-                document.getElementById('revRejectBtn').disabled = false;
+                if (data.item.status === 'approved') {
+                    document.getElementById('revReviewNotice').className = 'notice-banner notice-warning';
+                    document.getElementById('revReviewNotice').innerHTML = `<span>⚠️ This submission is already approved and public. Edit via the Live Content tab.</span>`;
+                    document.getElementById('revApproveBtn').disabled = true;
+                    document.getElementById('revRejectBtn').disabled = true;
+                    document.getElementById('revSaveEditsBtn').style.display = 'none';
+                } else {
+                    document.getElementById('revReviewNotice').className = 'notice-banner notice-success';
+                    document.getElementById('revReviewNotice').innerHTML = `<span>✅ Submission opened and reviewed. Approve and Reject are available.</span>`;
+                    document.getElementById('revApproveBtn').disabled = false;
+                    document.getElementById('revRejectBtn').disabled = false;
+                    document.getElementById('revSaveEditsBtn').style.display = 'inline-block';
+                }
+                
                 document.getElementById('revReviewAgainBtn').style.display = 'none';
 
                 document.getElementById('reviewModal').style.display = 'block';
