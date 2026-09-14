@@ -913,13 +913,24 @@ async function uploadImage(event, type, inputId) {
         async function loadPendingApprovals() {
     const tbody = document.getElementById('pendingApprovalsBody');
     try {
-        const url = new URL('/api/admin/submissions');
+        const url = new URL('/api/admin/submissions', window.location.origin);
         url.searchParams.append('status', 'pending');
 
         const res = await fetch(url.toString(), {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        const data = await res.json();
+        
+        let data;
+        const text = await res.text();
+        try {
+            data = text ? JSON.parse(text) : { success: false, message: 'Empty response (e.g., 304 Not Modified)' };
+        } catch (e) {
+            if (!res.ok) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: #ef4444;">Server error ${res.status}: ${res.statusText}</td></tr>`;
+                return;
+            }
+            throw new Error("Invalid JSON");
+        }
 
         if (!data.success) {
             tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color: #ef4444;">Failed to load pending approvals.</td></tr>';
@@ -1024,7 +1035,7 @@ async function uploadImage(event, type, inputId) {
     const tbody = document.getElementById('repSubmissionsTableBody');
 
     try {
-        const url = new URL('/api/admin/submissions');
+        const url = new URL('/api/admin/submissions', window.location.origin);
         if (type && type !== 'all') url.searchParams.append('type', type);
         if (status && status !== 'all') url.searchParams.append('status', status);
         if (search) url.searchParams.append('search', search);
@@ -1032,7 +1043,18 @@ async function uploadImage(event, type, inputId) {
         const res = await fetch(url.toString(), {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        const data = await res.json();
+        
+        let data;
+        const text = await res.text();
+        try {
+            data = text ? JSON.parse(text) : { success: false, message: 'Empty response (e.g., 304 Not Modified)' };
+        } catch (e) {
+            if (!res.ok) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: #ef4444;">Server error ${res.status}: ${res.statusText}</td></tr>`;
+                return;
+            }
+            throw new Error("Invalid JSON");
+        }
 
         if (data.success) {
             currentSubmissionsList = data.submissions || [];
@@ -1614,7 +1636,18 @@ async function uploadImage(event, type, inputId) {
         const userRes = await fetch('/api/admin/users', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        const userData = await userRes.json();
+        
+        let userData;
+        const userText = await userRes.text();
+        try {
+            userData = userText ? JSON.parse(userText) : { success: false, message: 'Empty response (e.g., 304 Not Modified)' };
+        } catch (e) {
+            if (!userRes.ok) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: #ef4444;">Server error ${userRes.status}: ${userRes.statusText}</td></tr>`;
+                return;
+            }
+            throw new Error("Invalid JSON");
+        }
 
         if (userData.success) {
             document.getElementById('statMembers').innerText = userData.users.length || 0;
@@ -1665,7 +1698,18 @@ async function uploadImage(event, type, inputId) {
         const eventRes = await fetch('/api/admin/submissions?type=events&status=all', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        const eventData = await eventRes.json();
+        
+        let eventData;
+        const eventText = await eventRes.text();
+        try {
+            eventData = eventText ? JSON.parse(eventText) : { success: false, message: 'Empty response (e.g., 304 Not Modified)' };
+        } catch (e) {
+            if (!eventRes.ok) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: #ef4444;">Server error ${eventRes.status}: ${eventRes.statusText}</td></tr>`;
+                return;
+            }
+            throw new Error("Invalid JSON");
+        }
 
         if (eventData.success) {
             const events = eventData.submissions || [];
@@ -1703,7 +1747,18 @@ async function uploadImage(event, type, inputId) {
         const contestRes = await fetch('/api/admin/submissions?type=contests&status=all', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        const contestData = await contestRes.json();
+        
+        let contestData;
+        const contestText = await contestRes.text();
+        try {
+            contestData = contestText ? JSON.parse(contestText) : { success: false, message: 'Empty response (e.g., 304 Not Modified)' };
+        } catch (e) {
+            if (!contestRes.ok) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: #ef4444;">Server error ${contestRes.status}: ${contestRes.statusText}</td></tr>`;
+                return;
+            }
+            throw new Error("Invalid JSON");
+        }
 
         if (contestData.success) {
             const contests = contestData.submissions || [];
@@ -1741,7 +1796,18 @@ async function uploadImage(event, type, inputId) {
         const newsRes = await fetch('/api/admin/submissions?type=news&status=all', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        const newsData = await newsRes.json();
+        
+        let newsData;
+        const newsText = await newsRes.text();
+        try {
+            newsData = newsText ? JSON.parse(newsText) : { success: false, message: 'Empty response (e.g., 304 Not Modified)' };
+        } catch (e) {
+            if (!newsRes.ok) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: #ef4444;">Server error ${newsRes.status}: ${newsRes.statusText}</td></tr>`;
+                return;
+            }
+            throw new Error("Invalid JSON");
+        }
 
         if (newsData.success) {
             const newsList = newsData.submissions || [];
@@ -1786,7 +1852,18 @@ async function loadAdminEventRegistrations() {
         const res = await fetch('/api/event-registration/admin/all', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        const data = await res.json();
+        
+        let data;
+        const text = await res.text();
+        try {
+            data = text ? JSON.parse(text) : { success: false, message: 'Empty response' };
+        } catch (e) {
+            if (!res.ok) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: #ef4444;">Server error ${res.status}: ${res.statusText}</td></tr>`;
+                return;
+            }
+            throw new Error("Invalid JSON");
+        }
 
         if (data.success) {
             const regs = data.registrations || [];
@@ -1834,7 +1911,18 @@ async function loadAdminContestRegistrations() {
         const res = await fetch('/api/contest-registration/admin/all', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        const data = await res.json();
+        
+        let data;
+        const text = await res.text();
+        try {
+            data = text ? JSON.parse(text) : { success: false, message: 'Empty response' };
+        } catch (e) {
+            if (!res.ok) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: #ef4444;">Server error ${res.status}: ${res.statusText}</td></tr>`;
+                return;
+            }
+            throw new Error("Invalid JSON");
+        }
 
         if (data.success) {
             const regs = data.registrations || [];
