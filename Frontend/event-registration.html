@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <script src="js/api.js"></script>
@@ -394,7 +394,7 @@
             <!-- LEFT: FORM -->
             <div class="registration-form-container">
                 <div class="registration-header">
-                    <h2>ðŸ“‹ Event Registration</h2>
+                    <h2>📋 Event Registration</h2>
                 </div>
 
                 <!-- ERROR MESSAGE -->
@@ -402,7 +402,7 @@
 
                 <!-- SUCCESS MESSAGE -->
                 <div class="success-message" id="successMessage">
-                    âœ… Registration successful! Redirecting to dashboard...
+                    ✅ Registration successful! Redirecting to dashboard...
                 </div>
 
                 <!-- LOADING STATE -->
@@ -415,7 +415,7 @@
                 <form id="eventRegistrationForm" style="display: block;">
                     <!-- PERSONAL INFORMATION -->
                     <div class="form-section">
-                        <h3>ðŸ‘¤ Personal Information</h3>
+                        <h3>👤 Personal Information</h3>
                         
                         <div class="form-row">
                             <div class="form-group">
@@ -463,7 +463,7 @@
 
                     <!-- EVENT PREFERENCES -->
                     <div class="form-section" id="preferenceSection">
-                        <h3>ðŸŽ¨ Event Preferences</h3>
+                        <h3>🎨 Event Preferences</h3>
                         
                         <div class="form-row" id="tshirtRow" style="display: none;">
                             <div class="form-group">
@@ -501,7 +501,7 @@
 
                     <!-- PAYMENT SECTION (shown only for PAID events, hidden for FREE) -->
                     <div class="payment-section" id="paymentSection" style="display: none;">
-                        <h3 style="margin-top: 0;">ðŸ’³ Payment Details</h3>
+                        <h3 style="margin-top: 0;">💳 Payment Details</h3>
 
                         <!-- Fee Display (read-only) -->
                         <div style="background: rgba(30, 41, 59, 0.7); border-left: 4px solid #6366f1; padding: 14px 18px; border-radius: 8px; margin-bottom: 20px;">
@@ -514,22 +514,22 @@
                         <div class="payment-gateway-select">
                             <div class="gateway-option">
                                 <input type="radio" id="bkash" name="paymentGateway" value="bKash">
-                                <label for="bkash">ðŸ¦ bKash</label>
+                                <label for="bkash">🏦 bKash</label>
                             </div>
                             <div class="gateway-option">
                                 <input type="radio" id="nagad" name="paymentGateway" value="Nagad">
-                                <label for="nagad">ðŸ“± Nagad</label>
+                                <label for="nagad">📱 Nagad</label>
                             </div>
                             <div class="gateway-option">
                                 <input type="radio" id="rocket" name="paymentGateway" value="Rocket">
-                                <label for="rocket">ðŸš€ Rocket</label>
+                                <label for="rocket">🚀 Rocket</label>
                             </div>
                         </div>
 
                         <div class="info-box" style="margin-top: 16px;">
-                            ðŸ“ž <strong>Send Money to:</strong> <span id="paymentNumberDisplay" style="font-size: 1.1rem; color: #f1f5f9;">Loading...</span><br>
-                            ðŸ’° <strong>Amount:</strong> <span id="paymentAmountDisplay">0 Taka</span><br><br>
-                            âš ï¸ Keep your transaction ID safe. You'll need it below.
+                            📞 <strong>Send Money to:</strong> <span id="paymentNumberDisplay" style="font-size: 1.1rem; color: #f1f5f9;">Loading...</span><br>
+                            💰 <strong>Amount:</strong> <span id="paymentAmountDisplay">0 Taka</span><br><br>
+                            ⚠️ Keep your transaction ID safe. You'll need it below.
                         </div>
 
                         <div class="transaction-input" style="margin-top: 16px;">
@@ -550,7 +550,7 @@
 
                     <!-- FREE EVENT NOTICE (shown only for FREE events) -->
                     <div id="freeNotice" style="display: none; background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10b981; padding: 16px 20px; border-radius: 8px; margin: 20px 0;">
-                        âœ… <strong style="color: #10b981;">This is a FREE event!</strong><br>
+                        ✅ <strong style="color: #10b981;">This is a FREE event!</strong><br>
                         <span style="color: #94a3b8;">No payment is required. Your registration will be confirmed immediately.</span>
                     </div>
 
@@ -564,31 +564,31 @@
 
             <!-- RIGHT: SIDEBAR -->
             <div class="registration-sidebar">
-                <h3 style="color: #6366f1; margin-top: 0;">ðŸ“… Event Summary</h3>
+                <h3 style="color: #6366f1; margin-top: 0;">📅 Event Summary</h3>
 
                 <div class="event-summary">
                     <h3 id="eventTitle">Loading...</h3>
                     <div class="event-detail">
-                        <span>ðŸ“… Date:</span>
+                        <span>📅 Date:</span>
                         <strong id="eventDate">Loading...</strong>
                     </div>
                     <div class="event-detail">
-                        <span>ðŸ“ Location:</span>
+                        <span>📍 Location:</span>
                         <strong id="eventLocation">Loading...</strong>
                     </div>
                     <div class="event-detail">
-                        <span>ðŸ‘¥ Registered:</span>
+                        <span>👥 Registered:</span>
                         <strong id="eventRegistered">0</strong>
                     </div>
                 </div>
 
                 <div class="price-display">
                     <div class="label">Registration Fee</div>
-                    <div class="amount" id="totalAmount">à§³200</div>
+                    <div class="amount" id="totalAmount">৳200</div>
                 </div>
 
                 <div style="background: rgba(30, 41, 59, 0.7); padding: 15px; border-radius: 8px; margin: 20px 0;">
-                    <h4 style="color: #f1f5f9; margin-top: 0;">âœ… What's Included:</h4>
+                    <h4 style="color: #f1f5f9; margin-top: 0;">✅ What's Included:</h4>
                     <ul style="color: #94a3b8; padding-left: 20px; margin: 0;">
                         <li>Event Entry Pass</li>
                         <li id="tshirtIncluded" style="display: none;">Premium T-Shirt</li>
@@ -599,18 +599,18 @@
                 </div>
 
                 <div class="info-box" id="importantNotes">
-                    <strong>ðŸ“Œ Important Notes:</strong><br>
-                    â€¢ Complete payment first<br>
-                    â€¢ Save your transaction ID<br>
-                    â€¢ You'll receive a confirmation email<br>
-                    â€¢ Bring ID to the event
+                    <strong>📌 Important Notes:</strong><br>
+                    • Complete payment first<br>
+                    • Save your transaction ID<br>
+                    • You'll receive a confirmation email<br>
+                    • Bring ID to the event
                 </div>
             </div>
         </div>
     </div>
 
     <!-- THEME TOGGLE -->
-    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">ðŸŒ™</button>
+    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">🌙</button>
 
     <!-- SCRIPTS -->
     <script src="./js/script.js"></script>

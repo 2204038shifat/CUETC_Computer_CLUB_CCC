@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <script src="js/api.js"></script>
@@ -60,7 +60,7 @@
                 </li>
                 <li id="profile-nav-item" style="display: none;">
                     <a href="member_dashboard.html" id="profile-link" class="nav-link btn-profile">
-                        <span class="profile-icon">ðŸ‘¤</span> 
+                        <span class="profile-icon">👤</span> 
                         <span id="nav-user-name">Profile</span>
                     </a>
                 </li>
@@ -108,19 +108,19 @@
         <!-- Live Stats Section -->
         <div class="stats-container">
             <div class="stat-card">
-                <div class="stat-icon">ðŸ‘¥</div>
+                <div class="stat-icon">👥</div>
                 <div class="stat-value" data-count="450">0</div>
                 <div class="stat-label">Total Members</div>
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon">ðŸŒ</div>
+                <div class="stat-icon">🌐</div>
                 <div class="stat-value" data-count="128">0</div>
                 <div class="stat-label">Connected Users</div>
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon">ðŸ†</div>
+                <div class="stat-icon">🏆</div>
                 <div class="stat-value" data-count="89">0</div>
                 <div class="stat-label">Certified Members</div>
             </div>
@@ -145,7 +145,7 @@
             <div class="activities-grid">
                 <!-- Card 1: Programming -->
                 <div class="activity-card">
-                    <div class="card-icon">ðŸ’¬</div>
+                    <div class="card-icon">💬</div>
                     <h3 class="card-title">Programming</h3>
                     <p class="card-description">
                         Master multiple programming languages including Python, JavaScript, C++, and Java. 
@@ -160,7 +160,7 @@
 
                 <!-- Card 2: Workshops -->
                 <div class="activity-card">
-                    <div class="card-icon">ðŸŽ“</div>
+                    <div class="card-icon">🎓</div>
                     <h3 class="card-title">Workshops</h3>
                     <p class="card-description">
                         Attend expert-led workshops on emerging technologies like Web Development, 
@@ -175,7 +175,7 @@
 
                 <!-- Card 3: Contests -->
                 <div class="activity-card">
-                    <div class="card-icon">ðŸ…</div>
+                    <div class="card-icon">🏅</div>
                     <h3 class="card-title">Contests</h3>
                     <p class="card-description">
                         Participate in exciting coding competitions and hackathons. 
@@ -190,7 +190,7 @@
 
                 <!-- Card 4: Networking -->
                 <div class="activity-card">
-                    <div class="card-icon">ðŸ¤</div>
+                    <div class="card-icon">🤝</div>
                     <h3 class="card-title">Networking</h3>
                     <p class="card-description">
                         Connect with industry professionals, alumni, and fellow tech enthusiasts. 
@@ -205,7 +205,7 @@
 
                 <!-- Card 5: Projects -->
                 <div class="activity-card">
-                    <div class="card-icon">ðŸš€</div>
+                    <div class="card-icon">🚀</div>
                     <h3 class="card-title">Projects</h3>
                     <p class="card-description">
                         Collaborate on real-world projects and contribute to open-source. 
@@ -220,7 +220,7 @@
 
                 <!-- Card 6: Community -->
                 <div class="activity-card">
-                    <div class="card-icon">ðŸ’¡</div>
+                    <div class="card-icon">💡</div>
                     <h3 class="card-title">Community</h3>
                     <p class="card-description">
                         Join a vibrant community of tech lovers. Share knowledge, help each other grow, 
@@ -517,7 +517,7 @@
 
                     <!-- Email -->
                     <div class="info-card">
-                        <div class="info-icon">âœ‰ï¸</div>
+                        <div class="info-icon">✉️</div>
                         <div class="info-content">
                             <h4 class="info-heading">Email</h4>
                             <p class="info-text">
@@ -529,7 +529,7 @@
 
                     <!-- Phone -->
                     <div class="info-card">
-                        <div class="info-icon">ðŸ“ž</div>
+                        <div class="info-icon">📞</div>
                         <div class="info-content">
                             <h4 class="info-heading">Phone</h4>
                             <p class="info-text">
@@ -541,7 +541,7 @@
 
                     <!-- Location -->
                     <div class="info-card">
-                        <div class="info-icon">ðŸ“</div>
+                        <div class="info-icon">📍</div>
                         <div class="info-content">
                             <h4 class="info-heading">Location</h4>
                             <p class="info-text">
@@ -554,7 +554,7 @@
 
                     <!-- Office Hours -->
                     <div class="info-card">
-                        <div class="info-icon">ðŸ•</div>
+                        <div class="info-icon">🕐</div>
                         <div class="info-content">
                             <h4 class="info-heading">Office Hours</h4>
                             <p class="info-text">
@@ -574,7 +574,7 @@
         <div class="footer-container">
             <div class="footer-content">
                 <p>&copy; 2026 Tech Club - University Computer Club. All rights reserved.</p>
-                <p>Made with â¤ï¸ by our amazing team</p>
+                <p>Made with ❤️ by our amazing team</p>
             </div>
             <div class="footer-links">
                 <a href="#home">Back to Top</a>
@@ -584,7 +584,7 @@
 
     <!-- ==================== THEME TOGGLE (Optional Dark/Light Mode) ==================== -->
     <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
-        ðŸŒ™
+        🌙
     </button>
 
     <!-- ==================== SCRIPT ==================== -->
@@ -600,15 +600,15 @@
 // ==================== LOAD EVENTS ====================
 async function loadEvents() {
     try {
-        console.log('ðŸ”„ Loading events...');
+        console.log('🔄 Loading events...');
         const response = await fetch('/api/data/events');
         const data = await response.json();
 
-        console.log('ðŸ“Š Events response:', data);
+        console.log('📊 Events response:', data);
 
         const container = document.getElementById('eventsContainer');
         if (!container) {
-            console.error('âŒ eventsContainer not found');
+            console.error('❌ eventsContainer not found');
             return;
         }
 
@@ -641,15 +641,15 @@ async function loadEvents() {
                     <div class="event-content">
                         <h3 class="event-title">${event.title || 'Event'}</h3>
                         <div class="event-meta">
-                            <span class="event-date">ðŸ“… ${new Date(event.date).toLocaleDateString()}</span>
-                            <span class="event-location">ðŸ“ ${event.location || 'TBA'}</span>
+                            <span class="event-date">📅 ${new Date(event.date).toLocaleDateString()}</span>
+                            <span class="event-location">📍 ${event.location || 'TBA'}</span>
                         </div>
                         <p class="event-description">
                             ${event.description || 'Join us for this exciting event!'}
                         </p>
                         <div class="event-stats">
-                            <span>ðŸ‘¥ ${event.participants ? event.participants.length : 0} Attendees</span>
-                            <span>â­ 4.8/5 Rating</span>
+                            <span>👥 ${event.participants ? event.participants.length : 0} Attendees</span>
+                            <span>⭐ 4.8/5 Rating</span>
                         </div>
                       
     <button 
@@ -667,12 +667,12 @@ async function loadEvents() {
 
                 container.appendChild(card);
             });
-            console.log('âœ… Events loaded successfully');
+            console.log('✅ Events loaded successfully');
         } else {
             container.innerHTML = '<p style="text-align: center; color: #94a3b8; grid-column: 1/-1; padding: 40px;">No events yet. Check back soon!</p>';
         }
     } catch (error) {
-        console.error('âŒ Error loading events:', error);
+        console.error('❌ Error loading events:', error);
         const container = document.getElementById('eventsContainer');
         if (container) {
             container.innerHTML = '<p style="text-align: center; color: red; grid-column: 1/-1;">Error loading events</p>';
@@ -683,15 +683,15 @@ async function loadEvents() {
 // ==================== LOAD CONTESTS ====================
 async function loadContests() {
     try {
-        console.log('ðŸ”„ Loading contests...');
+        console.log('🔄 Loading contests...');
         const response = await fetch('/api/data/contests');
         const data = await response.json();
 
-        console.log('ðŸ“Š Contests response:', data);
+        console.log('📊 Contests response:', data);
 
         const container = document.getElementById('contestsContainer');
         if (!container) {
-            console.error('âŒ contestsContainer not found');
+            console.error('❌ contestsContainer not found');
             return;
         }
 
@@ -730,19 +730,19 @@ async function loadContests() {
                     
                     <div class="contest-details">
                         <div class="detail-row">
-                            <span class="detail-label">ðŸ“… Date:</span>
+                            <span class="detail-label">📅 Date:</span>
                             <span class="detail-value">${new Date(contest.date).toLocaleDateString()}</span>
                         </div>
                         <div class="detail-row">
-                            <span class="detail-label">ðŸ† Prize Pool:</span>
+                            <span class="detail-label">🏆 Prize Pool:</span>
                             <span class="detail-value">${contest.prize || 'N/A'}</span>
                         </div>
                         <div class="detail-row">
-                            <span class="detail-label">ðŸ‘¥ Team Size:</span>
+                            <span class="detail-label">👥 Team Size:</span>
                             <span class="detail-value">${contest.teamSize || '1-3 members'}</span>
                         </div>
                         <div class="detail-row">
-                            <span class="detail-label">ðŸ‘¥ Registered:</span>
+                            <span class="detail-label">👥 Registered:</span>
                             <span class="detail-value">${contest.participants ? contest.participants.length : 0}</span>
                         </div>
                     </div>
@@ -768,12 +768,12 @@ async function loadContests() {
 
                 container.appendChild(card);
             });
-            console.log('âœ… Contests loaded successfully');
+            console.log('✅ Contests loaded successfully');
         } else {
             container.innerHTML = '<p style="text-align: center; color: #94a3b8; grid-column: 1/-1; padding: 40px;">No contests yet. Check back soon!</p>';
         }
     } catch (error) {
-        console.error('âŒ Error loading contests:', error);
+        console.error('❌ Error loading contests:', error);
         const container = document.getElementById('contestsContainer');
         if (container) {
             container.innerHTML = '<p style="text-align: center; color: red; grid-column: 1/-1;">Error loading contests</p>';
@@ -784,15 +784,15 @@ async function loadContests() {
 // ==================== LOAD NEWS ====================
 async function loadNews() {
     try {
-        console.log('ðŸ”„ Loading news...');
+        console.log('🔄 Loading news...');
         const response = await fetch('/api/data/news');
         const data = await response.json();
 
-        console.log('ðŸ“Š News response:', data);
+        console.log('📊 News response:', data);
 
         const container = document.getElementById('newsContainer');
         if (!container) {
-            console.error('âŒ newsContainer not found');
+            console.error('❌ newsContainer not found');
             return;
         }
 
@@ -835,12 +835,12 @@ async function loadNews() {
 
                 container.appendChild(card);
             });
-            console.log('âœ… News loaded successfully');
+            console.log('✅ News loaded successfully');
         } else {
             container.innerHTML = '<p style="text-align: center; color: #94a3b8; grid-column: 1/-1; padding: 40px;">No news yet.</p>';
         }
     } catch (error) {
-        console.error('âŒ Error loading news:', error);
+        console.error('❌ Error loading news:', error);
         const container = document.getElementById('newsContainer');
         if (container) {
             container.innerHTML = '<p style="text-align: center; color: red; grid-column: 1/-1;">Error loading news</p>';
@@ -869,10 +869,10 @@ async function registerContest(contestId) {
 
         const data = await response.json();
         if (data.success) {
-            alert('âœ… Registered for contest!');
+            alert('✅ Registered for contest!');
             loadContests();
         } else {
-            alert('âŒ ' + (data.message || 'Failed to register'));
+            alert('❌ ' + (data.message || 'Failed to register'));
         }
     } catch (error) {
         console.error('Error:', error);
@@ -899,10 +899,10 @@ async function registerEvent(eventId) {
 
         const data = await response.json();
         if (data.success) {
-            alert('âœ… Registered for event!');
+            alert('✅ Registered for event!');
             loadEvents();
         } else {
-            alert('âŒ ' + (data.message || 'Failed to register'));
+            alert('❌ ' + (data.message || 'Failed to register'));
         }
     } catch (error) {
         console.error('Error:', error);
@@ -913,7 +913,7 @@ async function registerEvent(eventId) {
 // ==================== LOAD ALL ON PAGE LOAD ====================
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('ðŸ“„ Page loaded - loading all data...');
+    console.log('📄 Page loaded - loading all data...');
     loadEvents();
     loadContests();
     loadNews();

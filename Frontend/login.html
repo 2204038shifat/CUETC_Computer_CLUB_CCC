@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <script src="js/api.js"></script>
@@ -92,7 +92,7 @@
         <div class="footer-container">
             <div class="footer-content">
                 <p>&copy; 2026 Tech Club - University Computer Club. All rights reserved.</p>
-                <p>Made with â¤ï¸ by our amazing team</p>
+                <p>Made with ❤️ by our amazing team</p>
             </div>
             <div class="footer-links">
                 <a href="index.html#home">Back to Top</a>
@@ -102,7 +102,7 @@
 
     <!-- ==================== THEME TOGGLE ==================== -->
     <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
-        ðŸŒ™
+        🌙
     </button>
 
     <!-- ==================== SCRIPT ==================== -->
@@ -148,7 +148,7 @@
                     localStorage.setItem('userEmail', data.user.email);
                     localStorage.setItem('userRole', data.user.role);
                     
-                    console.log('âœ… Login successful:', data.user);
+                    console.log('✅ Login successful:', data.user);
                     alert(`Welcome back, ${data.user.name}!`);
 
                     // Redirect based on role
@@ -162,10 +162,10 @@
                 } else {
                     // Login failed
                     alert(data.message || 'Login failed! Please check your credentials.');
-                    console.error('âŒ Login error:', data.message);
+                    console.error('❌ Login error:', data.message);
                 }
             } catch (error) {
-                console.error('âŒ Error during login:', error);
+                console.error('❌ Error during login:', error);
                 alert('Server error! Could not connect to the backend. Make sure your server is running on port 5000.');
             }
         });

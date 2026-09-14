@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <script src="js/api.js"></script>
@@ -270,9 +270,9 @@
         <!-- HEADER -->
         <div class="rep-header">
             <div>
-                <h1 style="margin: 0 0 5px 0;">Welcome, <span id="repName">Representative</span>! ðŸ‘‹</h1>
+                <h1 style="margin: 0 0 5px 0;">Welcome, <span id="repName">Representative</span>! 👋</h1>
                 <p style="margin: 0; opacity: 0.9;">Manage and submit official Events, Contests, and Announcements.</p>
-                <div class="rep-badge">ðŸ›¡ï¸ Club Representative / Secretary</div>
+                <div class="rep-badge">🛡️ Club Representative / Secretary</div>
             </div>
             <div>
                 <a href="#submitSection" class="btn btn-primary" style="background: white; color: #4f46e5; font-weight: 700;">+ New Submission</a>
@@ -304,7 +304,7 @@
         </div>
 
         <!-- MY REGISTRATIONS STATS -->
-        <h3 style="color: #f1f5f9; margin-bottom: 15px; margin-top: 10px;">ðŸŽŸï¸ Registration Summary</h3>
+        <h3 style="color: #f1f5f9; margin-bottom: 15px; margin-top: 10px;">🎟️ Registration Summary</h3>
         <div class="stats-grid" style="cursor: pointer;" onclick="document.getElementById('myRegistrationsSection').scrollIntoView({behavior: 'smooth'}); switchRegTab('all');">
             <div class="stat-box">
                 <div class="stat-num" id="regStatTotal" style="color: #6366f1;">0</div>
@@ -328,7 +328,7 @@
         <!-- MY SUBMISSIONS -->
         <div class="panel-card" id="mySubmissionsSection">
             <div class="panel-title">
-                <span>ðŸ“‹ My Submissions</span>
+                <span>📋 My Submissions</span>
             </div>
             <p style="color: #94a3b8; font-size: 0.95rem; margin-top: -10px; margin-bottom: 20px;">
                 You can edit, delete, or resubmit your pending and rejected submissions. Approved content becomes public and can only be modified by the President/Admin.
@@ -362,7 +362,7 @@
         <!-- CREATE NEW SUBMISSION SECTION -->
         <div class="panel-card" id="submitSection">
             <div class="panel-title">
-                <span>âœ¨ Create New Submission</span>
+                <span>✨ Create New Submission</span>
             </div>
             <p style="color: #94a3b8; font-size: 0.95rem; margin-top: -10px; margin-bottom: 20px;">
                 Submissions are sent directly to the President/Admin for review. Once approved, they will immediately appear on the public club website.
@@ -370,9 +370,9 @@
 
             <!-- Creation Type Switcher -->
             <div class="tab-bar">
-                <button class="tab-btn active" id="tabCreateEvent" onclick="switchCreateTab('event')">ðŸ“… Event</button>
-                <button class="tab-btn" id="tabCreateContest" onclick="switchCreateTab('contest')">ðŸ† Contest</button>
-                <button class="tab-btn" id="tabCreateNews" onclick="switchCreateTab('news')">ðŸ“° News & Announcement</button>
+                <button class="tab-btn active" id="tabCreateEvent" onclick="switchCreateTab('event')">📅 Event</button>
+                <button class="tab-btn" id="tabCreateContest" onclick="switchCreateTab('contest')">🏆 Contest</button>
+                <button class="tab-btn" id="tabCreateNews" onclick="switchCreateTab('news')">📰 News & Announcement</button>
             </div>
 
             <!-- 1. EVENT FORM -->
@@ -394,7 +394,7 @@
                     <input type="number" id="evCapacity" placeholder="e.g. 100" class="form-input" required>
                 </div>
                 <div>
-                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Registration Fee (à§³)</label>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Registration Fee (৳)</label>
                     <input type="number" id="evRegistrationFee" placeholder="e.g. 0 for Free" class="form-input" min="0" value="0" required>
                 </div>
                 <div class="full-width">
@@ -422,14 +422,14 @@
                 </div>
                 <div>
                     <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Prize Pool *</label>
-                    <input type="text" id="conPrize" placeholder="e.g. à§³50,000" class="form-input" required>
+                    <input type="text" id="conPrize" placeholder="e.g. ৳50,000" class="form-input" required>
                 </div>
                 <div>
                     <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Team Size</label>
                     <input type="text" id="conTeamSize" placeholder="e.g. 1-3 members" class="form-input" value="1-3 members">
                 </div>
                 <div>
-                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Registration Fee (à§³)</label>
+                    <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 6px;">Registration Fee (৳)</label>
                     <input type="number" id="conRegistrationFee" placeholder="e.g. 0 for Free" class="form-input" min="0" value="0" required>
                 </div>
                 <div>
@@ -472,7 +472,7 @@
         <!-- MY REGISTRATIONS PANEL -->
         <div class="panel-card" id="myRegistrationsSection">
             <div class="panel-title">
-                <span>ðŸŽŸï¸ My Registrations</span>
+                <span>🎟️ My Registrations</span>
             </div>
             <p style="color: #94a3b8; font-size: 0.95rem; margin-top: -10px; margin-bottom: 20px;">
                 Manage your personal Event and Contest registrations.
@@ -492,7 +492,7 @@
         <!-- PROFILE PANEL -->
         <div class="panel-card" id="profileSection">
             <div class="panel-title">
-                <span>ðŸ‘¤ Profile</span>
+                <span>👤 Profile</span>
             </div>
             <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid #1e293b; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 15px; max-width: 500px;">
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #1e293b; padding-bottom: 10px;">
@@ -595,7 +595,7 @@
 
             <!-- Approved notice -->
             <div id="viewApprovedNotice" style="display:none;background:rgba(16,185,129,0.1);border-left:3px solid #10b981;padding:10px 14px;border-radius:4px;color: #10b981;font-size:0.87rem;margin-bottom:16px;">
-                âœ… This content is <strong>approved and live</strong> on the public website. Only an Admin can edit or remove it.
+                ✅ This content is <strong>approved and live</strong> on the public website. Only an Admin can edit or remove it.
             </div>
 
             <!-- Content fields -->
@@ -655,7 +655,7 @@
         async function uploadImage(file, type) {
             if (!file) return null;
             if (file.size > 10 * 1024 * 1024) {
-                alert('âŒ Image file too large! Maximum allowed is 10MB.');
+                alert('❌ Image file too large! Maximum allowed is 10MB.');
                 return null;
             }
 
@@ -673,12 +673,12 @@
                 if (response.ok && data.success) {
                     return data.imageUrl;
                 } else {
-                    alert('âŒ Image upload failed: ' + (data.message || 'Error'));
+                    alert('❌ Image upload failed: ' + (data.message || 'Error'));
                     return null;
                 }
             } catch (err) {
                 console.error('Image upload error:', err);
-                alert('âŒ Server error during image upload');
+                alert('❌ Server error during image upload');
                 return null;
             }
         }
@@ -688,7 +688,7 @@
             const url = await uploadImage(e.target.files[0], 'events');
             if (url) {
                 document.getElementById('evImageUrl').value = url;
-                alert('âœ… Event image uploaded!');
+                alert('✅ Event image uploaded!');
             }
         });
 
@@ -696,7 +696,7 @@
             const url = await uploadImage(e.target.files[0], 'contests');
             if (url) {
                 document.getElementById('conImageUrl').value = url;
-                alert('âœ… Contest image uploaded!');
+                alert('✅ Contest image uploaded!');
             }
         });
 
@@ -704,7 +704,7 @@
             const url = await uploadImage(e.target.files[0], 'news');
             if (url) {
                 document.getElementById('newsImageUrl').value = url;
-                alert('âœ… News image uploaded!');
+                alert('✅ News image uploaded!');
             }
         });
 
@@ -713,7 +713,7 @@
             const url = await uploadImage(e.target.files[0], type === 'news' ? 'news' : `${type}s`);
             if (url) {
                 document.getElementById('editImageUrl').value = url;
-                alert('âœ… New image uploaded!');
+                alert('✅ New image uploaded!');
             }
         });
 
@@ -747,17 +747,17 @@
                 });
                 const data = await response.json();
                 if (response.ok && data.success) {
-                    alert('âœ… ' + data.message);
+                    alert('✅ ' + data.message);
                     document.getElementById('createEventForm').reset();
                     document.getElementById('evImageUrl').value = '';
                     loadDashboardData();
 
                 } else {
-                    alert('âŒ ' + (data.message || 'Failed to submit event'));
+                    alert('❌ ' + (data.message || 'Failed to submit event'));
                 }
             } catch (err) {
                 console.error(err);
-                alert('âŒ Server error while submitting event');
+                alert('❌ Server error while submitting event');
             }
         });
 
@@ -790,16 +790,16 @@
                 });
                 const data = await response.json();
                 if (response.ok && data.success) {
-                    alert('âœ… ' + data.message);
+                    alert('✅ ' + data.message);
                     document.getElementById('createContestForm').reset();
                     document.getElementById('conImageUrl').value = '';
                     loadDashboardData();
                 } else {
-                    alert('âŒ ' + (data.message || 'Failed to submit contest'));
+                    alert('❌ ' + (data.message || 'Failed to submit contest'));
                 }
             } catch (err) {
                 console.error(err);
-                alert('âŒ Server error while submitting contest');
+                alert('❌ Server error while submitting contest');
             }
         });
 
@@ -825,16 +825,16 @@
                 });
                 const data = await response.json();
                 if (response.ok && data.success) {
-                    alert('âœ… ' + data.message);
+                    alert('✅ ' + data.message);
                     document.getElementById('createNewsForm').reset();
                     document.getElementById('newsImageUrl').value = '';
                     loadDashboardData();
                 } else {
-                    alert('âŒ ' + (data.message || 'Failed to submit news'));
+                    alert('❌ ' + (data.message || 'Failed to submit news'));
                 }
             } catch (err) {
                 console.error(err);
-                alert('âŒ Server error while submitting news');
+                alert('❌ Server error while submitting news');
             }
         });
 
@@ -851,7 +851,7 @@
                     container.innerHTML = data.notifications.slice(0, 3).map(n => `
                         <div class="notification-card ${n.status}">
                             <div>
-                                <strong>${n.status === 'approved' ? 'ðŸŽ‰ Approved' : 'âš ï¸ Revision Needed'}:</strong> ${n.message}
+                                <strong>${n.status === 'approved' ? '🎉 Approved' : '⚠️ Revision Needed'}:</strong> ${n.message}
                                 <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">
                                     ${new Date(n.updatedAt).toLocaleString()}
                                 </div>
@@ -914,18 +914,18 @@
                 let actionsHtml = '';
                 if (item.status === 'pending') {
                     actionsHtml = `
-                        <button class="action-btn btn-edit" onclick="openEditModal('${item._id}')">âœï¸ Edit</button>
-                        <button class="action-btn btn-resubmit" onclick="resubmitItem('${routeType}', '${item._id}')">ðŸ“¤ Submit for Review</button>
-                        <button class="action-btn btn-delete" onclick="deleteSubmission('${routeType}', '${item._id}')">ðŸ—‘ï¸ Delete</button>
+                        <button class="action-btn btn-edit" onclick="openEditModal('${item._id}')">✏️ Edit</button>
+                        <button class="action-btn btn-resubmit" onclick="resubmitItem('${routeType}', '${item._id}')">📤 Submit for Review</button>
+                        <button class="action-btn btn-delete" onclick="deleteSubmission('${routeType}', '${item._id}')">🗑️ Delete</button>
                     `;
                 } else if (item.status === 'rejected') {
                     actionsHtml = `
-                        <button class="action-btn btn-edit" onclick="openEditModal('${item._id}')">âœï¸ Edit</button>
-                        <button class="action-btn btn-resubmit" onclick="resubmitItem('${routeType}', '${item._id}')">ðŸ“¤ Submit for Review</button>
-                        <button class="action-btn btn-delete" onclick="deleteSubmission('${routeType}', '${item._id}')">ðŸ—‘ï¸ Delete</button>
+                        <button class="action-btn btn-edit" onclick="openEditModal('${item._id}')">✏️ Edit</button>
+                        <button class="action-btn btn-resubmit" onclick="resubmitItem('${routeType}', '${item._id}')">📤 Submit for Review</button>
+                        <button class="action-btn btn-delete" onclick="deleteSubmission('${routeType}', '${item._id}')">🗑️ Delete</button>
                     `;
                 } else if (item.status === 'approved') {
-                    actionsHtml = `<button class="action-btn" style="background:#475569;" onclick="openViewModal('${item._id}')">ðŸ‘ï¸ View Details</button>`;
+                    actionsHtml = `<button class="action-btn" style="background:#475569;" onclick="openViewModal('${item._id}')">👁️ View Details</button>`;
                 }
 
                 const cap = s => s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : '';
@@ -970,11 +970,11 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
                     <span style="color:#94a3b8;">Registration Fee</span>
-                    <strong style="color:#f1f5f9;">${r.fee === 0 ? 'Free' : `à§³ ${r.fee}`}</strong>
+                    <strong style="color:#f1f5f9;">${r.fee === 0 ? 'Free' : `৳ ${r.fee}`}</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
                     <span style="color:#94a3b8;">Amount Paid</span>
-                    <strong style="color:#f1f5f9;">à§³ ${r.amount || 0}</strong>
+                    <strong style="color:#f1f5f9;">৳ ${r.amount || 0}</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
                     <span style="color:#94a3b8;">Date</span>
@@ -1142,14 +1142,14 @@
                 });
                 const data = await res.json();
                 if (res.ok && data.success) {
-                    alert('âœ… Deleted successfully');
+                    alert('✅ Deleted successfully');
                     loadDashboardData();
                 } else {
-                    alert('âŒ ' + (data.message || 'Failed to delete'));
+                    alert('❌ ' + (data.message || 'Failed to delete'));
                 }
             } catch (err) {
                 console.error(err);
-                alert('âŒ Server error');
+                alert('❌ Server error');
             }
         };
 
@@ -1162,14 +1162,14 @@
                 });
                 const data = await res.json();
                 if (res.ok && data.success) {
-                    alert('âœ… Submitted for review');
+                    alert('✅ Submitted for review');
                     loadDashboardData();
                 } else {
-                    alert('âŒ ' + (data.message || 'Failed to resubmit'));
+                    alert('❌ ' + (data.message || 'Failed to resubmit'));
                 }
             } catch (err) {
                 console.error(err);
-                alert('âŒ Server error');
+                alert('❌ Server error');
             }
         };
 
@@ -1219,15 +1219,15 @@
                     });
                     const data = await res.json();
                     if (res.ok && data.success) {
-                        alert('âœ… Updated successfully');
+                        alert('✅ Updated successfully');
                         closeEditModal();
                         loadDashboardData();
                     } else {
-                        alert('âŒ ' + (data.message || 'Failed to update'));
+                        alert('❌ ' + (data.message || 'Failed to update'));
                     }
                 } catch (err) {
                     console.error(err);
-                    alert('âŒ Server error');
+                    alert('❌ Server error');
                 }
             });
         }
@@ -1367,7 +1367,7 @@
                             <div><span style="font-size: 0.8rem; color: #cbd5e1;">Pay:</span> <span class="reg-badge ${pStatusClass}">${displayPayStatus}</span></div>
                         </div>
                         <div style="font-size: 0.9rem; color: #f1f5f9; border-top: 1px solid #1e293b; padding-top: 8px;">
-                            Fee: ${r.fee === 0 ? 'Free' : `à§³ ${r.fee}`}
+                            Fee: ${r.fee === 0 ? 'Free' : `৳ ${r.fee}`}
                         </div>
                     </div>
                 `;
@@ -1402,11 +1402,11 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
                     <span style="color:#94a3b8;">Registration Fee</span>
-                    <strong style="color:#f1f5f9;">${r.fee === 0 ? 'Free' : `à§³ ${r.fee}`}</strong>
+                    <strong style="color:#f1f5f9;">${r.fee === 0 ? 'Free' : `৳ ${r.fee}`}</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
                     <span style="color:#94a3b8;">Amount Paid</span>
-                    <strong style="color:#f1f5f9;">à§³ ${r.amount || 0}</strong>
+                    <strong style="color:#f1f5f9;">৳ ${r.amount || 0}</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #334155; padding-bottom: 8px;">
                     <span style="color:#94a3b8;">Date</span>
