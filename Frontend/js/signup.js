@@ -17,6 +17,12 @@
             if (password.length < 6) return alert('Password must be at least 6 characters long!');
             if (password !== confirmPassword) return alert('Passwords do not match!');
 
+            const submitBtn = signupForm.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'Creating Account...';
+            }
+
             try {
                 // 1. Send data to the Backend
                 const response = await fetch('/api/auth/register', {
@@ -44,10 +50,18 @@
                 } else {
                     // Backend returned an error (e.g., Email already exists)
                     alert(`Registration failed: ${data.message}`);
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = 'Create Account';
+                    }
                 }
             } catch (error) {
                 console.error('Error during signup:', error);
                 alert('Server error. Make sure the backend route /api/auth/register exists and is running.');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = 'Create Account';
+                }
             }
         });
     }
