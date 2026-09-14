@@ -1015,9 +1015,230 @@
 
 
 
+        // ==================== ACTIONS ====================
+
+        window.openViewModal = function(id) {
+            const item = mySubmissions.find(s => s._id === id);
+            if (!item) return;
+
+            document.getElementById('viewModalTitle').textContent = item.title || item.name || 'Untitled';
+            document.getElementById('viewModalTypePill').textContent = item.type;
+            const statusPill = document.getElementById('viewModalStatusPill');
+            statusPill.className = 'status-pill ' + item.status;
+            statusPill.textContent = (item.status || '').toUpperCase();
+
+            document.getElementById('viewModalMeta').textContent = `Created: ${new Date(item.createdAt || item.date).toLocaleString()}`;
+
+            const rejectionBox = document.getElementById('viewRejectionBox');
+            if (item.status === 'rejected' && item.rejectionReason) {
+                rejectionBox.style.display = 'block';
+                rejectionBox.innerHTML = `<strong>Rejection Reason:</strong> ${item.rejectionReason}`;
+            } else {
+                rejectionBox.style.display = 'none';
+            }
+
+            const approvedNotice = document.getElementById('viewApprovedNotice');
+            if (item.status === 'approved') {
+                approvedNotice.style.display = 'block';
+            } else {
+                approvedNotice.style.display = 'none';
+            }
+
+            let bodyHtml = '';
+            if (item.type === 'event' || item.type === 'events') {
+                bodyHtml += `<p><strong>Date:</strong> ${item.date ? item.date.split('T')[0] : ''}</p>`;
+                bodyHtml += `<p><strong>Location:</strong> ${item.location}</p>`;
+                bodyHtml += `<p><strong>Capacity:</strong> ${item.capacity}</p>`;
+                bodyHtml += `<p><strong>Description:</strong> <br/>${item.description}</p>`;
+            } else if (item.type === 'contest' || item.type === 'contests') {
+                bodyHtml += `<p><strong>Date:</strong> ${item.date ? item.date.split('T')[0] : ''}</p>`;
+                bodyHtml += `<p><strong>Prize Pool:</strong> ${item.prize}</p>`;
+                bodyHtml += `<p><strong>Team Size:</strong> ${item.teamSize}</p>`;
+                bodyHtml += `<p><strong>Tags:</strong> ${item.tags ? item.tags.join(', ') : ''}</p>`;
+                bodyHtml += `<p><strong>Description:</strong> <br/>${item.description}</p>`;
+            } else if (item.type === 'news') {
+                bodyHtml += `<p><strong>Content:</strong> <br/>${item.content}</p>`;
+            }
+            document.getElementById('viewModalBody').innerHTML = bodyHtml;
+
+            const imgWrap = document.getElementById('viewImageWrap');
+            if (item.image) {
+                imgWrap.style.display = 'block';
+                document.getElementById('viewImage').src = item.image;
+            } else {
+                imgWrap.style.display = 'none';
+            }
+
+            document.getElementById('viewModal').style.display = 'block';
+        };
+
+        window.closeViewModal = function() {
+            document.getElementById('viewModal').style.display = 'none';
+        };
+
+        window.openEditModal = function(id) {
+            const item = mySubmissions.find(s => s._id === id);
+            if (!item) return;
+
+            document.getElementById('editItemType').value = item.type;
+            document.getElementById('editItemId').value = item._id;
+
+            document.getElementById('editTitle').value = item.title || item.name || '';
+            document.getElementById('editImageUrl').value = item.image || '';
+            
+            // Hide all specific groups
+            document.getElementById('editDateGroup').style.display = 'none';
+            document.getElementById('editLocationGroup').style.display = 'none';
+            document.getElementById('editCapacityGroup').style.display = 'none';
+            document.getElementById('editPrizeGroup').style.display = 'none';
+            document.getElementById('editTeamSizeGroup').style.display = 'none';
+            
+            const routeType = item.type === 'news' ? 'news' : `${item.type}s`;
+
+            if (item.status === 'rejected') {
+                const notice = document.getElementById('editRejectionNotice');
+                notice.style.display = 'block';
+                notice.innerHTML = `<div class="rejection-box"><strong>Rejected:</strong> ${item.rejectionReason}</div>`;
+                document.getElementById('resubmitBtn').style.display = 'inline-block';
+            } else {
+                document.getElementById('editRejectionNotice').style.display = 'none';
+                document.getElementById('resubmitBtn').style.display = 'none';
+            }
+
+            if (item.type === 'event' || item.type === 'events') {
+                document.getElementById('editDateGroup').style.display = 'block';
+                document.getElementById('editLocationGroup').style.display = 'block';
+                document.getElementById('editCapacityGroup').style.display = 'block';
+                document.getElementById('editDate').value = item.date ? item.date.split('T')[0] : '';
+                document.getElementById('editLocation').value = item.location || '';
+                document.getElementById('editCapacity').value = item.capacity || '';
+                document.getElementById('editBody').value = item.description || '';
+            } else if (item.type === 'contest' || item.type === 'contests') {
+                document.getElementById('editDateGroup').style.display = 'block';
+                document.getElementById('editPrizeGroup').style.display = 'block';
+                document.getElementById('editTeamSizeGroup').style.display = 'block';
+                document.getElementById('editDate').value = item.date ? item.date.split('T')[0] : '';
+                document.getElementById('editPrize').value = item.prize || '';
+                document.getElementById('editTeamSize').value = item.teamSize || '';
+                document.getElementById('editBody').value = item.description || '';
+            } else if (item.type === 'news') {
+                document.getElementById('editBody').value = item.content || '';
+            }
+
+            document.getElementById('editModal').style.display = 'block';
+        };
+
+        window.closeEditModal = function() {
+            document.getElementById('editModal').style.display = 'none';
+        };
+
+        window.deleteSubmission = async function(type, id) {
+            if (!confirm('Are you sure you want to delete this submission?')) return;
+            try {
+                const res = await fetch(`/api/representative/submissions/${type}/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    alert('✅ Deleted successfully');
+                    loadDashboardData();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to delete'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('❌ Server error');
+            }
+        };
+
+        window.resubmitItem = async function(type, id) {
+            if (!confirm('Are you sure you want to submit this for review?')) return;
+            try {
+                const res = await fetch(`/api/representative/submissions/${type}/${id}/submit-review`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    alert('✅ Submitted for review');
+                    loadDashboardData();
+                } else {
+                    alert('❌ ' + (data.message || 'Failed to resubmit'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('❌ Server error');
+            }
+        };
+
+        window.resubmitCurrentModalItem = function() {
+            const id = document.getElementById('editItemId').value;
+            const type = document.getElementById('editItemType').value;
+            const routeType = type === 'news' ? 'news' : `${type}s`;
+            closeEditModal();
+            resubmitItem(routeType, id);
+        };
+
+        const editForm = document.getElementById('editForm');
+        if (editForm) {
+            editForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const id = document.getElementById('editItemId').value;
+                const type = document.getElementById('editItemType').value;
+                const routeType = type === 'news' ? 'news' : `${type}s`;
+
+                const payload = {
+                    title: document.getElementById('editTitle').value,
+                    image: document.getElementById('editImageUrl').value
+                };
+
+                if (type === 'event' || type === 'events') {
+                    payload.date = document.getElementById('editDate').value;
+                    payload.location = document.getElementById('editLocation').value;
+                    payload.capacity = document.getElementById('editCapacity').value;
+                    payload.description = document.getElementById('editBody').value;
+                } else if (type === 'contest' || type === 'contests') {
+                    payload.date = document.getElementById('editDate').value;
+                    payload.prize = document.getElementById('editPrize').value;
+                    payload.teamSize = document.getElementById('editTeamSize').value;
+                    payload.description = document.getElementById('editBody').value;
+                } else if (type === 'news') {
+                    payload.content = document.getElementById('editBody').value;
+                }
+
+                try {
+                    const res = await fetch(`/api/representative/submissions/${routeType}/${id}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (res.ok && data.success) {
+                        alert('✅ Updated successfully');
+                        closeEditModal();
+                        loadDashboardData();
+                    } else {
+                        alert('❌ ' + (data.message || 'Failed to update'));
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('❌ Server error');
+                }
+            });
+        }
+
         // Add modal close listener
         window.addEventListener('click', (e) => {
-            if (e.target === document.getElementById('regModal')) closeRegModal();
+            const editModal = document.getElementById('editModal');
+            const viewModal = document.getElementById('viewModal');
+            const regModal = document.getElementById('regModal');
+            if (e.target === editModal) closeEditModal();
+            if (e.target === viewModal) closeViewModal();
+            if (e.target === regModal) closeRegModal();
         });
 
         function logoutRep() {
