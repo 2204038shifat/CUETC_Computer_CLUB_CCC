@@ -351,7 +351,11 @@ let currentResubmitType = null; // 'event' or 'contest'
 function openResubmitModal(registrationId, type) {
     currentResubmitId = registrationId;
     currentResubmitType = type;
-    document.getElementById('resubmitGateway').value = '';
+    
+    // Uncheck radio buttons
+    const radios = document.querySelectorAll('input[name="resubmitGateway"]');
+    radios.forEach(radio => radio.checked = false);
+    
     document.getElementById('resubmitTrxId').value = '';
     document.getElementById('resubmitModal').style.display = 'block';
 }
