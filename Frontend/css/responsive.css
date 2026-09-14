@@ -1,7 +1,6 @@
 
 /* ==================== GLOBAL RESPONSIVENESS ==================== */
 html, body {
-    overflow-x: hidden;
     width: 100%;
 }
 
@@ -21,7 +20,8 @@ img {
 
 @media (max-width: 768px) {
     /* Navbar UI scaling */
-    .navbar .logo { font-size: 1.4rem !important; }
+    .navbar .logo { font-size: 1.2rem !important; }
+    .logo-text { display: inline-block !important; }
     .navbar .logo img { width: 35px !important; height: 35px !important; }
     .hamburger span { width: 30px !important; height: 4px !important; }
     .hamburger { gap: 6px !important; padding: 5px; }
