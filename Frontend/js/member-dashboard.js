@@ -161,9 +161,14 @@ async function loadEventRegistrations() {
                 <div class="registration-detail" style="word-break: break-all;">
                     <strong>Transaction ID:</strong> <code style="background: rgba(99, 102, 241, 0.1); padding: 4px; border-radius: 4px;">${reg.transactionId}</code>
                 </div>
+                ${reg.paymentStatus === 'rejected' ? `
+                    <button class="action-btn" style="background: #f59e0b; margin-bottom: 5px; width: 100%; border: none; padding: 10px; border-radius: 6px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500;" onclick="resubmitEventPayment('${reg._id}')">
+                        🔄 Resubmit Payment
+                    </button>
+                ` : ''}
                 ${reg.registrationStatus !== 'cancelled' ? `
                     <button class="cancel-btn" onclick="cancelEventRegistration('${reg._id}')">
-                        ✕ Cancel Registration
+                        ❌ Cancel Registration
                     </button>
                 ` : ''}
             </div>
@@ -256,6 +261,11 @@ async function loadContestRegistrations() {
                 <div class="registration-detail" style="word-break: break-all;">
                     <strong>Transaction ID:</strong> <code style="background: rgba(99, 102, 241, 0.1); padding: 4px; border-radius: 4px;">${reg.transactionId}</code>
                 </div>
+                ${reg.paymentStatus === 'rejected' ? `
+                    <button class="action-btn" style="background: #f59e0b; margin-bottom: 5px; width: 100%; border: none; padding: 10px; border-radius: 6px; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 500;" onclick="resubmitContestPayment('${reg._id}')">
+                        🔄 Resubmit Payment
+                    </button>
+                ` : ''}
                 ${reg.registrationStatus !== 'cancelled' ? `
                     <button class="cancel-btn" onclick="cancelContestRegistration('${reg._id}')">
                         ✕ Cancel Registration
@@ -331,6 +341,65 @@ async function cancelContestRegistration(registrationId) {
         }
     } catch (error) {
         console.error('Error:', error);
+        alert('❌ Server error');
+    }
+}
+// ==================== RESUBMIT EVENT PAYMENT ====================
+async function resubmitEventPayment(registrationId) {
+    const newTransactionId = prompt("Please enter your new Transaction ID:");
+    if (!newTransactionId || newTransactionId.trim() === '') {
+        return;
+    }
+
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch(`/api/event-registration/resubmit-payment/${registrationId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ transactionId: newTransactionId.trim() })
+        });
+        const data = await response.json();
+        if (data.success) {
+            alert('✅ Payment resubmitted successfully!');
+            loadEventRegistrations();
+        } else {
+            alert('❌ ' + (data.message || 'Failed to resubmit payment'));
+        }
+    } catch (err) {
+        console.error(err);
+        alert('❌ Server error');
+    }
+}
+
+// ==================== RESUBMIT CONTEST PAYMENT ====================
+async function resubmitContestPayment(registrationId) {
+    const newTransactionId = prompt("Please enter your new Transaction ID:");
+    if (!newTransactionId || newTransactionId.trim() === '') {
+        return;
+    }
+
+    const token = localStorage.getItem('token');
+    try {
+        const response = await fetch(`/api/contest-registration/resubmit-payment/${registrationId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ transactionId: newTransactionId.trim() })
+        });
+        const data = await response.json();
+        if (data.success) {
+            alert('✅ Payment resubmitted successfully!');
+            loadContestRegistrations();
+        } else {
+            alert('❌ ' + (data.message || 'Failed to resubmit payment'));
+        }
+    } catch (err) {
+        console.error(err);
         alert('❌ Server error');
     }
 }
