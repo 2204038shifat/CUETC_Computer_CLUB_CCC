@@ -251,7 +251,12 @@
                 </a>
             </div>
             
-            
+            <!-- Mobile Menu Toggle -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 
             <ul class="nav-links" style="display: flex; align-items: center; gap: 15px;">
                 <li><a href="#" class="nav-link" style="color: #6366f1;" onclick="scrollToTop()">Dashboard</a></li>
@@ -1489,6 +1494,30 @@
                             alert('Payment resubmitted successfully! It is now pending review.');
                             closeRegModal();
                             loadMyRegistrations();
+            // Mobile Menu Toggle
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if(hamburger && navLinks) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                    
+                    if (navLinks.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+                
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    });
+                });
+            }
                         } else {
                             alert(data.message || 'Failed to resubmit payment');
                         }
@@ -1501,6 +1530,30 @@
 
             loadDashboardData();
             loadMyRegistrations();
+            // Mobile Menu Toggle
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if(hamburger && navLinks) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                    
+                    if (navLinks.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+                
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    });
+                });
+            }
             loadProfileData();
         });
     </script>

@@ -67,7 +67,12 @@
                 </a>
             </div>
             
-            
+            <!-- Mobile Menu Toggle -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 
             <ul class="nav-links" style="display: flex; align-items: center; gap: 15px;">
                 <li><a href="#pendingApprovalsSection" id="pendingNotificationBadge" style="display: none; background: #f59e0b; color: #000; padding: 6px 14px; border-radius: 20px; font-weight: 700; text-decoration: none; font-size: 0.85rem; margin-right: 10px;">🔔 <span id="navPendingCount">0</span> Pending Review</a></li>
@@ -2065,6 +2070,31 @@ async function rejectContestPayment(id) {
         // Load data on page load
         document.addEventListener('DOMContentLoaded', () => {
             loadAdminData();
+            
+            // Mobile Menu Toggle
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if(hamburger) {
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                    
+                    if (navLinks.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+                
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburger.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    });
+                });
+            }
         });
     </script>
 
