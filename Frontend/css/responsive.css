@@ -55,6 +55,8 @@ img {
 @media (max-width: 480px) {
     .section-title { font-size: 1.75rem !important; }
     .hero-title { font-size: 2rem !important; }
+    .contest-card { padding: 15px !important; }
+    .event-content { padding: 15px !important; }
 }
 
 /* ==================== NAVBAR RESPONSIVENESS ==================== */

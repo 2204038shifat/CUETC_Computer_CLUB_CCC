@@ -695,6 +695,8 @@ body.light-mode .activity-card {
     overflow: hidden;
     transition: all var(--transition-smooth);
     backdrop-filter: blur(10px);
+    word-break: break-word;
+    min-width: 0;
 }
 
 .event-card:hover {
@@ -763,6 +765,7 @@ body.light-mode .activity-card {
 
 .event-stats {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--spacing-md);
     font-size: var(--font-size-sm);
     color: var(--muted-text);
@@ -807,6 +810,8 @@ body.light-mode .activity-card {
     transition: all var(--transition-smooth);
     backdrop-filter: blur(10px);
     position: relative;
+    word-break: break-word;
+    min-width: 0;
 }
 
 body.light-mode .contest-card {
@@ -823,6 +828,7 @@ body.light-mode .contest-card {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    flex-wrap: wrap;
     margin-bottom: var(--spacing-lg);
     gap: var(--spacing-md);
 }
