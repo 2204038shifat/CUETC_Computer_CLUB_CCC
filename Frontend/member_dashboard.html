@@ -334,35 +334,73 @@
     <!-- THEME TOGGLE -->
     <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">🌙</button>
 
-    <!-- SCRIPTS -->
-    <script src="js/script.js"></script>
-    <script src="js/member-dashboard.js"></script>
-
     <!-- RESUBMIT PAYMENT MODAL -->
     <div id="resubmitModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
-        <div class="modal-content" style="background-color: var(--card-bg, #1e293b); margin: 15% auto; padding: 20px; border: 1px solid var(--border-color, #334155); width: 90%; max-width: 500px; border-radius: 8px; color: var(--text-color, #e2e8f0);">
-            <span id="closeResubmitModal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
-            <h3 style="margin-top: 0; color: #6366f1;">Resubmit Payment</h3>
-            <form id="resubmitForm">
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="resubmitGateway" class="form-label" style="display: block; margin-bottom: 5px;">Payment Gateway</label>
-                    <select id="resubmitGateway" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color, #334155); background: var(--input-bg, #0f172a); color: var(--text-color, #e2e8f0);">
-                        <option value="">Select Gateway</option>
-                        <option value="bKash">bKash</option>
-                        <option value="Nagad">Nagad</option>
-                        <option value="Rocket">Rocket</option>
-                    </select>
+        <div class="modal-content" style="background-color: var(--card-bg, #1e293b); margin: 10% auto; padding: 25px; border: 1px solid var(--border-color, #334155); width: 90%; max-width: 500px; border-radius: 12px; color: var(--text-color, #e2e8f0); box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <span id="closeResubmitModal" style="color: #94a3b8; float: right; font-size: 24px; font-weight: bold; cursor: pointer;">&times;</span>
+            <h3 style="margin-top: 0; color: #f1f5f9; display: flex; align-items: center; gap: 8px;">💳 Resubmit Payment Details</h3>
+            
+            <form id="resubmitForm" style="margin-top: 20px;">
+                <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 10px;">Payment Method <span style="color:#ef4444;">*</span></label>
+                
+                <div class="payment-gateway-select" style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <div class="gateway-option" style="flex: 1;">
+                        <input type="radio" id="resubmit_bkash" name="resubmitGateway" value="bKash" required style="display: none;">
+                        <label for="resubmit_bkash" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                            <span class="custom-radio"></span> 🏦 bKash
+                        </label>
+                    </div>
+                    <div class="gateway-option" style="flex: 1;">
+                        <input type="radio" id="resubmit_nagad" name="resubmitGateway" value="Nagad" style="display: none;">
+                        <label for="resubmit_nagad" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                            <span class="custom-radio"></span> 📱 Nagad
+                        </label>
+                    </div>
+                    <div class="gateway-option" style="flex: 1;">
+                        <input type="radio" id="resubmit_rocket" name="resubmitGateway" value="Rocket" style="display: none;">
+                        <label for="resubmit_rocket" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                            <span class="custom-radio"></span> 🚀 Rocket
+                        </label>
+                    </div>
                 </div>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label for="resubmitTrxId" class="form-label" style="display: block; margin-bottom: 5px;">Transaction ID</label>
-                    <input type="text" id="resubmitTrxId" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color, #334155); background: var(--input-bg, #0f172a); color: var(--text-color, #e2e8f0);" placeholder="Enter new Transaction ID">
+
+                <!-- We add CSS here just for the modal radio selection styling -->
+                <style>
+                    .gateway-option input:checked + label {
+                        background: rgba(99, 102, 241, 0.1) !important;
+                        border-color: #6366f1 !important;
+                        color: #6366f1;
+                    }
+                    .gateway-option input:checked + label .custom-radio {
+                        background: #6366f1;
+                        box-shadow: inset 0 0 0 4px #1e293b;
+                    }
+                    .custom-radio {
+                        width: 16px; height: 16px; border-radius: 50%; border: 2px solid #64748b;
+                        display: inline-block; transition: all 0.2s;
+                    }
+                </style>
+
+                <div class="info-box" style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 12px 16px; border-radius: 6px; margin-bottom: 20px;">
+                    <span style="color: #10b981;">⚠️ Send the money to the club's official number and keep the Transaction ID safe.</span>
                 </div>
-                <button type="submit" class="action-btn" style="background: #6366f1; width: 100%; border: none; padding: 12px; border-radius: 6px; color: white; cursor: pointer; font-weight: bold;">
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="resubmitTrxId" class="form-label" style="display: block; margin-bottom: 8px; font-weight: 600;">Transaction ID <span style="color:#ef4444;">*</span></label>
+                    <input type="text" id="resubmitTrxId" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color, #334155); background: rgba(15, 23, 42, 0.5); color: var(--text-color, #e2e8f0); font-family: monospace; font-size: 1rem;" placeholder="Enter your transaction ID">
+                    <small style="color: #94a3b8; margin-top: 6px; display: block;">This is the confirmation number you receive after sending money.</small>
+                </div>
+                
+                <button type="submit" class="action-btn" style="background: linear-gradient(135deg, #6366f1, #a855f7); width: 100%; border: none; padding: 14px; border-radius: 8px; color: white; cursor: pointer; font-weight: bold; font-size: 1.05rem; transition: opacity 0.2s;">
                     Submit Payment
                 </button>
             </form>
         </div>
     </div>
+    
+    <!-- SCRIPTS -->
+    <script src="js/script.js"></script>
+    <script src="js/member-dashboard.js"></script>
     
     </body>
 </html>

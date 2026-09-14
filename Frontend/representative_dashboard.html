@@ -1454,24 +1454,30 @@
                 resubmitBtn.addEventListener('click', async () => {
                     if (!currentResubmitReg) return;
                     const txId = document.getElementById('resubmitTxId').value.trim();
+                    const gateway = document.getElementById('resubmitGateway').value;
+                    if (!gateway) {
+                        alert('Please select a payment gateway');
+                        return;
+                    }
                     if (!txId) {
                         alert('Please enter a new transaction ID');
                         return;
                     }
 
                     const endpoint = currentResubmitReg.isEvent 
-                        ? '/api/event-registration/resubmit-payment'
-                        : '/api/contest-registration/resubmit-payment';
+                        ? `/api/event-registration/resubmit-payment/${currentResubmitReg._id}`
+                        : `/api/contest-registration/resubmit-payment/${currentResubmitReg._id}`;
                     
-                    const payload = currentResubmitReg.isEvent
-                        ? { registrationId: currentResubmitReg._id, newTransactionId: txId }
-                        : { registrationId: currentResubmitReg._id, newTransactionId: txId };
+                    const payload = {
+                        paymentGateway: gateway,
+                        transactionId: txId
+                    };
 
                     try {
                         const token = localStorage.getItem('token');
                         const res = await fetch(endpoint, {
                             method: 'POST',
-                            headers: {
+                            headers: { 
                                 'Authorization': `Bearer ${token}`,
                                 'Content-Type': 'application/json'
                             },
@@ -1514,6 +1520,14 @@
             <div id="resubmitSection" style="display: none; margin-top: 20px; background: rgba(30, 41, 59, 0.8); padding: 15px; border-radius: 8px; border: 1px solid #f59e0b;">
                 <h3 style="color: #f59e0b; margin-top: 0; margin-bottom: 10px;">Resubmit Payment</h3>
                 <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 15px;">Your previous payment was rejected. Please submit a valid transaction ID.</p>
+                
+                <select id="resubmitGateway" style="width: 100%; background: var(--dark-bg); color: var(--text-color); border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; margin-bottom: 10px;">
+                    <option value="">Select Payment Gateway</option>
+                    <option value="bKash">bKash</option>
+                    <option value="Nagad">Nagad</option>
+                    <option value="Rocket">Rocket</option>
+                </select>
+
                 <input type="text" id="resubmitTxId" placeholder="New Transaction ID" style="width: 100%; background: var(--dark-bg); color: var(--text-color); border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; margin-bottom: 10px;">
                 <button id="regResubmitBtn" class="btn btn-primary" style="width: 100%; background: #f59e0b;">Submit New Transaction ID</button>
             </div>

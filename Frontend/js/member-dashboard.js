@@ -370,7 +370,12 @@ document.getElementById('resubmitForm').addEventListener('submit', async (e) => 
     e.preventDefault();
     if (!currentResubmitId || !currentResubmitType) return;
 
-    const paymentGateway = document.getElementById('resubmitGateway').value;
+    const gatewayElement = document.querySelector('input[name="resubmitGateway"]:checked');
+    if (!gatewayElement) {
+        alert('❌ Please select a payment gateway');
+        return;
+    }
+    const paymentGateway = gatewayElement.value;
     const transactionId = document.getElementById('resubmitTrxId').value;
     const token = localStorage.getItem('token');
     
