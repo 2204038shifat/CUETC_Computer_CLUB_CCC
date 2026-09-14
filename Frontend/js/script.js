@@ -16,6 +16,7 @@ if (hamburger && navLinks) {
         link.addEventListener('click', () => {
             hamburger.classList.remove('active');
             navLinks.classList.remove('active');
+            document.body.style.overflow = 'auto';
         });
     });
 }
