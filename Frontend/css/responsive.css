@@ -150,15 +150,72 @@ img {
         overflow: hidden;
     }
     
+        /* Mobile Table Labels */
     .admin-table td {
-        border: none;
-        border-bottom: 1px solid var(--border-color);
+        display: block;
+        text-align: right !important;
+        padding: 10px 10px 10px 40% !important;
         position: relative;
-        padding: 15px 10px !important;
-        text-align: center !important;
-        min-height: 40px;
-        word-wrap: break-word;
     }
+    .admin-table td::before {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        width: 35%;
+        text-align: left;
+        font-weight: bold;
+        color: var(--muted-text);
+    }
+    
+    #pendingApprovalsBody td:nth-child(1)::before { content: "Type:"; }
+    #pendingApprovalsBody td:nth-child(2)::before { content: "Title:"; }
+    #pendingApprovalsBody td:nth-child(3)::before { content: "Creator:"; }
+    #pendingApprovalsBody td:nth-child(4)::before { content: "Submitted:"; }
+    #pendingApprovalsBody td:nth-child(5)::before { content: "Actions:"; }
+
+    #repSubmissionsTableBody td:nth-child(1)::before { content: "Type:"; }
+    #repSubmissionsTableBody td:nth-child(2)::before { content: "Title:"; }
+    #repSubmissionsTableBody td:nth-child(3)::before { content: "Creator:"; }
+    #repSubmissionsTableBody td:nth-child(4)::before { content: "Date:"; }
+    #repSubmissionsTableBody td:nth-child(5)::before { content: "Status:"; }
+    #repSubmissionsTableBody td:nth-child(6)::before { content: "Actions:"; }
+
+    #usersTableBody td:nth-child(1)::before { content: "Name:"; }
+    #usersTableBody td:nth-child(2)::before { content: "Email:"; }
+    #usersTableBody td:nth-child(3)::before { content: "Role:"; }
+    #usersTableBody td:nth-child(4)::before { content: "Actions:"; }
+
+    #eventsTableBody td:nth-child(1)::before { content: "Title:"; }
+    #eventsTableBody td:nth-child(2)::before { content: "Date:"; }
+    #eventsTableBody td:nth-child(3)::before { content: "Location:"; }
+    #eventsTableBody td:nth-child(4)::before { content: "Actions:"; }
+
+    #contestsTableBody td:nth-child(1)::before { content: "Contest:"; }
+    #contestsTableBody td:nth-child(2)::before { content: "Date:"; }
+    #contestsTableBody td:nth-child(3)::before { content: "Prize:"; }
+    #contestsTableBody td:nth-child(4)::before { content: "Actions:"; }
+
+    #newsTableBody td:nth-child(1)::before { content: "Headline:"; }
+    #newsTableBody td:nth-child(2)::before { content: "Date:"; }
+    #newsTableBody td:nth-child(3)::before { content: "Status:"; }
+    #newsTableBody td:nth-child(4)::before { content: "Actions:"; }
+
+    #eventRegTableBody td:nth-child(1)::before { content: "User:"; }
+    #eventRegTableBody td:nth-child(2)::before { content: "Event:"; }
+    #eventRegTableBody td:nth-child(3)::before { content: "Fee:"; }
+    #eventRegTableBody td:nth-child(4)::before { content: "Payment:"; }
+    #eventRegTableBody td:nth-child(5)::before { content: "Tx ID:"; }
+    #eventRegTableBody td:nth-child(6)::before { content: "Status:"; }
+    #eventRegTableBody td:nth-child(7)::before { content: "Actions:"; }
+
+    #contestRegTableBody td:nth-child(1)::before { content: "Team:"; }
+    #contestRegTableBody td:nth-child(2)::before { content: "Contest:"; }
+    #contestRegTableBody td:nth-child(3)::before { content: "Fee:"; }
+    #contestRegTableBody td:nth-child(4)::before { content: "Payment:"; }
+    #contestRegTableBody td:nth-child(5)::before { content: "Tx ID:"; }
+    #contestRegTableBody td:nth-child(6)::before { content: "Status:"; }
+    #contestRegTableBody td:nth-child(7)::before { content: "Actions:"; }
+
     
     .admin-table td:last-child {
         border-bottom: 0;
@@ -225,3 +282,4 @@ html, body {
         grid-template-columns: 1fr !important;
     }
 }
+
