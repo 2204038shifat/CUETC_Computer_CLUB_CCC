@@ -218,7 +218,6 @@ img {
 /* Global override for horizontal scroll safety */
 html, body {
     max-width: 100%;
-    overflow-x: hidden;
 }
 
 @media (max-width: 380px) {
