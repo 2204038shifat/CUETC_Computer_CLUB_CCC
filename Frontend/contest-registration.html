@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <script src="js/api.js"></script>
@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contest Registration - CUET Computer Club</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <style>
         .registration-wrapper {
             display: grid;
@@ -451,7 +452,7 @@
             <!-- LEFT: FORM -->
             <div class="registration-form-container">
                 <div class="registration-header">
-                    <h2>🏆 Contest Registration</h2>
+                    <h2>ðŸ† Contest Registration</h2>
                 </div>
 
                 <!-- ERROR MESSAGE -->
@@ -459,7 +460,7 @@
 
                 <!-- SUCCESS MESSAGE -->
                 <div class="success-message" id="successMessage">
-                    ✅ Registration successful! Redirecting to dashboard...
+                    âœ… Registration successful! Redirecting to dashboard...
                 </div>
 
                 <!-- LOADING STATE -->
@@ -472,7 +473,7 @@
                 <form id="contestRegistrationForm" style="display: block;">
                     <!-- TEAM INFORMATION -->
                     <div class="form-section">
-                        <h3>👥 Team Information</h3>
+                        <h3>ðŸ‘¥ Team Information</h3>
                         
                         <div class="form-row full">
                             <div class="form-group">
@@ -491,7 +492,7 @@
 
                     <!-- TEAM LEAD INFORMATION -->
                     <div class="form-section">
-                        <h3>👨‍💼 Team Lead Information</h3>
+                        <h3>ðŸ‘¨â€ðŸ’¼ Team Lead Information</h3>
                         
                         <div class="form-row">
                             <div class="form-group">
@@ -518,10 +519,10 @@
 
                     <!-- TEAM MEMBERS -->
                     <div class="form-section">
-                        <h3>👫 Team Members</h3>
+                        <h3>ðŸ‘« Team Members</h3>
                         
                         <div class="member-count">
-                            📊 <strong id="memberCount">0</strong> members added (minimum: <strong id="minSize">1</strong>, maximum: <strong id="maxSize">3</strong>)
+                            ðŸ“Š <strong id="memberCount">0</strong> members added (minimum: <strong id="minSize">1</strong>, maximum: <strong id="maxSize">3</strong>)
                         </div>
 
                         <div class="team-members-section" id="teamMembersContainer">
@@ -529,13 +530,13 @@
                         </div>
 
                         <button type="button" class="add-member-btn" id="addMemberBtn" onclick="addTeamMember(event)">
-                            ➕ Add Team Member
+                            âž• Add Team Member
                         </button>
                     </div>
 
                     <!-- CONTEST DETAILS -->
                     <div class="form-section">
-                        <h3>💡 Contest Details</h3>
+                        <h3>ðŸ’¡ Contest Details</h3>
                         
                         <div class="form-row full">
                             <div class="form-group">
@@ -554,7 +555,7 @@
 
                     <!-- PAYMENT SECTION (shown only for PAID contests, hidden for FREE) -->
                     <div class="payment-section" id="paymentSection" style="display: none;">
-                        <h3 style="margin-top: 0;">💳 Payment Details</h3>
+                        <h3 style="margin-top: 0;">ðŸ’³ Payment Details</h3>
 
                         <!-- Fee Display (read-only) -->
                         <div style="background: rgba(30, 41, 59, 0.7); border-left: 4px solid #6366f1; padding: 14px 18px; border-radius: 8px; margin-bottom: 20px;">
@@ -567,22 +568,22 @@
                         <div class="payment-gateway-select">
                             <div class="gateway-option">
                                 <input type="radio" id="bkash" name="paymentGateway" value="bKash">
-                                <label for="bkash">🏦 bKash</label>
+                                <label for="bkash">ðŸ¦ bKash</label>
                             </div>
                             <div class="gateway-option">
                                 <input type="radio" id="nagad" name="paymentGateway" value="Nagad">
-                                <label for="nagad">📱 Nagad</label>
+                                <label for="nagad">ðŸ“± Nagad</label>
                             </div>
                             <div class="gateway-option">
                                 <input type="radio" id="rocket" name="paymentGateway" value="Rocket">
-                                <label for="rocket">🚀 Rocket</label>
+                                <label for="rocket">ðŸš€ Rocket</label>
                             </div>
                         </div>
 
                         <div class="info-box" style="margin-top: 16px;">
-                            📞 <strong>Send Money to:</strong> <span id="paymentNumberDisplay" style="font-size: 1.1rem; color: #f1f5f9;">Loading...</span><br>
-                            💰 <strong>Amount:</strong> <span id="paymentAmountDisplay">0 Taka</span><br><br>
-                            ⚠️ Keep your transaction ID safe. You'll need it below.
+                            ðŸ“ž <strong>Send Money to:</strong> <span id="paymentNumberDisplay" style="font-size: 1.1rem; color: #f1f5f9;">Loading...</span><br>
+                            ðŸ’° <strong>Amount:</strong> <span id="paymentAmountDisplay">0 Taka</span><br><br>
+                            âš ï¸ Keep your transaction ID safe. You'll need it below.
                         </div>
 
                         <div style="margin-top: 16px;">
@@ -603,7 +604,7 @@
 
                     <!-- FREE CONTEST NOTICE (shown only for FREE contests) -->
                     <div id="freeNotice" style="display: none; background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10b981; padding: 16px 20px; border-radius: 8px; margin: 20px 0;">
-                        ✅ <strong style="color: #10b981;">This is a FREE contest!</strong><br>
+                        âœ… <strong style="color: #10b981;">This is a FREE contest!</strong><br>
                         <span style="color: #94a3b8;">No payment is required. Your registration will be confirmed immediately.</span>
                     </div>
 
@@ -617,35 +618,35 @@
 
             <!-- RIGHT: SIDEBAR -->
             <div class="registration-sidebar">
-                <h3 style="color: #6366f1; margin-top: 0;">🏆 Contest Summary</h3>
+                <h3 style="color: #6366f1; margin-top: 0;">ðŸ† Contest Summary</h3>
 
                 <div class="contest-summary">
                     <h3 id="contestTitle">Loading...</h3>
                     <div class="contest-detail">
-                        <span>📅 Date:</span>
+                        <span>ðŸ“… Date:</span>
                         <strong id="contestDate">Loading...</strong>
                     </div>
                     <div class="contest-detail">
-                        <span>🏅 Prize:</span>
+                        <span>ðŸ… Prize:</span>
                         <strong id="contestPrize">Loading...</strong>
                     </div>
                     <div class="contest-detail">
-                        <span>👥 Teams:</span>
+                        <span>ðŸ‘¥ Teams:</span>
                         <strong id="contestTeams">0</strong>
                     </div>
                     <div class="contest-detail">
-                        <span>👥 Team Size:</span>
+                        <span>ðŸ‘¥ Team Size:</span>
                         <strong id="teamSize">1-3</strong>
                     </div>
                 </div>
 
                 <div class="price-display">
                     <div class="label">Registration Fee</div>
-                    <div class="amount" id="totalAmount">৳250</div>
+                    <div class="amount" id="totalAmount">à§³250</div>
                 </div>
 
                 <div style="background: rgba(30, 41, 59, 0.7); padding: 15px; border-radius: 8px; margin: 20px 0;">
-                    <h4 style="color: #f1f5f9; margin-top: 0;">✅ What's Included:</h4>
+                    <h4 style="color: #f1f5f9; margin-top: 0;">âœ… What's Included:</h4>
                     <ul style="color: #94a3b8; padding-left: 20px; margin: 0;">
                         <li>Contest Entry for Team</li>
                         <li>All Team Members Access</li>
@@ -656,19 +657,19 @@
                 </div>
 
                 <div class="info-box" id="importantNotes">
-                    <strong>📌 Important Notes:</strong><br>
-                    • Complete payment first<br>
-                    • Save your transaction ID<br>
-                    • You'll receive a confirmation email<br>
-                    • All team members will be notified<br>
-                    • Rules available on contest page
+                    <strong>ðŸ“Œ Important Notes:</strong><br>
+                    â€¢ Complete payment first<br>
+                    â€¢ Save your transaction ID<br>
+                    â€¢ You'll receive a confirmation email<br>
+                    â€¢ All team members will be notified<br>
+                    â€¢ Rules available on contest page
                 </div>
             </div>
         </div>
     </div>
 
     <!-- THEME TOGGLE -->
-    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">🌙</button>
+    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">ðŸŒ™</button>
 
     <!-- SCRIPTS -->
     <script src="./js/script.js"></script>

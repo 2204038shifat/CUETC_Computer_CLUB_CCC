@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <script src="js/api.js"></script>
@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Control Room - CUET Computer Club</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <script src="js/protect_admin.js"></script>
     <style>
         .admin-grid { display: grid; grid-template-columns: 1fr; gap: 30px; margin-top: 20px; }
@@ -69,7 +70,7 @@
             
 
             <ul class="nav-links" style="display: flex; align-items: center; gap: 15px;">
-                <li><a href="#pendingApprovalsSection" id="pendingNotificationBadge" style="display: none; background: #f59e0b; color: #000; padding: 6px 14px; border-radius: 20px; font-weight: 700; text-decoration: none; font-size: 0.85rem; margin-right: 10px;">🔔 <span id="navPendingCount">0</span> Pending Review</a></li>
+                <li><a href="#pendingApprovalsSection" id="pendingNotificationBadge" style="display: none; background: #f59e0b; color: #000; padding: 6px 14px; border-radius: 20px; font-weight: 700; text-decoration: none; font-size: 0.85rem; margin-right: 10px;">ðŸ”” <span id="navPendingCount">0</span> Pending Review</a></li>
                 <li><a href="#" class="nav-link" style="color: #6366f1;">Dashboard</a></li>
                 <li><a href="#pendingApprovalsSection" class="nav-link">Pending</a></li>
                 <li><a href="#repSubmissionsSection" class="nav-link">All Submissions</a></li>
@@ -92,22 +93,22 @@
         <!-- 1. CLUB STATISTICS -->
         <div class="stats-container" style="margin: 0 0 40px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
             <div class="stat-card">
-                <div class="stat-icon">👥</div>
+                <div class="stat-icon">ðŸ‘¥</div>
                 <div class="stat-value" id="statMembers">0</div>
                 <div class="stat-label">Total Members</div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">🎟️</div>
+                <div class="stat-icon">ðŸŽŸï¸</div>
                 <div class="stat-value" id="statEvents">0</div>
                 <div class="stat-label">Active Events</div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">🏆</div>
+                <div class="stat-icon">ðŸ†</div>
                 <div class="stat-value" id="statContests">0</div>
                 <div class="stat-label">Upcoming Contests</div>
             </div>
             <div class="stat-card" style="cursor: pointer; border-color: rgba(245, 158, 11, 0.4);" onclick="location.href='#repSubmissionsSection'">
-                <div class="stat-icon">🔔</div>
+                <div class="stat-icon">ðŸ””</div>
                 <div class="stat-value" style="color: #f59e0b;" id="statPendingCount">0</div>
                 <div class="stat-label">Pending Submissions</div>
             </div>
@@ -117,7 +118,7 @@
         <div class="admin-panel" id="pendingApprovalsSection" style="margin-bottom: 35px; border-left: 4px solid #f59e0b;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 18px;">
                 <h3 style="color: #f59e0b; margin: 0; font-size: 1.35rem; display: flex; align-items: center; gap: 12px;">
-                    🔔 Pending Approvals
+                    ðŸ”” Pending Approvals
                     <span id="pendingApprovalsCount" style="background: #f59e0b; color: #000; font-size: 0.82rem; padding: 3px 11px; border-radius: 12px; font-weight: 800; min-width: 24px; text-align: center;">0</span>
                 </h3>
                 <span style="font-size: 0.85rem; color: #94a3b8;">Open each submission to review before approving or rejecting</span>
@@ -146,7 +147,7 @@
         <div class="admin-panel" id="repSubmissionsSection" style="margin-bottom: 35px; border-left: 4px solid #6366f1;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
                 <h3 style="color: #6366f1; margin: 0; font-size: 1.35rem;">
-                    📋 All Representative Submissions (<span id="totalSubmissionsCount">0</span>)
+                    ðŸ“‹ All Representative Submissions (<span id="totalSubmissionsCount">0</span>)
                 </h3>
                 <span style="font-size: 0.85rem; color: #94a3b8;">All events, contests, and news submitted by club representatives</span>
             </div>
@@ -172,7 +173,7 @@
                     </select>
                 </div>
                 <div class="filter-group search-box">
-                    <input type="text" id="searchRepTitle" class="form-input" placeholder="🔍 Search submissions by title..." oninput="debounceSubmissionsSearch()">
+                    <input type="text" id="searchRepTitle" class="form-input" placeholder="ðŸ” Search submissions by title..." oninput="debounceSubmissionsSearch()">
                 </div>
             </div>
 
@@ -199,7 +200,7 @@
         <div class="admin-grid">
             <!-- 2. MANAGE USERS -->
             <div class="admin-panel" id="usersSection">
-                <h3 style="color: #6366f1; margin-bottom: 10px;">👥 Manage Users</h3>
+                <h3 style="color: #6366f1; margin-bottom: 10px;">ðŸ‘¥ Manage Users</h3>
                 <div style="overflow-x: auto;">
                     <table class="admin-table">
                         <thead>
@@ -212,13 +213,13 @@
 
             <!-- 3. MANAGE EVENTS -->
             <div class="admin-panel" id="eventsSection">
-                <h3 style="color: #6366f1; margin-bottom: 10px;">📅 Manage Events</h3>
+                <h3 style="color: #6366f1; margin-bottom: 10px;">ðŸ“… Manage Events</h3>
                 <form id="createEventForm" class="form-grid">
                     <input type="text" id="evTitle" placeholder="Event Title" class="form-input" required>
                     <input type="date" id="evDate" class="form-input" required>
                     <input type="text" id="evLocation" placeholder="Location" class="form-input" required>
                     <input type="number" id="evCapacity" placeholder="Max Capacity" class="form-input" required>
-                    <input type="number" id="evRegistrationFee" placeholder="Registration Fee (৳)" class="form-input" min="0" value="0" required>
+                    <input type="number" id="evRegistrationFee" placeholder="Registration Fee (à§³)" class="form-input" min="0" value="0" required>
                     
                     <div style="grid-column: span 2;">
                         <label style="display: block; margin-bottom: 8px; color: #f1f5f9; font-weight: 600;">Event Image</label>
@@ -240,12 +241,12 @@
 
             <!-- 4. MANAGE CONTESTS -->
             <div class="admin-panel" id="contestsSection">
-                <h3 style="color: #6366f1; margin-bottom: 10px;">🏆 Manage Contests</h3>
+                <h3 style="color: #6366f1; margin-bottom: 10px;">ðŸ† Manage Contests</h3>
                 <form id="createContestForm" class="form-grid">
                     <input type="text" id="conTitle" placeholder="Contest Name" class="form-input full-width" required>
                     <input type="date" id="conDate" class="form-input" required>
                     <input type="text" id="conPrize" placeholder="Prize Pool (e.g. $5,000)" class="form-input" required>
-                    <input type="number" id="conRegistrationFee" placeholder="Registration Fee (৳)" class="form-input full-width" min="0" value="0" required>
+                    <input type="number" id="conRegistrationFee" placeholder="Registration Fee (à§³)" class="form-input full-width" min="0" value="0" required>
                     
                     <div style="grid-column: span 2;">
                         <label style="display: block; margin-bottom: 8px; color: #f1f5f9; font-weight: 600;">Contest Image</label>
@@ -269,7 +270,7 @@
 
             <!-- 5. POST NEWS -->
             <div class="admin-panel" id="newsSection">
-                <h3 style="color: #6366f1; margin-bottom: 10px;">📰 Post News & Announcements</h3>
+                <h3 style="color: #6366f1; margin-bottom: 10px;">ðŸ“° Post News & Announcements</h3>
                 <form id="createNewsForm" style="display: flex; flex-direction: column; gap: 15px;">
                     <input type="text" id="newsTitle" placeholder="News Headline" class="form-input" required>
                     
@@ -293,7 +294,7 @@
 
             <!-- 6. EVENT REGISTRATIONS -->
             <div class="admin-panel" id="eventRegistrationsSection">
-                <h3 style="color: #6366f1; margin-bottom: 10px;">📅 Manage Event Registrations</h3>
+                <h3 style="color: #6366f1; margin-bottom: 10px;">ðŸ“… Manage Event Registrations</h3>
                 <div style="margin-top: 20px; overflow-x: auto;">
                     <table class="admin-table">
                         <thead>
@@ -314,7 +315,7 @@
 
             <!-- 7. CONTEST REGISTRATIONS -->
             <div class="admin-panel" id="contestRegistrationsSection">
-                <h3 style="color: #6366f1; margin-bottom: 10px;">🏆 Manage Contest Registrations</h3>
+                <h3 style="color: #6366f1; margin-bottom: 10px;">ðŸ† Manage Contest Registrations</h3>
                 <div style="margin-top: 20px; overflow-x: auto;">
                     <table class="admin-table">
                         <thead>
@@ -345,7 +346,7 @@
             </div>
             
             <div id="revReviewNotice" class="notice-banner notice-info" style="display: flex; align-items: center; justify-content: space-between;">
-                <span>✅ Submission opened and reviewed. Approve and Reject actions are now unlocked.</span>
+                <span>âœ… Submission opened and reviewed. Approve and Reject actions are now unlocked.</span>
                 <span style="font-size: 0.8rem; opacity: 0.8;">Status: Reviewed</span>
             </div>
 
@@ -411,20 +412,20 @@
                 </div>
 
                 <div style="background: rgba(245, 158, 11, 0.08); border: 1px dashed #f59e0b; padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; color: #f59e0b;">
-                    💡 <em>Rule: If you edit content, you must click <strong>Save Edits</strong> first. The submission remains in Pending Review and must be reviewed again before approval or rejection.</em>
+                    ðŸ’¡ <em>Rule: If you edit content, you must click <strong>Save Edits</strong> first. The submission remains in Pending Review and must be reviewed again before approval or rejection.</em>
                 </div>
 
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
                     <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button type="submit" class="action-btn" style="background: #6366f1;" id="revSaveEditsBtn">💾 Save Edits</button>
-                        <button type="button" class="action-btn btn-review" id="revReviewAgainBtn" style="display: none;" onclick="markCurrentAsReviewedAgain()">🔍 Review Again</button>
-                        <button type="button" class="action-btn btn-delete" id="revDeleteBtn" onclick="deleteCurrentReviewItem()">🗑️ Delete</button>
+                        <button type="submit" class="action-btn" style="background: #6366f1;" id="revSaveEditsBtn">ðŸ’¾ Save Edits</button>
+                        <button type="button" class="action-btn btn-review" id="revReviewAgainBtn" style="display: none;" onclick="markCurrentAsReviewedAgain()">ðŸ” Review Again</button>
+                        <button type="button" class="action-btn btn-delete" id="revDeleteBtn" onclick="deleteCurrentReviewItem()">ðŸ—‘ï¸ Delete</button>
                     </div>
 
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                         <button type="button" class="action-btn btn-pending-action" id="revSendPendingBtn" style="display: none;" onclick="sendCurrentToPending()">Send Back to Pending</button>
-                        <button type="button" class="action-btn btn-reject" id="revRejectBtn" onclick="promptRejectCurrent()">✕ Reject</button>
-                        <button type="button" class="action-btn btn-approve" id="revApproveBtn" onclick="approveCurrent()">✓ Approve</button>
+                        <button type="button" class="action-btn btn-reject" id="revRejectBtn" onclick="promptRejectCurrent()">âœ• Reject</button>
+                        <button type="button" class="action-btn btn-approve" id="revApproveBtn" onclick="approveCurrent()">âœ“ Approve</button>
                     </div>
                 </div>
             </form>
@@ -518,7 +519,7 @@
                 <button type="button" class="action-btn btn-delete" onclick="discardCurrentDraft()">Discard Draft</button>
                 <div style="display: flex; gap: 10px;">
                     <button type="button" class="action-btn" style="background: #64748b;" onclick="closePublishModal()">Close</button>
-                    <button type="button" class="action-btn btn-publish" onclick="publishCurrentDraft()">🚀 Publish Changes Live</button>
+                    <button type="button" class="action-btn btn-publish" onclick="publishCurrentDraft()">ðŸš€ Publish Changes Live</button>
                 </div>
             </div>
         </div>
@@ -559,21 +560,21 @@ async function uploadImage(event, type, inputId) {
     
     if (!file) return;
 
-    console.log(`\n📤 [UPLOAD INITIATED]`);
+    console.log(`\nðŸ“¤ [UPLOAD INITIATED]`);
     console.log(`   Type: ${type}`);
     console.log(`   File: ${file.name}`);
     console.log(`   Size: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
 
     // Validate file size
     if (file.size > 10 * 1024 * 1024) {
-        alert('❌ File too large! Max 10MB');
+        alert('âŒ File too large! Max 10MB');
         return;
     }
 
     // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (!allowedTypes.includes(file.type)) {
-        alert('❌ Invalid file type! Only JPG, PNG, GIF, WebP allowed');
+        alert('âŒ Invalid file type! Only JPG, PNG, GIF, WebP allowed');
         return;
     }
 
@@ -582,38 +583,38 @@ async function uploadImage(event, type, inputId) {
     formData.append('image', file);
     formData.append('type', type);
 
-    console.log(`   ✅ FormData prepared`);
-    console.log(`   📡 Sending to: /api/upload/upload?type=${type}`);
+    console.log(`   âœ… FormData prepared`);
+    console.log(`   ðŸ“¡ Sending to: /api/upload/upload?type=${type}`);
 
     try {
-        // ✅ Send type in BOTH query string AND FormData
+        // âœ… Send type in BOTH query string AND FormData
         const response = await fetch(`/api/upload/upload?type=${type}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
-                // ❌ DO NOT set Content-Type - let browser set it
+                // âŒ DO NOT set Content-Type - let browser set it
             },
             body: formData
         });
 
         const data = await response.json();
 
-        console.log(`   📨 Response:`, data);
+        console.log(`   ðŸ“¨ Response:`, data);
 
         if (data.success) {
             document.getElementById(inputId).value = data.imageUrl;
-            console.log(`   ✅ Stored URL: ${data.imageUrl}`);
-            alert('✅ Image uploaded successfully!');
-            console.log(`📤 [UPLOAD SUCCESS]\n`);
+            console.log(`   âœ… Stored URL: ${data.imageUrl}`);
+            alert('âœ… Image uploaded successfully!');
+            console.log(`ðŸ“¤ [UPLOAD SUCCESS]\n`);
         } else {
-            alert('❌ Error uploading image: ' + data.message);
-            console.log(`❌ Error: ${data.message}`);
-            console.log(`📤 [UPLOAD FAILED]\n`);
+            alert('âŒ Error uploading image: ' + data.message);
+            console.log(`âŒ Error: ${data.message}`);
+            console.log(`ðŸ“¤ [UPLOAD FAILED]\n`);
         }
     } catch (error) {
-        console.error('❌ Error uploading image:', error);
-        alert('❌ Server error during upload');
-        console.log(`📤 [UPLOAD ERROR]\n`);
+        console.error('âŒ Error uploading image:', error);
+        alert('âŒ Server error during upload');
+        console.log(`ðŸ“¤ [UPLOAD ERROR]\n`);
     }
 }
 
@@ -631,7 +632,7 @@ async function uploadImage(event, type, inputId) {
             const registrationFee = document.getElementById('evRegistrationFee').value;
 
             if (!imageUrl) {
-                alert('❌ Please upload an event image first!');
+                alert('âŒ Please upload an event image first!');
                 return;
             }
 
@@ -656,16 +657,16 @@ async function uploadImage(event, type, inputId) {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    alert('✅ Event created successfully!');
+                    alert('âœ… Event created successfully!');
                     document.getElementById('createEventForm').reset();
                     document.getElementById('evImageUrl').value = '';
                     loadAdminData();
                 } else {
-                    alert('❌ Error: ' + (data.message || 'Failed to create event'));
+                    alert('âŒ Error: ' + (data.message || 'Failed to create event'));
                 }
             } catch (error) {
                 console.error('Error creating event:', error);
-                alert('❌ Server error!');
+                alert('âŒ Server error!');
             }
         });
 
@@ -684,7 +685,7 @@ async function uploadImage(event, type, inputId) {
             const registrationFee = document.getElementById('conRegistrationFee').value;
 
             if (!imageUrl) {
-                alert('❌ Please upload a contest image first!');
+                alert('âŒ Please upload a contest image first!');
                 return;
             }
 
@@ -710,16 +711,16 @@ async function uploadImage(event, type, inputId) {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    alert('✅ Contest created successfully!');
+                    alert('âœ… Contest created successfully!');
                     document.getElementById('createContestForm').reset();
                     document.getElementById('conImageUrl').value = '';
                     loadAdminData();
                 } else {
-                    alert('❌ Error: ' + (data.message || 'Failed to create contest'));
+                    alert('âŒ Error: ' + (data.message || 'Failed to create contest'));
                 }
             } catch (error) {
                 console.error('Error creating contest:', error);
-                alert('❌ Server error!');
+                alert('âŒ Server error!');
             }
         });
 
@@ -732,7 +733,7 @@ async function uploadImage(event, type, inputId) {
             const content = document.getElementById('newsContent').value;
 
             if (!imageUrl) {
-                alert('❌ Please upload a news image first!');
+                alert('âŒ Please upload a news image first!');
                 return;
             }
 
@@ -753,16 +754,16 @@ async function uploadImage(event, type, inputId) {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    alert('✅ News published successfully!');
+                    alert('âœ… News published successfully!');
                     document.getElementById('createNewsForm').reset();
                     document.getElementById('newsImageUrl').value = '';
                     loadAdminData();
                 } else {
-                    alert('❌ Error: ' + (data.message || 'Failed to publish news'));
+                    alert('âŒ Error: ' + (data.message || 'Failed to publish news'));
                 }
             } catch (error) {
                 console.error('Error publishing news:', error);
-                alert('❌ Server error!');
+                alert('âŒ Server error!');
             }
         });
 
@@ -780,14 +781,14 @@ async function uploadImage(event, type, inputId) {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    alert('✅ User deleted successfully!');
+                    alert('âœ… User deleted successfully!');
                     loadAdminData();
                 } else {
-                    alert('❌ Error: ' + (data.message || 'Failed to delete user'));
+                    alert('âŒ Error: ' + (data.message || 'Failed to delete user'));
                 }
             } catch (error) {
                 console.error('Error deleting user:', error);
-                alert('❌ Server error!');
+                alert('âŒ Server error!');
             }
         }
 
@@ -805,14 +806,14 @@ async function uploadImage(event, type, inputId) {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    alert('✅ User promoted to admin!');
+                    alert('âœ… User promoted to admin!');
                     loadAdminData();
                 } else {
-                    alert('❌ Error: ' + (data.message || 'Failed to promote user'));
+                    alert('âŒ Error: ' + (data.message || 'Failed to promote user'));
                 }
             } catch (error) {
                 console.error('Error promoting user:', error);
-                alert('❌ Server error!');
+                alert('âŒ Server error!');
             }
         }
 
@@ -828,14 +829,14 @@ async function uploadImage(event, type, inputId) {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    alert('✅ User promoted to Representative!');
+                    alert('âœ… User promoted to Representative!');
                     loadAdminData();
                 } else {
-                    alert('❌ Error: ' + (data.message || 'Failed to promote representative'));
+                    alert('âŒ Error: ' + (data.message || 'Failed to promote representative'));
                 }
             } catch (error) {
                 console.error('Error promoting representative:', error);
-                alert('❌ Server error!');
+                alert('âŒ Server error!');
             }
         }
 
@@ -851,14 +852,14 @@ async function uploadImage(event, type, inputId) {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    alert('✅ Representative changed to member');
+                    alert('âœ… Representative changed to member');
                     loadAdminData();
                 } else {
-                    alert('❌ Error: ' + (data.message || 'Failed to change representative'));
+                    alert('âŒ Error: ' + (data.message || 'Failed to change representative'));
                 }
             } catch (error) {
                 console.error('Error demoting representative:', error);
-                alert('❌ Server error!');
+                alert('âŒ Server error!');
             }
         }
 
@@ -874,14 +875,14 @@ async function uploadImage(event, type, inputId) {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    alert('✅ User deleted successfully!');
+                    alert('âœ… User deleted successfully!');
                     loadAdminData();
                 } else {
-                    alert('❌ Error: ' + (data.message || 'Failed to delete user'));
+                    alert('âŒ Error: ' + (data.message || 'Failed to delete user'));
                 }
             } catch (error) {
                 console.error('Error deleting user:', error);
-                alert('❌ Server error!');
+                alert('âŒ Server error!');
             }
         }
 
@@ -951,8 +952,8 @@ async function uploadImage(event, type, inputId) {
             tbody.innerHTML = `
                 <tr>
                     <td colspan="6" style="text-align:center; padding:28px 12px;">
-                        <span style="color:#10b981; font-size:1.5rem;">✅</span><br>
-                        <span style="color:#94a3b8; font-size:0.95rem; margin-top:6px; display:block;">All caught up — no pending submissions right now.</span>
+                        <span style="color:#10b981; font-size:1.5rem;">âœ…</span><br>
+                        <span style="color:#94a3b8; font-size:0.95rem; margin-top:6px; display:block;">All caught up â€” no pending submissions right now.</span>
                     </td>
                 </tr>`;
             return;
@@ -1005,12 +1006,12 @@ async function uploadImage(event, type, inputId) {
                 });
                 const data = await response.json();
                 if (response.ok && data.success) {
-                    alert('✅ Submission deleted.');
+                    alert('âœ… Submission deleted.');
                     closeReviewModal();
                     loadPendingApprovals();
                     loadRepresentativeSubmissions();
                 } else {
-                    alert('❌ ' + (data.message || 'Failed to delete'));
+                    alert('âŒ ' + (data.message || 'Failed to delete'));
                 }
             } catch (err) {
                 console.error(err);
@@ -1086,12 +1087,12 @@ async function uploadImage(event, type, inputId) {
                     : `<span style="color:#94a3b8;font-size:0.72rem;">No image</span>`;
 
                 let actions = `
-                    <button class="action-btn btn-review" onclick="openReviewModal('${item.type}', '${item._id}')">🔍 Open / Review</button>
+                    <button class="action-btn btn-review" onclick="openReviewModal('${item.type}', '${item._id}')">ðŸ” Open / Review</button>
                 `;
 
                 if (item.status === 'rejected') {
                     actions += `
-                        <button class="action-btn btn-pending-action" onclick="sendSubToPending('${routeType}', '${item._id}')">↩ Send to Pending</button>
+                        <button class="action-btn btn-pending-action" onclick="sendSubToPending('${routeType}', '${item._id}')">â†© Send to Pending</button>
                     `;
                 }
 
@@ -1203,13 +1204,13 @@ async function uploadImage(event, type, inputId) {
                 // Review Status Notice & Buttons
                 if (data.item.status === 'approved') {
                     document.getElementById('revReviewNotice').className = 'notice-banner notice-warning';
-                    document.getElementById('revReviewNotice').innerHTML = `<span>⚠️ This submission is already approved and public. Edit via the Live Content tab.</span>`;
+                    document.getElementById('revReviewNotice').innerHTML = `<span>âš ï¸ This submission is already approved and public. Edit via the Live Content tab.</span>`;
                     document.getElementById('revApproveBtn').disabled = true;
                     document.getElementById('revRejectBtn').disabled = true;
                     document.getElementById('revSaveEditsBtn').style.display = 'none';
                 } else {
                     document.getElementById('revReviewNotice').className = 'notice-banner notice-success';
-                    document.getElementById('revReviewNotice').innerHTML = `<span>✅ Submission opened and reviewed. Approve and Reject are available.</span>`;
+                    document.getElementById('revReviewNotice').innerHTML = `<span>âœ… Submission opened and reviewed. Approve and Reject are available.</span>`;
                     document.getElementById('revApproveBtn').disabled = false;
                     document.getElementById('revRejectBtn').disabled = false;
                     document.getElementById('revSaveEditsBtn').style.display = 'inline-block';
@@ -1267,20 +1268,20 @@ async function uploadImage(event, type, inputId) {
                 });
                 const data = await response.json();
                 if (response.ok && data.success) {
-                    alert('✅ Submission changes saved! As required, it remains in Pending Review and must be reviewed again before approval or rejection.');
+                    alert('âœ… Submission changes saved! As required, it remains in Pending Review and must be reviewed again before approval or rejection.');
 
                     currentReviewItem = { ...currentReviewItem, ...payload, reviewedByAdmin: false, status: 'pending' };
 
                     // Update UI: Enforce review again
                     document.getElementById('revReviewNotice').className = 'notice-banner notice-warning';
-                    document.getElementById('revReviewNotice').innerHTML = `<span>⚠️ Edits saved! Content must be reviewed again before Approve or Reject is unlocked.</span>`;
+                    document.getElementById('revReviewNotice').innerHTML = `<span>âš ï¸ Edits saved! Content must be reviewed again before Approve or Reject is unlocked.</span>`;
                     document.getElementById('revApproveBtn').disabled = true;
                     document.getElementById('revRejectBtn').disabled = true;
                     document.getElementById('revReviewAgainBtn').style.display = 'inline-block';
 
                     loadRepresentativeSubmissions();
                 } else {
-                    alert('❌ ' + (data.message || 'Failed to save edits'));
+                    alert('âŒ ' + (data.message || 'Failed to save edits'));
                 }
             } catch (err) {
                 console.error(err);
@@ -1299,7 +1300,7 @@ async function uploadImage(event, type, inputId) {
                 currentReviewItem.reviewedByAdmin = true;
 
                 document.getElementById('revReviewNotice').className = 'notice-banner notice-success';
-                document.getElementById('revReviewNotice').innerHTML = `<span>✅ Submission re-reviewed! Approve and Reject are now unlocked.</span>`;
+                document.getElementById('revReviewNotice').innerHTML = `<span>âœ… Submission re-reviewed! Approve and Reject are now unlocked.</span>`;
                 document.getElementById('revApproveBtn').disabled = false;
                 document.getElementById('revRejectBtn').disabled = false;
                 document.getElementById('revReviewAgainBtn').style.display = 'none';
@@ -1326,13 +1327,13 @@ async function uploadImage(event, type, inputId) {
                 });
                 const data = await response.json();
                 if (response.ok && data.success) {
-                    alert('🎉 Submission approved! It is now live on the public website.');
+                    alert('ðŸŽ‰ Submission approved! It is now live on the public website.');
                     closeReviewModal();
                     loadAdminData();
                     loadRepresentativeSubmissions();
                     loadPendingApprovals();
                 } else {
-                    alert('❌ ' + (data.message || 'Failed to approve'));
+                    alert('âŒ ' + (data.message || 'Failed to approve'));
                 }
             } catch (err) {
                 console.error(err);
@@ -1367,13 +1368,13 @@ async function uploadImage(event, type, inputId) {
                 });
                 const data = await response.json();
                 if (response.ok && data.success) {
-                    alert('✅ Submission rejected with reason provided');
+                    alert('âœ… Submission rejected with reason provided');
                     closeReviewModal();
                     loadAdminData();
                     loadRepresentativeSubmissions();
                     loadPendingApprovals();
                 } else {
-                    alert('❌ ' + (data.message || 'Failed to reject'));
+                    alert('âŒ ' + (data.message || 'Failed to reject'));
                 }
             } catch (err) {
                 console.error(err);
@@ -1398,11 +1399,11 @@ async function uploadImage(event, type, inputId) {
                 });
                 const data = await response.json();
                 if (response.ok && data.success) {
-                    alert('✅ Submission returned to Pending Review');
+                    alert('âœ… Submission returned to Pending Review');
                     loadRepresentativeSubmissions();
                     loadPendingApprovals();
                 } else {
-                    alert('❌ ' + (data.message || 'Failed'));
+                    alert('âŒ ' + (data.message || 'Failed'));
                 }
             } catch (err) {
                 console.error(err);
@@ -1420,12 +1421,12 @@ async function uploadImage(event, type, inputId) {
                 });
                 const data = await response.json();
                 if (response.ok && data.success) {
-                    alert('✅ Submission deleted');
+                    alert('âœ… Submission deleted');
                     loadAdminData();
                     loadRepresentativeSubmissions();
                     loadPendingApprovals();
                 } else {
-                    alert('❌ ' + (data.message || 'Failed to delete'));
+                    alert('âŒ ' + (data.message || 'Failed to delete'));
                 }
             } catch (err) {
                 console.error(err);
@@ -1520,11 +1521,11 @@ async function uploadImage(event, type, inputId) {
                 });
                 const data = await res.json();
                 if (res.ok && data.success) {
-                    alert('✅ Changes saved as draft! The public continues to see the old version until you click "Publish Changes".');
+                    alert('âœ… Changes saved as draft! The public continues to see the old version until you click "Publish Changes".');
                     closeStageModal();
                     loadAdminData();
                 } else {
-                    alert('❌ ' + (data.message || 'Failed to save draft'));
+                    alert('âŒ ' + (data.message || 'Failed to save draft'));
                 }
             } catch (err) {
                 console.error(err);
@@ -1555,7 +1556,7 @@ async function uploadImage(event, type, inputId) {
                 container.innerHTML = `
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div style="background: rgba(30, 41, 59, 0.7); padding: 15px; border-radius: 8px; border: 1px solid #1e293b;">
-                            <h4 style="color: #94a3b8; margin-top: 0; border-bottom: 1px solid #1e293b; padding-bottom: 6px;">🌐 CURRENT PUBLIC VERSION</h4>
+                            <h4 style="color: #94a3b8; margin-top: 0; border-bottom: 1px solid #1e293b; padding-bottom: 6px;">ðŸŒ CURRENT PUBLIC VERSION</h4>
                             <p><strong>Title:</strong> ${live.title}</p>
                             ${live.date ? `<p><strong>Date:</strong> ${new Date(live.date).toLocaleDateString()}</p>` : ''}
                             ${live.location ? `<p><strong>Location:</strong> ${live.location}</p>` : ''}
@@ -1564,7 +1565,7 @@ async function uploadImage(event, type, inputId) {
                         </div>
 
                         <div style="background: rgba(16, 185, 129, 0.08); padding: 15px; border-radius: 8px; border: 1px solid #10b981;">
-                            <h4 style="color: #10b981; margin-top: 0; border-bottom: 1px solid rgba(16, 185, 129, 0.3); padding-bottom: 6px;">✨ NEW STAGED VERSION (READY TO PUBLISH)</h4>
+                            <h4 style="color: #10b981; margin-top: 0; border-bottom: 1px solid rgba(16, 185, 129, 0.3); padding-bottom: 6px;">âœ¨ NEW STAGED VERSION (READY TO PUBLISH)</h4>
                             <p><strong>Title:</strong> ${draft.title || live.title}</p>
                             ${draft.date ? `<p><strong>Date:</strong> ${new Date(draft.date).toLocaleDateString()}</p>` : ''}
                             ${draft.location ? `<p><strong>Location:</strong> ${draft.location}</p>` : ''}
@@ -1600,11 +1601,11 @@ async function uploadImage(event, type, inputId) {
                 });
                 const data = await res.json();
                 if (res.ok && data.success) {
-                    alert('🎉 Changes published live successfully!');
+                    alert('ðŸŽ‰ Changes published live successfully!');
                     closePublishModal();
                     loadAdminData();
                 } else {
-                    alert('❌ ' + (data.message || 'Failed to publish changes'));
+                    alert('âŒ ' + (data.message || 'Failed to publish changes'));
                 }
             } catch (err) {
                 console.error(err);
@@ -1625,11 +1626,11 @@ async function uploadImage(event, type, inputId) {
                 });
                 const data = await res.json();
                 if (res.ok && data.success) {
-                    alert('✅ Draft changes discarded');
+                    alert('âœ… Draft changes discarded');
                     closePublishModal();
                     loadAdminData();
                 } else {
-                    alert('❌ ' + (data.message || 'Failed to discard draft'));
+                    alert('âŒ ' + (data.message || 'Failed to discard draft'));
                 }
             } catch (err) {
                 console.error(err);
@@ -1887,7 +1888,7 @@ async function loadAdminEventRegistrations() {
                             <span style="font-size: 0.85rem; color: #94a3b8;">${reg.email}</span>
                         </td>
                         <td>${reg.eventId ? reg.eventId.title : 'Unknown Event'}</td>
-                        <td>৳${reg.registrationFeeSnapshot || 0}</td>
+                        <td>à§³${reg.registrationFeeSnapshot || 0}</td>
                         <td>
                             <span class="status-pill ${reg.paymentStatus}">${reg.paymentStatus.toUpperCase()}</span>
                         </td>
@@ -1901,9 +1902,9 @@ async function loadAdminEventRegistrations() {
                                 <button class="action-btn btn-promote" onclick="verifyEventPayment('${reg._id}')">Verify</button>
                                 <button class="action-btn btn-delete" onclick="rejectEventPayment('${reg._id}')" style="margin-top: 5px;">Reject</button>
                             ` : ''}
-                            ${reg.paymentStatus === 'confirmed' ? `<span style="color: #10b981;">Confirmed ✅</span>` : ''}
+                            ${reg.paymentStatus === 'confirmed' ? `<span style="color: #10b981;">Confirmed âœ…</span>` : ''}
                             ${reg.paymentStatus === 'not_required' ? `<span style="color: #94a3b8;">Not Required</span>` : ''}
-                            ${reg.paymentStatus === 'rejected' ? `<span style="color: #ef4444;">Rejected ❌</span>` : ''}
+                            ${reg.paymentStatus === 'rejected' ? `<span style="color: #ef4444;">Rejected âŒ</span>` : ''}
                         </td>
                     </tr>
                 `).join('');
@@ -1946,7 +1947,7 @@ async function loadAdminContestRegistrations() {
                             <span style="font-size: 0.85rem; color: #94a3b8;">${reg.leadEmail}</span>
                         </td>
                         <td>${reg.contestId ? reg.contestId.title : 'Unknown Contest'}</td>
-                        <td>৳${reg.registrationFeeSnapshot || 0}</td>
+                        <td>à§³${reg.registrationFeeSnapshot || 0}</td>
                         <td>
                             <span class="status-pill ${reg.paymentStatus}">${reg.paymentStatus.toUpperCase()}</span>
                         </td>
@@ -1960,9 +1961,9 @@ async function loadAdminContestRegistrations() {
                                 <button class="action-btn btn-promote" onclick="verifyContestPayment('${reg._id}')">Verify</button>
                                 <button class="action-btn btn-delete" onclick="rejectContestPayment('${reg._id}')" style="margin-top: 5px;">Reject</button>
                             ` : ''}
-                            ${reg.paymentStatus === 'confirmed' ? `<span style="color: #10b981;">Confirmed ✅</span>` : ''}
+                            ${reg.paymentStatus === 'confirmed' ? `<span style="color: #10b981;">Confirmed âœ…</span>` : ''}
                             ${reg.paymentStatus === 'not_required' ? `<span style="color: #94a3b8;">Not Required</span>` : ''}
-                            ${reg.paymentStatus === 'rejected' ? `<span style="color: #ef4444;">Rejected ❌</span>` : ''}
+                            ${reg.paymentStatus === 'rejected' ? `<span style="color: #ef4444;">Rejected âŒ</span>` : ''}
                         </td>
                     </tr>
                 `).join('');
@@ -1984,10 +1985,10 @@ async function verifyEventPayment(id) {
         });
         const data = await res.json();
         if (data.success) {
-            alert('✅ Payment verified');
+            alert('âœ… Payment verified');
             loadAdminEventRegistrations();
         } else {
-            alert('❌ ' + data.message);
+            alert('âŒ ' + data.message);
         }
     } catch (e) {
         alert('Server error');
@@ -2008,10 +2009,10 @@ async function rejectEventPayment(id) {
         });
         const data = await res.json();
         if (data.success) {
-            alert('✅ Payment rejected');
+            alert('âœ… Payment rejected');
             loadAdminEventRegistrations();
         } else {
-            alert('❌ ' + data.message);
+            alert('âŒ ' + data.message);
         }
     } catch (e) {
         alert('Server error');
@@ -2027,10 +2028,10 @@ async function verifyContestPayment(id) {
         });
         const data = await res.json();
         if (data.success) {
-            alert('✅ Payment verified');
+            alert('âœ… Payment verified');
             loadAdminContestRegistrations();
         } else {
-            alert('❌ ' + data.message);
+            alert('âŒ ' + data.message);
         }
     } catch (e) {
         alert('Server error');
@@ -2051,10 +2052,10 @@ async function rejectContestPayment(id) {
         });
         const data = await res.json();
         if (data.success) {
-            alert('✅ Payment rejected');
+            alert('âœ… Payment rejected');
             loadAdminContestRegistrations();
         } else {
-            alert('❌ ' + data.message);
+            alert('âŒ ' + data.message);
         }
     } catch (e) {
         alert('Server error');

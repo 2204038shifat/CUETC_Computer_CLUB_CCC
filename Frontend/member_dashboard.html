@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <script src="js/api.js"></script>
@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Member Dashboard - CUET Computer Club</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
     <style>
         .dashboard-container {
             max-width: 1200px;
@@ -246,7 +247,7 @@
     <section class="dashboard-container">
         <!-- WELCOME SECTION -->
         <div class="welcome-section">
-            <h1>👋 Welcome, <span id="welcomeName">Member</span>!</h1>
+            <h1>ðŸ‘‹ Welcome, <span id="welcomeName">Member</span>!</h1>
             <p>Manage your dashboard here</p>
         </div>
 
@@ -254,7 +255,7 @@
         <div class="dashboard-grid">
             <!-- 1. PROFILE CARD -->
             <div class="dash-card">
-                <h3>👤 My Profile</h3>
+                <h3>ðŸ‘¤ My Profile</h3>
                 <div class="profile-row">
                     <span>Name:</span>
                     <strong id="profileName">Loading...</strong>
@@ -272,22 +273,22 @@
                     <strong id="profileDate">Loading...</strong>
                 </div>
                 <button class="btn btn-secondary" style="width: 100%; margin-top: 15px; padding: 8px;"></button>
-                <button class="logout-btn" id="logoutBtn" style="width: 100%;">🚪 Logout</button>
+                <button class="logout-btn" id="logoutBtn" style="width: 100%;">ðŸšª Logout</button>
             </div>
 
             <!-- 2. CLUB RESOURCES -->
             <div class="dash-card">
-                <h3>💻 Club Resources</h3>
+                <h3>ðŸ’» Club Resources</h3>
                 <p style="color: #94a3b8; margin-bottom: 15px; font-size: 0.9rem;">Exclusive links for registered members only.</p>
-                <a class="resource-link" style="cursor: default;" onclick="return false;">🐙 Official GitHub Repository</a>
+                <a class="resource-link" style="cursor: default;" onclick="return false;">ðŸ™ Official GitHub Repository</a>
                 <a href="https://www.linkedin.com/company/cuet-computer-club/" target="_blank" class="resource-link">LinkedIn</a>
-                <a href="#" class="resource-link">💬 Join Slack Community</a>
-                <a href="#" class="resource-link">🎥 Past Event Recordings</a>
+                <a href="#" class="resource-link">ðŸ’¬ Join Slack Community</a>
+                <a href="#" class="resource-link">ðŸŽ¥ Past Event Recordings</a>
             </div>
 
             <!-- 3. QUICK STATS -->
             <div class="dash-card">
-                <h3>📊 Your Activity</h3>
+                <h3>ðŸ“Š Your Activity</h3>
                 <div class="profile-row">
                     <span>Events Registered:</span>
                     <strong id="eventCount" style="color: #6366f1;">0</strong>
@@ -298,33 +299,33 @@
                 </div>
                 <div class="profile-row">
                     <span>Total Amount Spent:</span>
-                    <strong id="totalSpent" style="color: #6366f1;">৳0</strong>
+                    <strong id="totalSpent" style="color: #6366f1;">à§³0</strong>
                 </div>
                 <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #1e293b;">
                     <p style="color: #94a3b8; font-size: 0.9rem; margin: 0;">
-                        Keep participating and earning badges! 🏆
+                        Keep participating and earning badges! ðŸ†
                     </p>
                 </div>
             </div>
 
             <!-- 4. MY EVENTS -->
             <div class="dash-card registrations-section">
-                <h3>📅 My Event Registrations</h3>
+                <h3>ðŸ“… My Event Registrations</h3>
                 <div class="registration-list" id="myEventsList">
                     <div class="empty-state">
-                        <p>📭 No event registrations yet</p>
-                        <p style="font-size: 0.9rem;"><a href="index.html#events" style="color: #6366f1;">Browse events →</a></p>
+                        <p>ðŸ“­ No event registrations yet</p>
+                        <p style="font-size: 0.9rem;"><a href="index.html#events" style="color: #6366f1;">Browse events â†’</a></p>
                     </div>
                 </div>
             </div>
 
             <!-- 5. MY CONTESTS -->
             <div class="dash-card registrations-section">
-                <h3>🏆 My Contest Registrations</h3>
+                <h3>ðŸ† My Contest Registrations</h3>
                 <div class="registration-list" id="myContestsList">
                     <div class="empty-state">
-                        <p>🎯 No contest registrations yet</p>
-                        <p style="font-size: 0.9rem;"><a href="index.html#contests" style="color: #6366f1;">Browse contests →</a></p>
+                        <p>ðŸŽ¯ No contest registrations yet</p>
+                        <p style="font-size: 0.9rem;"><a href="index.html#contests" style="color: #6366f1;">Browse contests â†’</a></p>
                     </div>
                 </div>
             </div>
@@ -332,13 +333,13 @@
     </section>
 
     <!-- THEME TOGGLE -->
-    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">🌙</button>
+    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">ðŸŒ™</button>
 
     <!-- RESUBMIT PAYMENT MODAL -->
     <div id="resubmitModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
         <div class="modal-content" style="background-color: var(--card-bg, #1e293b); margin: 10% auto; padding: 25px; border: 1px solid var(--border-color, #334155); width: 90%; max-width: 500px; border-radius: 12px; color: var(--text-color, #e2e8f0); box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
             <span id="closeResubmitModal" style="color: #94a3b8; float: right; font-size: 24px; font-weight: bold; cursor: pointer;">&times;</span>
-            <h3 style="margin-top: 0; color: #f1f5f9; display: flex; align-items: center; gap: 8px;">💳 Resubmit Payment Details</h3>
+            <h3 style="margin-top: 0; color: #f1f5f9; display: flex; align-items: center; gap: 8px;">ðŸ’³ Resubmit Payment Details</h3>
             
             <form id="resubmitForm" style="margin-top: 20px;">
                 <label style="color: #f1f5f9; font-weight: 600; display: block; margin-bottom: 10px;">Payment Method <span style="color:#ef4444;">*</span></label>
@@ -347,19 +348,19 @@
                     <div class="gateway-option" style="flex: 1;">
                         <input type="radio" id="resubmit_bkash" name="resubmitGateway" value="bKash" required style="display: none;">
                         <label for="resubmit_bkash" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
-                            <span class="custom-radio"></span> 🏦 bKash
+                            <span class="custom-radio"></span> ðŸ¦ bKash
                         </label>
                     </div>
                     <div class="gateway-option" style="flex: 1;">
                         <input type="radio" id="resubmit_nagad" name="resubmitGateway" value="Nagad" style="display: none;">
                         <label for="resubmit_nagad" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
-                            <span class="custom-radio"></span> 📱 Nagad
+                            <span class="custom-radio"></span> ðŸ“± Nagad
                         </label>
                     </div>
                     <div class="gateway-option" style="flex: 1;">
                         <input type="radio" id="resubmit_rocket" name="resubmitGateway" value="Rocket" style="display: none;">
                         <label for="resubmit_rocket" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: rgba(30, 41, 59, 0.7); border: 1px solid #334155; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
-                            <span class="custom-radio"></span> 🚀 Rocket
+                            <span class="custom-radio"></span> ðŸš€ Rocket
                         </label>
                     </div>
                 </div>
@@ -382,7 +383,7 @@
                 </style>
 
                 <div class="info-box" style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 12px 16px; border-radius: 6px; margin-bottom: 20px;">
-                    <span style="color: #10b981;">⚠️ Send the money to the club's official number and keep the Transaction ID safe.</span>
+                    <span style="color: #10b981;">âš ï¸ Send the money to the club's official number and keep the Transaction ID safe.</span>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 20px;">
