@@ -37,6 +37,7 @@ img {
     
     /* Ensure forms are 100% width */
     .form-grid { grid-template-columns: 1fr !important; }
+    .form-grid > * { grid-column: 1 / -1 !important; }
     .full-width { grid-column: 1 / -1 !important; }
     
     /* Modals */
@@ -153,8 +154,8 @@ img {
         border: none;
         border-bottom: 1px solid var(--border-color);
         position: relative;
-        padding: 10px 10px 10px 40% !important;
-        text-align: left !important;
+        padding: 15px 10px !important;
+        text-align: center !important;
         min-height: 40px;
         word-wrap: break-word;
     }
@@ -163,17 +164,7 @@ img {
         border-bottom: 0;
     }
     
-    .admin-table td::before {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        width: 35%;
-        padding-right: 10px;
-        white-space: nowrap;
-        font-weight: bold;
-        color: var(--muted-text);
-        content: attr(data-label);
-    }
+
 
     /* Adjust Action Buttons in Mobile Tables */
     .action-btn {
