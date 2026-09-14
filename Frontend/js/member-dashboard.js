@@ -344,57 +344,55 @@ async function cancelContestRegistration(registrationId) {
         alert('❌ Server error');
     }
 }
-// ==================== RESUBMIT EVENT PAYMENT ====================
-async function resubmitEventPayment(registrationId) {
-    const newTransactionId = prompt("Please enter your new Transaction ID:");
-    if (!newTransactionId || newTransactionId.trim() === '') {
-        return;
-    }
+// ==================== RESUBMIT PAYMENT MODAL LOGIC ====================
+let currentResubmitId = null;
+let currentResubmitType = null; // 'event' or 'contest'
 
-    const token = localStorage.getItem('token');
-    try {
-        const response = await fetch(`/api/event-registration/resubmit-payment/${registrationId}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ transactionId: newTransactionId.trim() })
-        });
-        const data = await response.json();
-        if (data.success) {
-            alert('✅ Payment resubmitted successfully!');
-            loadEventRegistrations();
-        } else {
-            alert('❌ ' + (data.message || 'Failed to resubmit payment'));
-        }
-    } catch (err) {
-        console.error(err);
-        alert('❌ Server error');
+function openResubmitModal(registrationId, type) {
+    currentResubmitId = registrationId;
+    currentResubmitType = type;
+    document.getElementById('resubmitGateway').value = '';
+    document.getElementById('resubmitTrxId').value = '';
+    document.getElementById('resubmitModal').style.display = 'block';
+}
+
+document.getElementById('closeResubmitModal').onclick = function() {
+    document.getElementById('resubmitModal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    if (event.target == document.getElementById('resubmitModal')) {
+        document.getElementById('resubmitModal').style.display = 'none';
     }
 }
 
-// ==================== RESUBMIT CONTEST PAYMENT ====================
-async function resubmitContestPayment(registrationId) {
-    const newTransactionId = prompt("Please enter your new Transaction ID:");
-    if (!newTransactionId || newTransactionId.trim() === '') {
-        return;
-    }
+document.getElementById('resubmitForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!currentResubmitId || !currentResubmitType) return;
 
+    const paymentGateway = document.getElementById('resubmitGateway').value;
+    const transactionId = document.getElementById('resubmitTrxId').value;
     const token = localStorage.getItem('token');
+    
+    const endpoint = currentResubmitType === 'event' 
+        ? `/api/event-registration/resubmit-payment/${currentResubmitId}`
+        : `/api/contest-registration/resubmit-payment/${currentResubmitId}`;
+
     try {
-        const response = await fetch(`/api/contest-registration/resubmit-payment/${registrationId}`, {
+        const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ transactionId: newTransactionId.trim() })
+            body: JSON.stringify({ paymentGateway, transactionId: transactionId.trim() })
         });
         const data = await response.json();
         if (data.success) {
             alert('✅ Payment resubmitted successfully!');
-            loadContestRegistrations();
+            document.getElementById('resubmitModal').style.display = 'none';
+            if (currentResubmitType === 'event') loadEventRegistrations();
+            else loadContestRegistrations();
         } else {
             alert('❌ ' + (data.message || 'Failed to resubmit payment'));
         }
@@ -402,6 +400,15 @@ async function resubmitContestPayment(registrationId) {
         console.error(err);
         alert('❌ Server error');
     }
+});
+
+// Update the onclick handlers for the buttons
+function resubmitEventPayment(registrationId) {
+    openResubmitModal(registrationId, 'event');
+}
+
+function resubmitContestPayment(registrationId) {
+    openResubmitModal(registrationId, 'contest');
 }
 
 console.log('✅ Member dashboard script loaded!');

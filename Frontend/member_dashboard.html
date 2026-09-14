@@ -338,7 +338,31 @@
     <script src="js/script.js"></script>
     <script src="js/member-dashboard.js"></script>
 
+    <!-- RESUBMIT PAYMENT MODAL -->
+    <div id="resubmitModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+        <div class="modal-content" style="background-color: var(--card-bg, #1e293b); margin: 15% auto; padding: 20px; border: 1px solid var(--border-color, #334155); width: 90%; max-width: 500px; border-radius: 8px; color: var(--text-color, #e2e8f0);">
+            <span id="closeResubmitModal" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+            <h3 style="margin-top: 0; color: #6366f1;">Resubmit Payment</h3>
+            <form id="resubmitForm">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="resubmitGateway" class="form-label" style="display: block; margin-bottom: 5px;">Payment Gateway</label>
+                    <select id="resubmitGateway" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color, #334155); background: var(--input-bg, #0f172a); color: var(--text-color, #e2e8f0);">
+                        <option value="">Select Gateway</option>
+                        <option value="bKash">bKash</option>
+                        <option value="Nagad">Nagad</option>
+                        <option value="Rocket">Rocket</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="resubmitTrxId" class="form-label" style="display: block; margin-bottom: 5px;">Transaction ID</label>
+                    <input type="text" id="resubmitTrxId" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color, #334155); background: var(--input-bg, #0f172a); color: var(--text-color, #e2e8f0);" placeholder="Enter new Transaction ID">
+                </div>
+                <button type="submit" class="action-btn" style="background: #6366f1; width: 100%; border: none; padding: 12px; border-radius: 6px; color: white; cursor: pointer; font-weight: bold;">
+                    Submit Payment
+                </button>
+            </form>
+        </div>
+    </div>
     
-
     </body>
 </html>
