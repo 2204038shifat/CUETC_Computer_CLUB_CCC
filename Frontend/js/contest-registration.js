@@ -50,6 +50,23 @@ async function loadContestDetails() {
         }
 
         contestData = data.contest;
+        const deadlinePassed = isDeadlinePassed(true ? contestData.date : eventData.date);
+        if (deadlinePassed) {
+            showError("The registration deadline for this " + (true ? "contest" : "event") + " has passed");
+            const form = document.getElementById('registrationForm');
+            if (form) {
+                form.style.opacity = '0.5';
+                form.style.pointerEvents = 'none';
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Registration Closed';
+                    submitBtn.style.background = '#333';
+                    submitBtn.style.color = '#888';
+                }
+            }
+        }
+
 
         // Populate contest details
         document.getElementById('contestTitle').textContent = contestData.title;
@@ -450,3 +467,15 @@ function showLoading(show) {
 }
 
 console.log('✅ Contest registration script loaded!');
+function isDeadlinePassed(dateStr) {
+    if (!dateStr) return false;
+    try {
+        const nowInDhakaStr = new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka", hour12: false });
+        const nowInDhaka = new Date(nowInDhakaStr);
+        const storedDate = new Date(dateStr);
+        const deadlineInDhaka = new Date(storedDate.getFullYear(), storedDate.getMonth(), storedDate.getDate(), 23, 59, 59, 999);
+        return nowInDhaka > deadlineInDhaka;
+    } catch (e) {
+        return false;
+    }
+}

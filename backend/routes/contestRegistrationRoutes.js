@@ -135,6 +135,19 @@ router.post('/register', verifyToken, async (req, res) => {
             return res.status(404).json({ success: false, message: 'Contest not found' });
         }
 
+        // Check registration deadline
+        const storedDate = new Date(true ? contest.date : event.date);
+        const nowInDhakaStr = new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka", hour12: false });
+        const nowInDhaka = new Date(nowInDhakaStr);
+        const deadlineInDhaka = new Date(storedDate.getFullYear(), storedDate.getMonth(), storedDate.getDate(), 23, 59, 59, 999);
+        
+        if (nowInDhaka > deadlineInDhaka) {
+            return res.status(400).json({
+                success: false,
+                message: "The registration deadline for this " + (true ? "contest" : "event") + " has passed"
+            });
+        }
+    
         // Verify team size
         if (teamMembers.length < contest.minTeamSize || teamMembers.length > contest.maxTeamSize) {
             return res.status(400).json({ 
