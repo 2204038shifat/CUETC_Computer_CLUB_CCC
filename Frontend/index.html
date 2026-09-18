@@ -613,15 +613,15 @@ async function loadEvents() {
                     <div class="event-content">
                         <h3 class="event-title">${event.title || 'Event'}</h3>
                         <div class="event-meta">
-                            <span class="event-date">≡ƒôà ${new Date(event.date).toLocaleDateString()}</span>
-                            <span class="event-location">≡ƒôì ${event.location || 'TBA'}</span>
+                            <span class="event-date">📅 ${new Date(event.date).toLocaleDateString()}</span>
+                            <span class="event-location">📍 ${event.location || 'TBA'}</span>
                         </div>
                         <p class="event-description">
                             ${event.description || 'Join us for this exciting event!'}
                         </p>
                         <div class="event-stats">
-                            <span>≡ƒæÑ ${event.participants ? event.participants.length : 0} Attendees</span>
-                            <span>Γ¡É 4.8/5 Rating</span>
+                            <span>👥 ${event.participants ? event.participants.length : 0} Attendees</span>
+                            <span>⭐ 4.8/5 Rating</span>
                         </div>
                       
     <button 
@@ -702,19 +702,19 @@ async function loadContests() {
                     
                     <div class="contest-details">
                         <div class="detail-row">
-                            <span class="detail-label">≡ƒôà Date:</span>
+                            <span class="detail-label">📅 Date:</span>
                             <span class="detail-value">${new Date(contest.date).toLocaleDateString()}</span>
                         </div>
                         <div class="detail-row">
-                            <span class="detail-label">≡ƒÅå Prize Pool:</span>
+                            <span class="detail-label">💰 Prize Pool:</span>
                             <span class="detail-value">${contest.prize || 'N/A'}</span>
                         </div>
                         <div class="detail-row">
-                            <span class="detail-label">≡ƒæÑ Team Size:</span>
+                            <span class="detail-label">👥 Team Size:</span>
                             <span class="detail-value">${contest.teamSize || '1-3 members'}</span>
                         </div>
                         <div class="detail-row">
-                            <span class="detail-label">≡ƒæÑ Registered:</span>
+                            <span class="detail-label">👥 Registered:</span>
                             <span class="detail-value">${contest.participants ? contest.participants.length : 0}</span>
                         </div>
                     </div>
