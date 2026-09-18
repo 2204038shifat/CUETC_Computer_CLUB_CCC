@@ -103,17 +103,27 @@
                 <div class="stat-label">Total Members</div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">🎟️</div>
-                <div class="stat-value" id="statEvents">0</div>
-                <div class="stat-label">Active Events</div>
+                <div class="stat-icon">📅</div>
+                <div class="stat-value" id="statTotalEvents">0</div>
+                <div class="stat-label">Total Events</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">🏆</div>
-                <div class="stat-value" id="statContests">0</div>
-                <div class="stat-label">Upcoming Contests</div>
+                <div class="stat-value" id="statTotalContests">0</div>
+                <div class="stat-label">Total Contests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value" id="statOpenEvents">0</div>
+                <div class="stat-label">Open Event Registrations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value" id="statOpenContests">0</div>
+                <div class="stat-label">Open Contest Registrations</div>
             </div>
             <div class="stat-card" style="cursor: pointer; border-color: rgba(245, 158, 11, 0.4);" onclick="location.href='#repSubmissionsSection'">
-                <div class="stat-icon">🔔</div>
+                <div class="stat-icon">⏳</div>
                 <div class="stat-value" style="color: #f59e0b;" id="statPendingCount">0</div>
                 <div class="stat-label">Pending Submissions</div>
             </div>
@@ -531,6 +541,21 @@
     </div>
 
     <script>
+
+        // Utility to check deadline using Asia/Dhaka time
+        function isDeadlinePassed(dateStr) {
+            if (!dateStr) return false;
+            try {
+                const nowInDhakaStr = new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka", hour12: false });
+                const nowInDhaka = new Date(nowInDhakaStr);
+                const storedDate = new Date(dateStr);
+                const deadlineInDhaka = new Date(storedDate.getFullYear(), storedDate.getMonth(), storedDate.getDate(), 23, 59, 59, 999);
+                return nowInDhaka > deadlineInDhaka;
+            } catch (e) {
+                return false;
+            }
+        }
+
         const token = localStorage.getItem('token');
 
         // ==================== LOGOUT ====================
@@ -1729,7 +1754,9 @@ async function uploadImage(event, type, inputId) {
 
         if (eventData.success) {
             const events = eventData.submissions || [];
-            document.getElementById('statEvents').innerText = events.filter(e => e.status === 'approved').length;
+            const approvedEvents = events.filter(e => e.status === 'approved');
+            document.getElementById('statTotalEvents').innerText = approvedEvents.length;
+            document.getElementById('statOpenEvents').innerText = approvedEvents.filter(e => !isDeadlinePassed(e.date)).length;
             if (events.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #94a3b8;">No events found.</td></tr>';
             } else {
@@ -1778,7 +1805,9 @@ async function uploadImage(event, type, inputId) {
 
         if (contestData.success) {
             const contests = contestData.submissions || [];
-            document.getElementById('statContests').innerText = contests.filter(c => c.status === 'approved').length;
+            const approvedContests = contests.filter(c => c.status === 'approved');
+            document.getElementById('statTotalContests').innerText = approvedContests.length;
+            document.getElementById('statOpenContests').innerText = approvedContests.filter(c => !isDeadlinePassed(c.date)).length;
             if (contests.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color: #94a3b8;">No contests found.</td></tr>';
             } else {
