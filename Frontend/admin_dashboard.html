@@ -96,7 +96,16 @@
         <h2 class="section-title">Dashboard Overview</h2>
 
         <!-- 1. CLUB STATISTICS -->
-        <div class="stats-container" style="margin: 0 0 40px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+        <style>
+    .stats-container .stat-card { padding: 15px 10px; }
+    .stats-container .stat-icon { font-size: 1.8rem; margin-bottom: 5px; }
+    .stats-container .stat-value { font-size: 2rem; }
+    .stats-container .stat-label { font-size: 0.75rem; }
+    @media (min-width: 900px) {
+        .stats-container { grid-template-columns: repeat(6, 1fr) !important; }
+    }
+</style>
+<div class="stats-container" style="margin: 0 0 40px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;">
             <div class="stat-card">
                 <div class="stat-icon">👥</div>
                 <div class="stat-value" id="statMembers">0</div>
