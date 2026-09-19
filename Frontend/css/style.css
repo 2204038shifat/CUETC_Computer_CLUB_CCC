@@ -1669,3 +1669,4 @@ body.light-mode .signup-form-container {
         text-align: center;
     }
 }
+@media (min-width: 769px) { .d-mobile-only { display: none !important; } }
