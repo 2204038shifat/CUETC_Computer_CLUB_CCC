@@ -12,6 +12,23 @@ img {
 
 /* Base Responsive Typography & Padding */
 @media (max-width: 1024px) {
+    .registration-wrapper, .registration-form-container, .registration-sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+    .registration-wrapper {
+        grid-template-columns: 1fr !important;
+        padding: 10px !important;
+    }
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
+    .payment-gateway-select {
+        grid-template-columns: 1fr !important;
+    }
     :root {
         --spacing-2xl: 2rem;
         --spacing-xl: 1.5rem;
@@ -19,6 +36,23 @@ img {
 }
 
 @media (max-width: 768px) {
+    .registration-wrapper, .registration-form-container, .registration-sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+    .registration-wrapper {
+        grid-template-columns: 1fr !important;
+        padding: 10px !important;
+    }
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
+    .payment-gateway-select {
+        grid-template-columns: 1fr !important;
+    }
     /* Navbar UI scaling */
     .navbar .logo { font-size: 1.2rem !important; }
     .logo-text { display: inline-block !important; }
@@ -62,6 +96,23 @@ img {
 
 /* ==================== NAVBAR RESPONSIVENESS ==================== */
 @media (max-width: 1024px) {
+    .registration-wrapper, .registration-form-container, .registration-sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+    .registration-wrapper {
+        grid-template-columns: 1fr !important;
+        padding: 10px !important;
+    }
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
+    .payment-gateway-select {
+        grid-template-columns: 1fr !important;
+    }
     .navbar-container { padding: 10px 15px; }
     
     .hamburger {
@@ -125,6 +176,23 @@ img {
 
 /* ==================== DASHBOARD & TABLES RESPONSIVENESS ==================== */
 @media (max-width: 768px) {
+    .registration-wrapper, .registration-form-container, .registration-sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+    .registration-wrapper {
+        grid-template-columns: 1fr !important;
+        padding: 10px !important;
+    }
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
+    .payment-gateway-select {
+        grid-template-columns: 1fr !important;
+    }
     /* Responsive stats grid */
     .stats-container {
         grid-template-columns: 1fr !important;
@@ -245,6 +313,23 @@ img {
 
 /* Registration Pages Specific Fixes */
 @media (max-width: 768px) {
+    .registration-wrapper, .registration-form-container, .registration-sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+    .registration-wrapper {
+        grid-template-columns: 1fr !important;
+        padding: 10px !important;
+    }
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
+    .payment-gateway-select {
+        grid-template-columns: 1fr !important;
+    }
     .registration-layout {
         flex-direction: column !important;
     }
@@ -259,6 +344,23 @@ img {
 
 /* Footer Fixes */
 @media (max-width: 768px) {
+    .registration-wrapper, .registration-form-container, .registration-sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+    .registration-wrapper {
+        grid-template-columns: 1fr !important;
+        padding: 10px !important;
+    }
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
+    .payment-gateway-select {
+        grid-template-columns: 1fr !important;
+    }
     .footer-content {
         grid-template-columns: 1fr !important;
         gap: 30px;
@@ -278,6 +380,23 @@ html, body {
 }
 
 @media (max-width: 768px) {
+    .registration-wrapper, .registration-form-container, .registration-sidebar {
+        width: 100% !important;
+        min-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+    .registration-wrapper {
+        grid-template-columns: 1fr !important;
+        padding: 10px !important;
+    }
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
+    .payment-gateway-select {
+        grid-template-columns: 1fr !important;
+    }
     .dashboard-grid, .registration-list, .stats-grid {
         grid-template-columns: 1fr !important;
     }
