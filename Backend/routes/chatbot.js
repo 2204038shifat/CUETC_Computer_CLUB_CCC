@@ -42,16 +42,14 @@ const fetchWithCache = async () => {
         return; // Use cache
     }
     try {
-        const [e, c, n, u] = await Promise.all([
+        const [e, c, n] = await Promise.all([
             Event.find().sort({ createdAt: -1 }).select('title date location capacity description').limit(10).lean(),
             Contest.find().sort({ createdAt: -1 }).select('title date prize teamSize description').limit(10).lean(),
-            News.find().sort({ createdAt: -1 }).select('title content').limit(10).lean(),
-            User.find({ role: 'admin' }).select('fullName email').lean() // Assume admins are committee
+            News.find().sort({ createdAt: -1 }).select('title content').limit(10).lean()
         ]);
         cache.events = e;
         cache.contests = c;
         cache.news = n;
-        cache.committee = u;
         cache.lastFetch = now;
     } catch (error) {
         console.error("[CHATBOT DB ERROR] Failed to fetch cache:", error);
@@ -108,7 +106,7 @@ router.post('/', async (req, res) => {
         // If not club related, don't fetch DB
         const isClubRelated = wantsEvents || wantsContests || wantsNews || wantsCommittee || /(cuet|club|member)/i.test(msgLower);
 
-        let dbContext = "";
+        let dbContext = `\n[CLUB]\n${CLUB_KNOWLEDGE}\n`;
         if (isClubRelated) {
             await fetchWithCache();
             if (wantsEvents && cache.events?.length) {
@@ -119,13 +117,6 @@ router.post('/', async (req, res) => {
             }
             if (wantsNews && cache.news?.length) {
                 dbContext += "\n[NEWS]\n" + cache.news.map(n => `- ${n.title}: ${n.content}`).join("\n");
-            }
-            if (wantsCommittee && cache.committee?.length) {
-                dbContext += "\n[COMMITTEE/ADMINS]\n" + cache.committee.map(u => `- ${u.fullName} (${u.email})`).join("\n");
-            }
-            if (!wantsEvents && !wantsContests && !wantsNews && !wantsCommittee) {
-                // Mention general facts if they just asked about the club
-                dbContext += `\n[CLUB]\n${CLUB_KNOWLEDGE}\n`;
             }
         }
 
