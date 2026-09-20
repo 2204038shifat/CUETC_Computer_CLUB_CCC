@@ -151,7 +151,7 @@ ${dbContext ? `\nCONTEXT:\n${dbContext}` : ''}`;
         // Timeout logic for Gemini
         const result = await Promise.race([
             chat.sendMessage(message),
-            new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 15000))
+            new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 40000))
         ]);
 
         const responseText = result.response.text();
