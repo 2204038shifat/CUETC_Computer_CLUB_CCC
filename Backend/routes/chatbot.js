@@ -110,7 +110,7 @@ ${dbContext}
 
         const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
         const response = await ai.models.generateContent({
-            model: 'gemini-3.6-flash',
+            model: 'gemini-1.5-flash',
             contents: formattedHistory,
             config: {
                 systemInstruction: systemInstruction,
