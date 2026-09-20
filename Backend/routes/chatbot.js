@@ -4,7 +4,7 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const Event = require('../models/Event');
 const Contest = require('../models/Contest');
 const News = require('../models/News');
-const User = require('../models/User'); // For committee
+const User = require('../models/user'); // For committee
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 let genAI = null;
