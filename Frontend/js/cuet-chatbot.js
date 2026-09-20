@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement('div');
         div.className = `chat-bubble ${role}`;
         
-        // Basic Markdown formatting
         let formattedText = text
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -79,37 +78,42 @@ document.addEventListener('DOMContentLoaded', () => {
         typingEl.style.display = 'block';
         messagesEl.scrollTop = messagesEl.scrollHeight;
 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 20000); // 20s timeout
+
         try {
-            // Check if backend uses the exact port dynamically or default 5000
-            // Assuming same origin if running together, else fallback to 5000
             const apiUrl = '/api/chatbot';
-                
             const res = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: msg, history: conversationHistory })
+                body: JSON.stringify({ message: msg, history: conversationHistory }),
+                signal: controller.signal
             });
+            clearTimeout(timeoutId);
             
             const data = await res.json();
             typingEl.style.display = 'none';
 
-            if (!res.ok) {
+            if (!res.ok || !data.success) {
                 addMessage(data.error || "Sorry, I'm unable to respond right now. Please try again in a moment.", 'bot');
             } else {
                 addMessage(data.reply, 'bot');
-                // Store in history
                 conversationHistory.push({ role: 'user', text: msg });
                 conversationHistory.push({ role: 'assistant', text: data.reply });
                 
-                // Keep only last 6 to avoid large context
                 if (conversationHistory.length > 6) {
                     conversationHistory = conversationHistory.slice(-6);
                 }
             }
         } catch (err) {
+            clearTimeout(timeoutId);
             console.error('Chat error:', err);
             typingEl.style.display = 'none';
-            addMessage("Sorry, I'm unable to connect to the server right now. Please try again in a moment.", 'bot');
+            if (err.name === 'AbortError') {
+                addMessage("The response is taking too long. Please try again.", 'bot');
+            } else {
+                addMessage("Sorry, I'm unable to connect to the server right now. Please try again in a moment.", 'bot');
+            }
         }
     });
 });
