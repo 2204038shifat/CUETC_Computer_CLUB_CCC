@@ -93,7 +93,7 @@ const getChatbotReply = async (userMessage, history = []) => {
     // history: array of { role: 'user' | 'model', text: '...' } from previous turns
     const chat = model.startChat({
         history: history.map(h => ({
-            role: h.role,
+            role: h.role === 'assistant' ? 'model' : (h.role === 'bot' ? 'model' : h.role),
             parts: [{ text: h.text }]
         }))
     });
