@@ -69,4 +69,4 @@ const contestRegistrationSchema = new mongoose.Schema({
 contestRegistrationSchema.index({ teamLeaderId: 1, contestId: 1 });
 // contestRegistrationSchema.index({ transactionId: 1 });
 
-module.exports = mongoose.model('ContestRegistration', contestRegistrationSchema);
+module.exports = mongoose.models['ContestRegistration'] || mongoose.model('ContestRegistration', contestRegistrationSchema);

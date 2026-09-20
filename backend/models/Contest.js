@@ -11,4 +11,4 @@ const contestSchema = new mongoose.Schema({
     tags: [{ type: String }]
 }, { timestamps: true });
 
-module.exports = mongoose.model('Contest', contestSchema);
+module.exports = mongoose.models['Contest'] || mongoose.model('Contest', contestSchema);

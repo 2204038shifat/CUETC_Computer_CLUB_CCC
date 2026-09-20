@@ -8,4 +8,4 @@ const newsSchema = new mongoose.Schema({
     views: { type: Number, default: 0 }
 }, { timestamps: true });
 
-module.exports = mongoose.model('News', newsSchema);
+module.exports = mongoose.models['News'] || mongoose.model('News', newsSchema);

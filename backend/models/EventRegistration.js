@@ -67,4 +67,4 @@ const eventRegistrationSchema = new mongoose.Schema({
 eventRegistrationSchema.index({ userId: 1, eventId: 1 });
 // eventRegistrationSchema.index({ transactionId: 1 });
 
-module.exports = mongoose.model('EventRegistration', eventRegistrationSchema);
+module.exports = mongoose.models['EventRegistration'] || mongoose.model('EventRegistration', eventRegistrationSchema);
