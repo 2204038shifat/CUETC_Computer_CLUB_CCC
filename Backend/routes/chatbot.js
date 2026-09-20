@@ -25,15 +25,16 @@ Contact: Email: contact@computerclub.com | Phone: +1 (234) 567-890 | Location: C
 `;
 
 router.post('/', async (req, res) => {
+    console.log(`[CHATBOT] Request received from ${req.ip}. Message: "${req.body.message}"`);
     try {
         const { message, history = [] } = req.body;
 
         // Validation
         if (!message || typeof message !== 'string' || message.trim() === '') {
-            return res.status(400).json({ error: 'Message is required' });
+            return res.status(400).json({ success: false, error: 'Message is required' });
         }
         if (message.length > 500) {
-            return res.status(400).json({ error: 'Message too long' });
+            return res.status(400).json({ success: false, error: 'Message too long' });
         }
 
         // Basic IP-based Rate Limiting
@@ -47,14 +48,14 @@ router.post('/', async (req, res) => {
         } else {
             userRate.count++;
             if (userRate.count > 20) {
-                return res.status(429).json({ error: 'Too many requests. Please wait a minute.' });
+                return res.status(429).json({ success: false, error: 'Too many requests. Please wait a minute.' });
             }
         }
         rateLimitMap.set(ip, userRate);
 
         if (!GEMINI_API_KEY) {
-            console.error("Chatbot Error: GEMINI_API_KEY is not configured in .env");
-            return res.status(503).json({ error: "Sorry, I'm currently unavailable as my AI provider is not configured." });
+            console.error("[CHATBOT GEMINI ERROR] GEMINI_API_KEY is not configured");
+            return res.status(503).json({ success: false, error: "Sorry, I'm currently unavailable as my AI provider is not configured." });
         }
 
         // Retrieve current public database info
@@ -66,7 +67,7 @@ router.post('/', async (req, res) => {
                 News.find().sort({ createdAt: -1 }).limit(10).lean()
             ]);
         } catch (dbErr) {
-            console.error("Database retrieval error in chatbot:", dbErr);
+            console.error("[CHATBOT DB ERROR] Failed to fetch context:", dbErr);
         }
 
         let dbContext = "CURRENT CUET COMPUTER CLUB PUBLIC DATA:\n";
@@ -93,9 +94,11 @@ ${dbContext}
 `;
 
         // Initialize Gemini with standard GoogleGenerativeAI SDK
+        console.log(`[CHATBOT] Initializing Gemini API...`);
         const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+        // Using gemini-3.5-flash as 3.6-flash throws 503 high demand
         const model = genAI.getGenerativeModel({ 
-            model: "gemini-3.6-flash",
+            model: "gemini-3.5-flash",
             systemInstruction: systemInstruction 
         });
 
@@ -123,10 +126,14 @@ ${dbContext}
             throw new Error("Empty response from Gemini API");
         }
 
-        res.json({ reply: responseText });
+        res.json({ success: true, reply: responseText });
     } catch (error) {
-        console.error("Chatbot Route Error:", error.message || error);
-        res.status(500).json({ error: "Sorry, I'm unable to respond right now. Please try again in a moment." });
+        console.error("[CHATBOT GEMINI ERROR]");
+        console.error("status:", error.status || "Unknown");
+        console.error("message:", error.message || error);
+        if (error.response) console.error("details:", error.response);
+        
+        res.status(500).json({ success: false, error: "The AI service is temporarily unavailable." });
     }
 });
 
