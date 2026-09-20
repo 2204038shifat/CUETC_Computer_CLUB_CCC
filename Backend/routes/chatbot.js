@@ -26,7 +26,15 @@ const cache = {
 const CACHE_TTL = 60000; // 60 seconds
 
 // Core Knowledge (very concise)
-const CLUB_KNOWLEDGE = `CUET Computer Club. Activities: Programming, Workshops, Contests. Contact: contact@computerclub.com | Room 201`;
+const CLUB_KNOWLEDGE = `CUET Computer Club.
+Activities: Programming, Workshops, Contests. Contact: contact@computerclub.com | Room 201
+Executive Committee 2026-2027:
+- Towhidul Islam Rizvi: President
+- Shadat Hossain Rony: Vice President (Technical)
+- Md. Jamil Hossain: Vice President (Organizing)
+- Samonwita Sarker: Vice President (Organizing)
+- Md. Mahi Islam: General Secretary
+- Md Faladun Islam: Finance Secretary`;
 
 const fetchWithCache = async () => {
     const now = Date.now();
