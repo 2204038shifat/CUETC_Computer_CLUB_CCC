@@ -86,7 +86,7 @@ ${newsText}
 const getChatbotReply = async (userMessage, history = []) => {
     const context = await buildClubContext();
     const model = genAI.getGenerativeModel({
-        model: 'gemini-3.6-flash',
+        model: 'gemini-1.5-flash',
         systemInstruction: context
     });
 
