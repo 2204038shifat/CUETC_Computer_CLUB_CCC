@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Check if backend uses the exact port dynamically or default 5000
             // Assuming same origin if running together, else fallback to 5000
-            const apiUrl = '/api/chatbot';
+            const apiUrl = '/api/chat';
                 
             const res = await fetch(apiUrl, {
                 method: 'POST',
