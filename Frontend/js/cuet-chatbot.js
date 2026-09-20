@@ -78,18 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
         typingEl.style.display = 'block';
         messagesEl.scrollTop = messagesEl.scrollHeight;
 
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 45000); // 45s timeout
-
         try {
             const apiUrl = '/api/chatbot';
             const res = await fetch(apiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: msg, history: conversationHistory }),
-                signal: controller.signal
+                body: JSON.stringify({ message: msg, history: conversationHistory })
             });
-            clearTimeout(timeoutId);
             
             const data = await res.json();
             typingEl.style.display = 'none';
@@ -106,14 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         } catch (err) {
-            clearTimeout(timeoutId);
             console.error('Chat error:', err);
             typingEl.style.display = 'none';
-            if (err.name === 'AbortError') {
-                addMessage("The response is taking too long. Please try again.", 'bot');
-            } else {
-                addMessage("Sorry, I'm unable to connect to the server right now. Please try again in a moment.", 'bot');
-            }
+            addMessage("Sorry, I'm unable to connect to the server right now. Please try again in a moment.", 'bot');
         }
     });
 });

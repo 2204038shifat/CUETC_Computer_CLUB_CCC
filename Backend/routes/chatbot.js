@@ -148,11 +148,8 @@ ${dbContext ? `\nCONTEXT:\n${dbContext}` : ''}`;
 
         const chat = model.startChat({ history: formattedHistory });
         
-        // Timeout logic for Gemini
-        const result = await Promise.race([
-            chat.sendMessage(message),
-            new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 40000))
-        ]);
+        // Timeout logic removed as per user request
+        const result = await chat.sendMessage(message);
 
         const responseText = result.response.text();
         res.json({ success: true, reply: responseText });
