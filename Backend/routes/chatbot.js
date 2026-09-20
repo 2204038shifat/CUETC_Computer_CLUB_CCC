@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { GoogleGenAI } = require('@google/genai');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 const Event = require('../models/Event');
 const Contest = require('../models/Contest');
 const News = require('../models/News');
@@ -25,7 +25,6 @@ Contact: Email: contact@computerclub.com | Phone: +1 (234) 567-890 | Location: C
 `;
 
 router.post('/', async (req, res) => {
-    console.log(`[Chatbot] Received request from ${req.ip}. Message: "${req.body.message}"`);
     try {
         const { message, history = [] } = req.body;
 
@@ -55,34 +54,37 @@ router.post('/', async (req, res) => {
 
         if (!GEMINI_API_KEY) {
             console.error("Chatbot Error: GEMINI_API_KEY is not configured in .env");
-            return res.status(503).json({ error: "Sorry, I'm currently unavailable as my AI provider is not configured. Please contact the administrator." });
+            return res.status(503).json({ error: "Sorry, I'm currently unavailable as my AI provider is not configured." });
         }
 
         // Retrieve current public database info
         let events = [], contests = [], news = [];
         try {
             [events, contests, news] = await Promise.all([
-                Event.find({ status: 'approved' }).sort({ date: -1 }).limit(5).lean(),
-                Contest.find({ status: 'approved' }).sort({ date: -1 }).limit(5).lean(),
-                News.find({ status: 'approved' }).sort({ createdAt: -1 }).limit(5).lean()
+                Event.find().sort({ createdAt: -1 }).limit(10).lean(),
+                Contest.find().sort({ createdAt: -1 }).limit(10).lean(),
+                News.find().sort({ createdAt: -1 }).limit(10).lean()
             ]);
         } catch (dbErr) {
             console.error("Database retrieval error in chatbot:", dbErr);
-            // Continue with static knowledge if DB fails
         }
 
         let dbContext = "CURRENT CUET COMPUTER CLUB PUBLIC DATA:\n";
-        if (events.length) dbContext += "\n--- EVENTS ---\n" + events.map(e => `- ${e.title} | Date: ${e.date} | Location: ${e.location} | Fee: ${e.registrationFee} | Desc: ${e.description}`).join("\n");
-        if (contests.length) dbContext += "\n--- CONTESTS ---\n" + contests.map(c => `- ${c.title} | Date: ${c.date} | Prize: ${c.prize} | Team Size: ${c.teamSize} | Fee: ${c.registrationFee} | Desc: ${c.description}`).join("\n");
-        if (news.length) dbContext += "\n--- LATEST NEWS ---\n" + news.map(n => `- ${n.title} (by ${n.author}): ${n.content}`).join("\n");
+        if (events.length) dbContext += "\n--- EVENTS ---\n" + events.map(e => `- ${e.title} | Date: ${e.date} | Location: ${e.location} | Desc: ${e.description}`).join("\n");
+        if (contests.length) dbContext += "\n--- CONTESTS ---\n" + contests.map(c => `- ${c.title} | Date: ${c.date} | Prize: ${c.prize} | Team Size: ${c.teamSize} | Desc: ${c.description}`).join("\n");
+        if (news.length) dbContext += "\n--- LATEST NEWS ---\n" + news.map(n => `- ${n.title}: ${n.content}`).join("\n");
 
         // Prepare System Prompt
-        const systemInstruction = `You are the CUET Computer Club Assistant. You provide accurate and helpful information about CUET Computer Club using only the provided club knowledge and current public website/database information. 
-Do not invent facts, event dates, contest names, fees, prize pools, deadlines, committee members, or contact numbers. If information is unavailable, clearly say "I couldn't find that information in the current CUET Computer Club data."
-You are NOT a general-purpose AI assistant. For unrelated questions, politely respond: "I'm the CUET Computer Club Assistant. I can help with CUET Computer Club events, contests, registrations, news, committee information, and other club-related questions."
-Never reveal private user information, API keys, passwords, or confidential database content. 
-If a user asks about their personal registration/payment status, tell them: "Please check your dashboard for your personal registration and payment status."
-You support English, Bangla, and Banglish. Answer naturally in the user's language. Keep answers concise unless detailed explanation is necessary.
+        const systemInstruction = `You are the CUET Computer Club Assistant. You behave like a natural conversational AI assistant, not a simple FAQ bot.
+
+CORE RULES:
+1. Understand normal English, Bangla, Banglish, mixed language, informal language, and typos (e.g. 'contst', 'upcomming', 'evnt').
+2. Do not require exact question formats. Use intent to understand what the user wants.
+3. For general conversation (hello, thanks, general knowledge like "what is AI"), respond naturally using your general knowledge. Do not reject the question.
+4. For CUET Computer Club questions, use ONLY the "CURRENT CUET COMPUTER CLUB PUBLIC DATA" below. Do not invent club events, dates, fees, or committee members.
+5. If the user uses Bangla, reply in Bangla. If Banglish, reply in Banglish or natural Bangla. If English, reply in English.
+6. Always be friendly, concise, and easy to read (use bullet points if helpful).
+7. If someone asks about registrations or events, use the provided data to answer. If data is unavailable, politely state you couldn't find that specific info.
 
 CLUB KNOWLEDGE:
 ${CLUB_KNOWLEDGE}
@@ -90,46 +92,40 @@ ${CLUB_KNOWLEDGE}
 ${dbContext}
 `;
 
-        // Format history for @google/genai SDK
+        // Initialize Gemini with standard GoogleGenerativeAI SDK
+        const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+        const model = genAI.getGenerativeModel({ 
+            model: "gemini-1.5-flash",
+            systemInstruction: systemInstruction 
+        });
+
+        // Format history for @google/generative-ai SDK (requires exactly "user" and "model" roles)
         const formattedHistory = [];
         const recentHistory = history.slice(-6);
         
         for (const msg of recentHistory) {
-            if (msg.role === 'user' || msg.role === 'assistant' || msg.role === 'model') {
+            if (msg.role === 'user' || msg.role === 'assistant' || msg.role === 'bot' || msg.role === 'model') {
                 formattedHistory.push({
-                    role: msg.role === 'assistant' ? 'model' : 'user',
+                    role: (msg.role === 'assistant' || msg.role === 'bot' || msg.role === 'model') ? 'model' : 'user',
                     parts: [{ text: msg.text }]
                 });
             }
         }
         
-        formattedHistory.push({
-            role: 'user',
-            parts: [{ text: message }]
+        const chat = model.startChat({
+            history: formattedHistory
         });
 
-        const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-        const response = await ai.models.generateContent({
-            model: 'gemini-1.5-flash',
-            contents: formattedHistory,
-            config: {
-                systemInstruction: systemInstruction,
-                temperature: 0.2,
-                maxOutputTokens: 2048
-            }
-        });
+        const result = await chat.sendMessage(message);
+        const responseText = result.response.text();
 
-        if (!response || !response.text) {
+        if (!responseText) {
             throw new Error("Empty response from Gemini API");
         }
 
-        res.json({ reply: response.text });
+        res.json({ reply: responseText });
     } catch (error) {
-        if (error.status === 403 || (error.message && error.message.includes('denied access'))) {
-            console.error("Chatbot Route Error: API Key denied access (403). Check if Generative Language API is enabled for your key, or if the key is valid for this model.");
-        } else {
-            console.error("Chatbot Route Error:", error.message || error);
-        }
+        console.error("Chatbot Route Error:", error.message || error);
         res.status(500).json({ error: "Sorry, I'm unable to respond right now. Please try again in a moment." });
     }
 });
