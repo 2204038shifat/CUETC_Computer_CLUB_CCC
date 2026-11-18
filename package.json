@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node Backend/server.js",
-    "dev": "nodemon Backend/server.js"
+    "dev": "nodemon Backend/server.js",
+    "test": "node --test Backend/tests/chatbot.test.js"
   },
   "keywords": [],
   "author": "",

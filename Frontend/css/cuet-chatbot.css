@@ -29,7 +29,7 @@
     width: 380px;
     max-width: calc(100vw - 40px);
     height: 500px;
-    max-height: calc(100vh - 260px);
+    max-height: calc(100vh - 325px);
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
@@ -81,8 +81,50 @@
     padding: 10px 14px;
     border-radius: 12px;
     font-size: 0.95rem;
-    line-height: 1.4;
+    line-height: 1.45;
     word-wrap: break-word;
+    overflow-wrap: anywhere;
+}
+
+.chat-code-block {
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 8px;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    overflow-x: auto;
+    white-space: pre;
+    word-wrap: normal;
+    overflow-wrap: normal;
+}
+
+.chat-inline-code {
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(15, 23, 42, 0.12);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.85em;
+}
+
+.chat-retry-btn {
+    margin-top: 8px;
+    padding: 4px 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 6px;
+    background: transparent;
+    color: #2563eb;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.chat-retry-btn:hover {
+    background: #3b82f6;
+    color: #ffffff;
 }
 
 .chat-bubble.bot {
@@ -144,8 +186,14 @@
     transition: background 0.3s;
 }
 
-.chatbot-send:hover {
+.chatbot-send:hover:not(:disabled) {
     background: #2563eb;
+}
+
+.chatbot-send:disabled,
+.chatbot-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Dark mode compatibility based on localStorage theme or parent body class */
@@ -169,6 +217,17 @@ body.dark-mode .chat-bubble.bot {
     background: #334155;
     color: #f8fafc;
 }
+body.dark-mode .chat-inline-code {
+    background: rgba(255, 255, 255, 0.14);
+}
+body.dark-mode .chat-retry-btn {
+    border-color: #60a5fa;
+    color: #93c5fd;
+}
+body.dark-mode .chat-retry-btn:hover {
+    background: #3b82f6;
+    color: #ffffff;
+}
 
 @media (max-width: 480px) {
     .chatbot-window {
@@ -177,5 +236,6 @@ body.dark-mode .chat-bubble.bot {
         left: 15px;
         width: auto;
         height: 450px;
+        max-height: calc(100vh - 165px);
     }
 }
